@@ -3,14 +3,14 @@ require 'bundler/capistrano'
 load 'deploy/assets'
 
 set :application, 'eopas'
-set :repository,  'git://github.com/eopas/eopas'
+set :repository,  'git@bitbucket.org:cbmm-io/benfoley-eopas.git'
 set :scm, :git
 
-role :web, 'www.eopas.org'
-role :app, 'www.eopas.org'
-role :db,  'www.eopas.org', :primary => true # This is where Rails migrations will run
+role :web, 'deploy@139.59.243.224'
+role :app, 'deploy@139.59.243.224'
+role :db,  'deploy@139.59.243.224', :primary => true # This is where Rails migrations will run
 
-set :deploy_to, "/srv/www/#{application}"
+set :deploy_to, "/home/deploy/#{application}"
 set :user, 'deploy'
 set :use_sudo, false
 set :deploy_via, :remote_cache
