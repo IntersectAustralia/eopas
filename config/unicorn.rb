@@ -18,7 +18,7 @@ stderr_path "#{shared_path}/log/unicorn.log"
 stdout_path "#{shared_path}/log/unicorn.log"
 
 # Set master PID location
-pid "#{current_path}/tmp/pids/unicorn.pid"
+pid "#{shared_path}/tmp/pids/unicorn.pid"
 
 before_fork do |server, worker|
   ActiveRecord::Base.connection.disconnect!

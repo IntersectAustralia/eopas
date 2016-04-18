@@ -5,4 +5,5 @@ rerun.txt
 tmp/*
 public/stylesheets
 public/uploads
-config/database.yaml
+public/system
+config/database.yml
