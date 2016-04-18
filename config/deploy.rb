@@ -16,6 +16,10 @@ set :use_sudo, false
 set :deploy_via, :remote_cache
 set :keep_releases, 5
 
+set :default_environment, {'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"}
+
+set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'assets', 'XSLT', 'SCHEMAS')
+
 # database
 namespace :deploy do
   desc "Symlink shared configs and folders on each release."
