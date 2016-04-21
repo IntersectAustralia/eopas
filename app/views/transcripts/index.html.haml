@@ -1,6 +1,7 @@
 #transcripts.row
   .col-sm-12
 
+
     %h2 Browse Transcripts
 
     = form_tag transcripts_path, :method => 'get', class: 'form-inline hidden-print' do
@@ -11,36 +12,43 @@
         = submit_tag "Search", class: 'btn btn-default btn-sm'
         = submit_tag "Clear", class: 'btn btn-link btn-sm'
 
-    %table.table.table-hover.table-condensed
-      %thead
-        %tr
-          %th.col-md-1= sortable "date"
-          %th.col-md-1= sortable "depositor"
-          %th.col-md-3= sortable "title"
-          %th.col-md-2 Description
-          %th.col-md-1= sortable "language_code", "Language"
-          %th.col-md-1= sortable "country_code", "Country"
-          %th.col-md-2= sortable "media_item", "Media"
-          %th.col-md-1.hidden-print Action
+    - if @transcripts.empty?
+      .row
+        .col-sm-6.col-sm-offset-3
+          %h4 No results
+          %p Please search again or clear the search.
 
-      %tbody
-        - @transcripts.each do |transcript|
+    - else
+      %table.table.table-hover.table-condensed
+        %thead
           %tr
-            %td=  transcript.date ? transcript.date.to_date : ""
-            %td=  transcript.depositor.first_name + " " + transcript.depositor.last_name
-            %td
-              = link_to transcript.title, transcript
-              %br
-              %span.count_phrases= "#{transcript.phrases.count} phrases"
-            %td=  transcript.description
-            %td= link_to transcript.language_code, transcripts_path(:language_code => transcript.language_code)
-            %td=  transcript.country_code
-            %td=  transcript.media_item ? transcript.media_item.title : ""
-            %td.hidden-print
-              =link_to 'Show', transcript_path(transcript), class: ' btn-default btn-xs'
-              - if current_user and (transcript.depositor.id == current_user.id or current_user.admin?)
-                =link_to 'Edit', edit_transcript_path(transcript), class: ' btn-default btn-xs'
-                =link_to 'Delete', transcript, class: ' btn-default btn-xs', :confirm => "Are you sure?", :method => :delete
+            %th.col-md-1= sortable "date"
+            %th.col-md-1= sortable "depositor"
+            %th.col-md-3= sortable "title"
+            %th.col-md-2 Description
+            %th.col-md-1= sortable "language_code", "Language"
+            %th.col-md-1= sortable "country_code", "Country"
+            %th.col-md-2= sortable "media_item", "Media"
+            %th.col-md-1.hidden-print Action
+
+        %tbody
+          - @transcripts.each do |transcript|
+            %tr
+              %td=  transcript.date ? transcript.date.to_date : ""
+              %td=  transcript.depositor.first_name + " " + transcript.depositor.last_name
+              %td
+                = link_to transcript.title, transcript
+                %br
+                %span.count_phrases= "#{transcript.phrases.count} phrases"
+              %td=  transcript.description
+              %td= link_to transcript.language_code, transcripts_path(:language_code => transcript.language_code)
+              %td=  transcript.country_code
+              %td=  transcript.media_item ? transcript.media_item.title : ""
+              %td.hidden-print
+                =link_to 'Show', transcript_path(transcript), class: ' btn-default btn-xs'
+                - if current_user and (transcript.depositor.id == current_user.id or current_user.admin?)
+                  =link_to 'Edit', edit_transcript_path(transcript), class: ' btn-default btn-xs'
+                  =link_to 'Delete', transcript, class: ' btn-default btn-xs', :confirm => "Are you sure?", :method => :delete
 
       -# FIXME
       -# = paginate @transcripts

@@ -11,6 +11,9 @@ class TranscriptsController < ApplicationController
 
     if current_user and current_user.admin?
       @transcripts = Transcript.scoped
+      if params[:search]
+        @transcripts = Transcript.search params[:search]
+      end
     else
       @transcripts = Transcript.current_user_and_public(current_user).search params[:search]
     end
