@@ -1,7 +1,8 @@
+= content_for(:title, "#{@media_item.title}")
+
 .row
   .col-sm-12
     %h3= @media_item.title
-
 
 .row
   #left_column.col-sm-6
@@ -19,7 +20,6 @@
       - else
         #remove-media-item
           = link_to 'Delete', media_item_path(@media_item), :confirm => "Are you sure?", :method => :delete, class: 'btn btn-warning btn-xs'
-
 
   #right_column.col-sm-6
   
