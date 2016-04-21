@@ -1,57 +1,61 @@
 .collapse_title
-  = image_tag 'minimize_grey.png', :class => 'collapse_icon'
-  == #{@media_item.title} , #{@media_item.recorded_on}
+  %span.glyphicon.glyphicon-collapse-up.collapse_icon
+  .title== #{@media_item.title}
+  .date== #{@media_item.recorded_on}
 
 .collapse_content
   %table#metadata.small
     %tr#depositor
-      %td.name
+      %th
         Depositor
-      %td.value
+      %td
         = @media_item.depositor.full_name
 
     %tr#recorded_on
-      %td.name
+      %th
         Recorded on
-      %td.value
+      %td
         = @media_item.recorded_on
 
     %tr#description
-      %td.name
+      %th
         Description
-      %td.value
+      %td
         = truncate @media_item.description, :length => 100
 
     %tr#copyright
-      %td.name
+      %th
         Copyright
-      %td.value
+      %td
         = @media_item.copyright
 
     %tr#license
-      %td.name
+      %th
         License
-      %td.value
+      %td
         = @media_item.license
 
     %tr#private
-      %td.name
+      %th
         Private
-      %td.value
+      %td
         = @media_item.private
 
     - if current_user and (@media_item.depositor.id == current_user.id or current_user.admin?)
       %tr
-        %td.name
+        %th
           Download
-        %td.value
+        %td
           = link_to @media_item.media.file.basename, @media_item.media.url
 
-  Embed code:
-  %br
-  %textarea#embed_code
-    = html_escape(media_item_embed_tag @media_item)
-  %br
-  - if current_user and (@media_item.depositor.id == current_user.id or current_user.admin?)
-    = link_to 'Edit media item metadata', edit_media_item_path(@media_item)
+      %tr
+        %th
+          Embed code:
+        %td
+          %textarea#embed_code
+            = html_escape(media_item_embed_tag @media_item)
 
+      %tr
+        %th
+        %td
+          = link_to 'Edit media item metadata', edit_media_item_path(@media_item)

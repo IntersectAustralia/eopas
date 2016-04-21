@@ -1,11 +1,16 @@
-#media_details
-  %h2 Edit Media Item Details
+#media_details.row
+  .col-sm-8.col-sm-offset-2
 
-  = form_for @media_item, :html => { :multipart => true, :class => 'validate'} do |f|
-    = error_messages @media_item
+    %h2 Edit Media Item Details
 
-    = render :partial => 'form', :object => f
+    = form_for @media_item, :html => { :multipart => true, class: 'validate'} do |f|
+      = error_messages @media_item
 
-    = f.submit "Update"
+      = render :partial => 'form', :object => f
 
-  * required attributes
+      = f.submit "Update", class: 'btn btn-primary'
+
+.row
+  .col-sm-8.col-sm-offset-2
+  
+    %p.required_note * required attributes

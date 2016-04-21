@@ -1,33 +1,30 @@
-%h2 Login
+.row
+  .col-sm-6.col-sm-offset-3
 
-= form_for @user_session do |f|
-  %fieldset
-    = error_messages @user_session
+    %h2 Sign in
 
-    %table#metadata
-      %tr
-        %td.name
-          = f.label :email
-        %td.value
-          = f.text_field :email, :class => 'text'
+    = form_for @user_session, :html => { class: 'form-horizontal form-border' } do |f|
+      = error_messages @user_session
 
-      %tr
-        %td.name
-          = f.label :password
-        %td.value
-          = f.password_field :password
+      .form-group.required
+        = f.label :email, class: 'col-sm-3'
+        .col-sm-8
+          = f.text_field :email, required: 'true'
 
-      %tr
-        %td.name
-        %td.value
-          = f.check_box :remember_me
-          = f.label :remember_me
+        = f.label :password, class: 'col-sm-3'
+        .col-sm-8
+          = f.password_field :password, required: 'true'
 
-      %tr
-        %td.name
-        %td.value
-          = f.submit "Login"
+        .col-sm-offset-3.col-sm-6
+          = f.label :remember_me do
+            = f.check_box :remember_me
+            Remember me
+          
+      .form-group
+        .col-sm-offset-3.col-sm-6
+          = f.submit "Sign in", class: 'btn btn-primary' 
 
+    .row
+      .col-sm-offset-3.col-sm-6
 
-= link_to 'Forgot your password?', new_forgotten_password_path
-
+        %p.small= link_to 'Forgot your password?', new_forgotten_password_path

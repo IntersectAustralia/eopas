@@ -1,15 +1,17 @@
-%h2 Forgotten Password Retrieval
+.row
+  .col-sm-6.col-sm-offset-3
 
-%p Fill out the form below and instructions to reset your password will be emailed to you:
+    %h2 Forgotten Password
 
-%br 
+    %p Enter your email address below. Instructions to reset your password will be sent to you.
 
-= form_tag forgotten_passwords_path, :id => 'forgotten_password' do
-  %fieldset
-    = label_tag :email
-    %br
-    = text_field_tag :email, '', :class => 'text'
-    %br
-  = submit_tag 'Reset my password'
+    = form_tag forgotten_passwords_path, :id => 'forgotten_password', class: 'form-horizontal form-border' do
 
+      .form-group.required
+        = label_tag :email, nil, class: 'col-sm-3'
+        .col-sm-9
+          = text_field_tag :email, nil, required: 'true'
 
+      .form-group.required
+        .col-sm-6.col-sm-offset-3
+          = submit_tag 'Reset my password', class: "btn btn-primary"

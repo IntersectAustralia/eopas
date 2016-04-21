@@ -1,17 +1,15 @@
-%h1 Change My Password
+.row
+  .col-sm-8.col-sm-offset-2
+  
+    %h1 Change My Password
 
-= form_for @user, :url => forgotten_password_path, :method => :put do |f|
-  = error_messages @user
+    = form_for @user, :url => forgotten_password_path, :method => :put, :html => { class: 'form-inline form-border' } do |f|
+      = error_messages @user
 
-  = f.label :password
-  %br
-  = f.password_field :password
-  %br
-  %br
-  = f.label :password_confirmation
-  %br
-  = f.password_field :password_confirmation
-  %br
-  %br
-  = f.submit "Reset my password and log me in"
+      = f.label :password
+      = f.password_field :password
 
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation
+
+      = f.submit "Reset my password and log me in", class: 'btn btn-primary'

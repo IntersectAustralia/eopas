@@ -1,6 +1,6 @@
 - if current_user
-  %li.last#right= link_to 'Logout', logout_path
-  %li#right= link_to current_user.full_name, current_user
+  %li= link_to current_user.full_name, current_user
+  %li.last= link_to 'Sign out', logout_path
 - else
-  %li.last#right= link_to 'Login', login_path
-  %li#right= link_to 'Register', new_user_path
+  %li= link_to 'Register', new_user_path
+  %li.last= link_to 'Sign in', login_path

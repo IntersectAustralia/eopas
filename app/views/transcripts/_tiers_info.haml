@@ -1,32 +1,33 @@
-%button#tier_title.hider{'data-hide-selector' => "#tier_list"}
-  == Set Displayed Tracks
-
-%div#url
+#url
   Current Segment URL:
   %span#cur_url
 
-%form#tier_list
-  -# We work this out off the first phrase
-  - first_phrase = @transcript.phrases.first
+.dropdown
+  %button.btn.btn-default.btn-xs.dropdown-toggle{'data-toggle' => "dropdown"}
+    Set Displayed Tracks
+    %span.caret
 
-  - if first_phrase.original
-    %input.tier_info.hider{'data-hide-selector' => ".transcription", :type => 'checkbox', :checked => 'checked'}
-      Show transcription
-      %br
+  %ul.dropdown-menu
+    %form
+      -# We work this out off the first phrase
+      - first_phrase = @transcript.phrases.first
 
-  - if first_phrase.words.size > 0
-    %input.tier_info.hider{'data-hide-selector' => ".morphemes", :type => 'checkbox', :checked => 'checked'}
-      Show morphemes
-      %br
+      - if first_phrase.original
+        %li
+          %a.tier_info{'data-toggle' => "collapse", :href => '.transcription'}
+            Transcription
 
-  - if first_phrase.graid
-    %input.tier_info.hider{'data-hide-selector' => ".graid", :type => 'checkbox', :checked => 'checked'}
-      Show GRAID annotation
-      %br
+      - if first_phrase.words.size > 0
+        %li
+          %a.tier_info{'data-toggle' => "collapse", :href => '.morphemes'}
+            Morphemes
 
-  - if first_phrase.translation
-    %input.tier_info.hider{'data-hide-selector' => ".translation", :type => 'checkbox', :checked => 'checked'}
-      Show translation
-      %br
+      - if first_phrase.graid
+        %li
+          %a.tier_info{'data-toggle' => "collapse", :href => '.graid'}
+            GRAID annotation
 
-
+      - if first_phrase.translation
+        %li
+          %a.tier_info{'data-toggle' => "collapse", :href => '.translation'}
+            Translation

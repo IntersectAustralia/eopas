@@ -17,32 +17,27 @@
 //= require jquery.scrollTo
 //= require jquery.validate
 //= require_tree .
-
+//= require bootstrap
+//= require masonry/jquery.masonry
+//
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+// Toggle side panel boxes
 function setup_div_toggle() {
-  // TODO do this with CSS rather than changing the images
-  $('.collapse_icon').mouseover(function() {
-    this.src = '/assets/minimize_black.png';
-  });
-  $('.collapse_icon').mouseout(function() {
-    this.src = '/assets/minimize_grey.png';
-  });
-  $('.collapse_icon').click(function() {
-    $(this).parent().next().slideToggle();
+  $('.collapse_title').click(function() {
+    $(this).next().slideToggle();
+    $(this).find('.collapse_icon').toggleClass('glyphicon-collapse-down glyphicon-collapse-up');
   });
 }
 
-function setup_hider() {
-  $('.hider').click(function() {
-    var hide_id = $(this).attr('data-hide-selector');
-    if (hide_id) {
-      $(hide_id).slideToggle();
-    }
-  });
+// Fade alerts in using bootstrap. 
+// Don't auto fade out cause it will cause the page content to jump up!
+function setup_fade_alert() {
+  $("#flash .alert").addClass("in");
 }
 
+// Easy copying of embed code
 function setup_embedding() {
   $('#embed_code').click(function() {
     $(this).focus();
@@ -50,6 +45,7 @@ function setup_embedding() {
   });
 }
 
+// Controls things to do when the time changes
 function do_time_change(fragment) {
   fragment = fragment.replace(/#t=(.*)/, "$1");
   if (!fragment) {
@@ -143,14 +139,19 @@ function setup_playback(media) {
             scroller.scrollTo(line, 500, {offset: -20, easing: 'linear'});
           }
           // highlight currently playing track
-          line.find('.tracks').addClass('hilight');
+          line.addClass('hilight');
 
           // change hash on URL in cur_url textarea
           set_url("#t="+$(this).attr('data-start')+","+$(this).attr('data-end'));
+
+          // change play icon to pause
+          $(this).removeClass('glyphicon-play-circle').addClass('glyphicon-play');
+          
         }
       }
       else {
-        $(this).closest('.line').find('.tracks').removeClass('hilight');
+        $(this).closest('.line').removeClass('hilight');
+        $(this).removeClass('glyphicon-play').addClass('glyphicon-play-circle');
       }
     });
 
@@ -198,11 +199,11 @@ function do_onResize() {
   } 
   else if ($.browser.opera) {
     // Opera is special: it doesn't like changing width
-    elem.height(window.innerHeight - 140);
+    elem.height(window.innerHeight - 70);
   } 
   else {
-    elem.width(window.innerWidth - 395);
-    elem.height(window.innerHeight - 140);
+    // elem.width(window.innerWidth - 395);
+    elem.height(window.innerHeight - 70);
   }
 }
 
@@ -278,7 +279,9 @@ function setup_concordance() {
       $.get(url,
         function(data) {
           $('#concordance .collapse_content').html(data);
-          $('#concordance').show();
+          $('#concordance').removeClass('hidden');
+          $('#concordance .collapse_content').slideDown();
+          $('#concordance .collapse_icon').removeClass('glyphicon-collapse-down').addClass('glyphicon-collapse-up');
         },
         'html'
       );
@@ -302,7 +305,6 @@ function setup_concordance() {
 
       location.href = url;
   });
-
 }
 
 
@@ -317,7 +319,7 @@ $(document).ready(function() {
 
   // Collapsing elements
   setup_div_toggle();
-  setup_hider();
+  setup_fade_alert();
   setup_embedding();
 
   // Country Code Selector
@@ -325,7 +327,10 @@ $(document).ready(function() {
 
   // Transcript box
   do_onResize();
-  $(window).resize(do_onResize);
+
+  $(window).resize(function () {
+    do_onResize(); 
+  });
 
   // Form bits
   setup_transcript_media_item();
@@ -381,6 +386,13 @@ $(document).ready(function() {
     $('.participant').last().next().after('</br>').after(newElem);
   });
 
+  $(function() {
+    return $('#masonry-container').imagesLoaded(function() {
+      return $('#masonry-container').masonry({
+        itemSelector: '.box '
+      });
+    });
+  });
 });
 
 

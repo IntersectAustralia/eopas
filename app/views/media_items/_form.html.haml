@@ -1,70 +1,46 @@
 :javascript
   var country_languages = #{CountryLanguage.country_languages.to_json}
 
-%fieldset
+- if @media_item.new_record?
 
-  %table#metadata
+  .form-group.form-inline.required
+    = form.label :format      
+    = form.select :format, options_for_select(MediaItem::FORMATS, @media_item.format), { :include_blank => true }, required: 'true'
 
-    - if @media_item.new_record?
-      %tr
-        %td.name
-          = form.label :format
-          *
-        %td.value
-          = form.select :format, options_for_select(MediaItem::FORMATS, @media_item.format), { :include_blank => true }, :class => 'required'
+  .form-group.required
+    = form.label :media, "Media File"
+    = form.file_field :media, required: 'true'
+    = form.hidden_field :media_cache
 
-      %tr
-        %td.name
-          = form.label :media, 'Media File'
-          *
-        %td.value
-          = form.file_field :media, :class => 'required'
-          = form.hidden_field :media_cache
-    - else
-      %tr
-        %td.name
-          = @media_item.format.titleize
-        %td.value
-          - if @media_item.format == 'video'
-            = link_to image_tag(@media_item.media.thumb.url), @media_item
-    %tr
-      %td.name
-        = form.label :title
-        *
-      %td.value
-        = form.text_field :title, :size => 80, :class => 'text required'
+- else
 
-    %tr
-      %td.name
-        = form.label :description
-        *
-      %td.value
-        = form.text_area :description, :size => "80x3", :class => 'text required'
+  %p 
+    Format:
+    = @media_item.format.titleize
 
-    %tr
-      %td.name
-        = form.label :recorded_on
-        *
-      %td.value
-        = form.date_select :recorded_on, :order => [:day, :month, :year], :start_year => 1950, :class => 'required'
+  - if @media_item.format == 'video'
+    = link_to image_tag(@media_item.media.thumb.url), @media_item
 
-    %tr
-      %td.name
-        = form.label :copyright, 'Copyright Holder'
-        *
-      %td.value
-        = form.text_field :copyright, :size => 80, :class => 'text required'
+.form-group.required
+  = form.label :title
+  = form.text_field :title, required: 'true'
 
-    %tr
-      %td.name
-        = form.label :license, 'License'
-        *
-      %td.value
-        = form.select :license, options_from_collection_for_select(License.all, :code, :name, @media_item.license), :class => 'required'
+.form-group.required
+  = form.label :description
+  = form.text_area :description, :rows => 5, :cols => 80, required: 'true'
 
-    %tr
-      %td.name
-        = form.label :private, 'Make item private?'
-      %td.value
-        = form.check_box :private
+.form-group.required.form-inline
+  = form.label :recorded_on, 'Date recorded'
+  = form.date_select :recorded_on, {:order => [:day, :month, :year], :start_year => 1950}, {required: true} 
 
+.form-group.required
+  = form.label :copyright, 'Copyright Holder'
+  = form.text_field :copyright, required: 'true'
+
+.form-group
+  = form.label :license
+  = form.select :license, options_from_collection_for_select(License.all, :code, :name, @media_item.license)
+
+.form-group
+  = form.label :private, 'Make item private?'
+  = form.check_box :private

@@ -1,415 +1,339 @@
-// This import applies a global reset to any page that imports this stylesheet.
-@import "blueprint/reset";
+@import 'bootstrap';
 
-// To configure blueprint, edit the partials/base.sass file.
-@import "partials/base";
+@import "masonry/fluid";
 
-// Import all the default blueprint modules so that we can access their mixins.
-@import "blueprint";
+/* Variables
+------------------------------------------ */
 
-// Combine the partials into a single screen stylesheet.
-@import "partials/page";
-@import "partials/form";
-@import "partials/one_col";
-@import "partials/border";
+  /* Color scheme */
+  $red :      #ff542e;
+  $yellow:    #fff0ba;
+  $ochre:     #f2bc00;
+  $grey:      #cfd6de;
+  $darkgrey:  #767A7F;
+  $lightgrey: #e4e9f5;
+  $lightblue: #adc1d6;
+  $blue:      #7297ba;
 
-// Color scheme:
-$red :      #ff542e;
-$yellow:    #fff0ba;
-$ocre:      #f2bc00;
-$grey:      #cfd6de;
-$lightgrey: #e4e9f5;
-$lightblue: #adc1d6;
-$blue:      #7297ba;
 
-// Specific styling of elements
+/* Box sizing, clearfix and html/body boxes
+------------------------------------------ */
 
-// General page layout
-#header {
-  background-repeat: no-repeat;
-  background-color: $grey;
-  vertical-align: bottom;
-  height: 65px;
-  color: white;
-  #logo { float: left; }
-  #login_info {
-    position:absolute;
-    text-align: right;
-    height: 40px;
-    vertical-align: bottom;
-    top: 10px;
-    right: 15px;
-    color: $blue;
-    z-index: 1000;
-    padding: 10px;
-    li { list-style-type: none; }
+  html,
+  body
+  {
+    margin:0; padding:0;
+    width:100%; height: 100%;
   }
-}
 
-#footer {
-  text-align: center;
-  margin-top: 20px;
-  p {
-    margin-left: 10%;
-    width: 80%;
-    font-size: .8em;
+  /* Apply a natural box layout model to all elements, but allowing components to change */
+  html {
+    box-sizing: border-box;
   }
-}
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
 
-#flash_error {
-  background-color: $red;
-  border-color: darkred;
-}
+  .clearfix:before, .clearfix:after { content: ""; display: table; }
+  .clearfix:after { clear: both; }
+  .clearfix { zoom: 1; }
 
-#flash .notice {
-  @include border-radius(5px);
-  @include box-shadow(#ccc, 10px, 5px, 5px);
-  margin: 10px;
-  padding: 10px;
-  float: left;
-  width: 95%;
-  text-align: center;
-  .notify_close { float: right; }
-  .notify_msg { margin-top: 8px; }
-  .notify_msg h3 { margin-bottom: 0; }
-}
 
-#menu {
-  background-color: $ocre;
-  margin-bottom: 10px;
-  height: 20px;
-  ul {
-    display: block;
-    li {
-      list-style-type: none;
-      float: left;
-      position: relative;
-      display: list-item;
-      color: white;
-      a {
-        padding-right: 18px;
-        padding-left: 18px;
-      }
-      a.header:link, a.header:visited, a.header:active {
-        color: white;
-        text-decoration: none;
-        text-weight: bold;
-      }
-      a.header:hover {
-        color: white;
-        text-decoration: underline;
-        text-weight: bold;
-      }
-    }
-    li#right {
-      float: right;
+/* Specific styling of elements
+------------------------------------------ */
+
+  audio { width: 100% }
+
+
+/* Column & grid mods
+------------------------------------------ */
+
+  /* Fix horizontal scrolling when using row class */
+  .row { margin: 0; }
+
+  /* Add some space when columns collapse */
+  @media (max-width: 768px) {
+    [class*="col-"]{
+        margin-bottom: 2em;
     }
   }
-}
 
-#content {
-  margin-left: 15px;
-  hr {
-    height: 1px;
-    background-color: black;
-    margin: 5px;
+  /* Masonry for media */
+  .box { 
+    width: 200px; 
+    background: #eee;
+    border: 2px solid white;
+    padding: 5px;
   }
-}
 
-#paragraph {
-  max-width: 600px;
-  padding-left: 10px;
-  padding-bottom: 15px;
-}
 
-// transcript index page
-#transcripts {
-  width: 850px;
-  margin: auto;
-}
-table#transcripts {
-  padding: 10px;
-  border-spacing: 2px 2px;
-  border: 1px;
-  th {
-    background-color: $blue;
-    color: white;
-    a {
-      color: white;
+/* General page layout
+------------------------------------------ */
+
+  #container {
+
+    #header {
+      #menu {
+        background-color: $ochre;
+        padding: 0.2em 1em;
+        margin-bottom: 0.2em;
+        ul {
+          margin: 0;
+          li {
+            &, a {color: white;}
+            &.current { text-decoration: underline; }
+            &#right { float: right; }
+          }
+        }
+      }
+      #flash { padding: 0 1em; } 
     }
-    font-weight: bold;
-    text-align: center;
-  }
-  td {
-  background-color: $lightblue;
-  }
-  th .current {  
-    padding-right: 18px;  
-    background-repeat: no-repeat;  
-    background-position: right center;  
-  }  
-  th .asc {   
-    background-image: image_url('up_arrow.png');   
-  }  
-  th .desc {   
-    background-image: image-url('down_arrow.png');   
-  }
-}
 
-// media_item index page
-ul.media_items {
-  display: block;
-  li {
-    list-style-type: none;
+    #content { padding:0 5px }
+
+    #footer {
+      margin-top: 2em;
+      font-size: 0.9em;
+    }
+  }
+
+
+/* Media upload page
+------------------------------------------ */
+
+  div.info {
+    border: 1px dashed;
+    margin-top: 4em;
+    padding: 1em;
     float: left;
-    .item {
-      border: 2px solid grey;
-      margin: 5px;
-      padding: 2px;
-      text-align: center;
-      width: 170px;
-      img {
-        width: 160px;
-        height: 120px;
-      }
-      p {
-        text-align: center;
-        overflow: hidden;
-        -o-text-overflow: ellipsis;
-        text-overflow: ellipsis;
-        width: 170px;
-        margin: 0px;
-      }
-      p.description {
-        margin-bottom: 5px;
-      }
-    }
-  }
-}
-
-// media_item show page
-#media_item {
-  float: left;
-  #errorExplanation {
-    background-color: $red;
-    @include border-radius(5px);
-    @include box-shadow(#ccc, 10px, 5px, 5px);
+    .border-radius: 0.5em;
     ul {
-      li {
-        display: list-item;
-        color: white;
+      margin: 0;
+    }
+  }
+
+
+/* Transcript index page
+------------------------------------------ */
+
+  table {
+    th > a.current {
+      text-decoration: underline
+    }
+    th .asc:after {
+      font-family: 'Glyphicons Halflings';
+      content: "\e113"; // up
+      padding-left: 0.5em;
+    }  
+    th .desc:after {
+      font-family: 'Glyphicons Halflings';
+      content: "\e114"; // down
+      padding-left: 0.5em;
+    }
+    .count_phrases { color: #aaa }
+  }
+
+
+/* Transcript single page
+------------------------------------------ */
+
+  // Info panels
+  .collapse_box {
+    border: 1px solid $ochre;
+    padding: 0;
+    margin: 10px 0;
+    .collapse_icon { color: $ochre }  
+    .collapse_title {
+      background-color: $yellow;
+      padding-left: 5px;
+      padding-bottom: 2px;
+      .title { display: inline-block }
+      .date { display: inline-block; font-size: 0.8em }
+    }
+    .collapse_content {
+      padding: 0.6em 1em;
+      margin: 0;
+      table#metadata { 
+        width: 100%;
+        th { 
+          width: 40%;
+          font-weight: 400;
+        }
       }
     }
   }
-}
-div.info {
-  border: 1px dashed;
-  margin-top: 70px;
-  padding: 15px;
-  float: left;
-  @include border-radius(5px);
-  @include box-shadow(#ccc, 10px, 5px, 5px);  
-  ul {
-    margin: 0;
-  }
-}
 
-table#metadata {
-  padding: 10px;
-  margin: 0;
-  td.name {
-    font-weight: bold;
-    text-align: right;
-    width: 107px;
-  }
-}
-table#metadata.small {
-  td {
-    padding: 0px 4px;
-    font-family: Arial;
-    font-size: 12px;
-  }
-  td.name {
-    width: 50px;
-  }
-}
-
-.collapse_box {
-  border: 2px solid black;
-  padding: 0;
-  margin: 10px 0;
-  width: 330px;  
-  .collapse_title {
-    background-color: $lightblue;
-    font-weight:    bold;
-    height:         17px;
-    padding-left:   5px;
-    padding-bottom: 2px;
-  }
-  .collapse_content {
-    background-color: $lightgrey;
-    padding: 7px 5px 3px 5px;
-    margin: 0;
-  }
-}
-
-#left_column {
-  display: static;
-  float: left;
-  h3 {
-    width: 330px;
-  }
-  #media_display {
-    display: block;
-  }
-  #metadata_display {
-    display: block;
-    #embed_code {
-      width: 315px;
-      height: 20px;
-      display: block;
-      font-size: 10px;
+  #right_column {
+    #url {
+      float: right;
+      margin-right: 20px;
+      font-size: 0.8em;
     }
   }
-}
-#right_column {
-  margin: 0 20px 10px 350px;
-  #url {
-    float: right;
-    margin-right: 20px;
-    #cur_url {
-      height: 15px;
-    }
-  }
-}
 
-#tiers_info {
-  display: inline;
-  float: left;
-  width: 100%;
-  margin-bottom: 1em;
-  #tier_title {
-    background-color: $lightgrey;
-    cursor: pointer;
-    padding: 0 5px 0 5px;
-  }
-  form {
-    position: absolute;
-    float: left;
-    display: none;
-    padding: 7px;
-    background-color: white;
-    border: 1px solid black;
-    @include box-shadow(#ccc, 10px, 5px, 5px);
-  }
-}
+  #transcript_display {
+    overflow: auto;
+    clear: right;
+    width: 100%;
+    position: relative;
 
-#transcript_display {
-  padding: 2px;
-  border: 2px solid $grey;
-  overflow: auto;
-  clear: right;
-  .line {
-    margin: 0;
-    border-spacing: 2px;
-    .controls {
-      margin: 2px 0px 1px 2px;
-      padding: 2px;
-      width: 25px;
-      text-align: center;
-      background-color: $grey;
-      .play_button {
-        cursor: pointer;
+    .line {
+      margin: 0 0 0.2em 0;
+      padding: 0.2em 0;
+      width: 100%;
+      
+      transition: all .05s ease-in;
+      background: #eee;
+
+      a { 
+        color: #aaa;
+        transition: all .2s ease-in;
+       }
+      .controls {
+        text-align: center;
+        color: $darkgrey;
+        .play_button {
+          font-size: 1.6em;
+          text-decoration: none;
+        }
       }
-    }
-    .tracks {
-      background-color: $lightgrey;
-      padding: 0px;
-      margin: 1px 2px 2px 2px;
-      text-align: left;
-      .tier {
-        span {
-          display: inline-block;      
-          font-size: 12px;
-          border-spacing: 5px;
-          vertical-align: top;
-          table {
-            padding: 1px;
-            margin: 0;
-            border-spacing: 2px;
-            tr {
-              td {
-                white-space: nowrap;
-                font-family: Arial;
-                padding: 1px;
-                margin: 1px;
-              }
-              td.morpheme, td.gloss {
-                background-color: $grey;
+      .tracks {
+        text-align: left;
+        .tier {
+          span {
+            display: inline-block;      
+            border-spacing: 5px;
+            vertical-align: top;
+            table {
+              padding: 1px;
+              margin: 0;
+              border-spacing: 2px;
+              tr {
+                td {
+                  white-space: nowrap;
+                  padding: 1px;
+                  margin: 1px;
+                }
+                td.morpheme, td.gloss {
+                  background-color: $grey;
+                }
               }
             }
           }
         }
+        .phrase {
+          margin-left: 5px;
+        }
+        .graid {
+          color: blue;
+        }
+        .translation {
+          color: green;
+          font-style: italic;
+        }
       }
-      .phrase {
-        font-size: 12px;
-        margin-left: 5px;
-      }
-      .graid {
-        color: blue;
-      }
-      .translation {
-        color: green;
-        font-style: italic;
+      &.hilight {
+        background: $yellow;
+        a { color: $darkgrey; }
       }
     }
-    .hilight {
-      border: 4px solid $ocre;
+  }
+
+  /* Progress bar bits */
+  #uploading {
+    display: none;
+    width: 400px;
+
+    #progress {
+      width: 300px;
+      background: #454545;
+      border: 1px solid #222;
+      margin-bottom: 20px;
+      
+      #progressbar {
+        width: 0px;
+        height: 24px;
+        background: #b4e04a;
+      }
     }
   }
-}
 
-/* Progress bar bits */
-#uploading {
-  display: none;
-  width: 400px;
+  .impress {
+    background: #3399CC !important;
+    border: 3px solid #CC0033 !important;
+  }
 
-  #progress {
-    width: 300px;
-    background: #454545;
-    border: 1px solid #222;
-    margin-bottom: 20px;
-    
-    #progressbar {
-      width: 0px;
-      height: 24px;
-      background: #b4e04a;
+  #concordance {
+    .search {
+      font-weight: bold;
+    }
+    .left {
+      text-align: right;
     }
   }
-}
 
 
-.hidden {
-  display: none;
-}
+/* Forms
+------------------------------------------ */
 
-.impress {
-  background: #3399CC !important;
-  border: 3px solid #CC0033 !important;
-}
+  /*  Some forms have a thin border */
+  .form-border { border: 1px solid #eee; border-radius: 0.5em; padding: 1em }
 
-.text {
-  font-family: Arial;
-  font-size: 12px
-}
+  /* Form labels */
+  label { font-weight: 400 }
 
-#concordance {
-  .search {
-    font-weight: bold;
+  label input, 
+  label select,
+  label textarea,
+  label a,
+  .participant label {font-weight: 400}
+
+  /* Extend bootstrap styles to form inputs */
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"]
+  { 
+    @extend .form-control;  
+    @extend .input-sm;
+    margin: 0.2em 0;
   }
-  .left {
-    text-align: right;
+
+  /* Styles for 'required' inputs */
+
+  .field_with_errors { @extend .has-error }
+
+  input:required,
+  select:required,
+  textarea:required { border: 1px solid $ochre }
+  
+  input[type="file"]:required { border: 0 }
+
+  .required label:after {
+    content:" *";
+    color: red;
   }
-}
+
+  .required_note { @extend .help-block; margin: 1em 0 }
+
+  #errorExplanation {
+    ul {
+      padding-left: 0;
+      li { list-style-type: none; }
+    }
+  }
 
 
+/* Tier info. Toggle display of transcript tiers
+------------------------------------------ */
+
+  .tier_info:after {
+    font-family: 'Glyphicons Halflings';
+    content:"\e013";
+  }
+  .tier_info.collapsed:after {
+    font-family: 'Glyphicons Halflings';
+    content:"\2b";
+  }
+  .tier_info.collapsed { color: #666 }
+  .dropdown-menu li { padding: 0 5px;}

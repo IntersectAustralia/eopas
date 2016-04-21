@@ -3,37 +3,45 @@
     $('#new_media_item').nginxUploadProgress();
   });
 
-#media_item
-  %h2 Upload Media Item
+#media_item.row
+  .col-sm-8.col-sm-offset-2
 
-  = form_for @media_item, :html => { :multipart => true, :class => 'validate'} do |f|
-    = error_messages @media_item
+    %h2 Upload Media Item
 
-    = render :partial => 'form', :object => f
+    = form_for @media_item, :html => { :multipart => true, class: 'validate' } do |f|
+      = error_messages @media_item
 
-    = f.submit "Create"
+      = render :partial => 'form', :object => f
 
-  * required attributes
+      = f.submit "Create", class: 'btn btn-primary'
 
-.info
-  #uploading
-    %h3 Upload progress
-    %p Please note that we haven't moved transcoding to a background process yet. So once the progress bar it's 100% transcoding might take a few more minutes. Just wait it out until you see the next webpage. Thanks for your patience :).
-    #progress.bar
-      #progressbar &nbsp;
+    %p.required_note * required attributes
 
-  %h3
-    Please enter information about your media resource.
-  %p 
-    Please note that the upload limit of this server is
-    %span{:style => "color: red;"}
-      2GB
-    , but large files will take a long time to upload.
-  %p
-    You can find out more about the Licenses at:
-  %ul
-    - License.all.each do |l|
-      %li
-        #{l.code} :
-        %a{:href => l.url}
-          = l.name
+.row
+  .info.col-sm-8.col-sm-offset-2
+
+    #uploading
+      
+      %h3 Upload progress
+
+      %p Please note that we haven't moved transcoding to a background process yet. So once the progress bar it's 100% transcoding might take a few more minutes. Just wait it out until you see the next webpage. Thanks for your patience :).
+
+      #progress.bar
+        #progressbar &nbsp;
+
+    %h4
+      Media notes
+    %p 
+      Please note that the upload limit of this server is
+      %span{:style => "color: red;"}
+        2GB
+      , but large files will take a long time to upload.
+
+    %p
+      You can find out more about the Licenses at:
+    %ul
+      - License.all.each do |l|
+        %li
+          #{l.code} :
+          %a{:href => l.url}
+            = l.name

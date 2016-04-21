@@ -1,15 +1,19 @@
+#media_items.row
+  .col-sm-12
 
-%h2 Browse Media Items
+    %h2 Browse Media Items
 
-%ul.media_items
-  - @media_items.each do |media_item|
-    %li
-      .item
-        = link_to media_item do
-          = media_item_thumb_image_tag media_item
-        %p
-          = link_to media_item.title, media_item
-        %p
-          - if current_user and (media_item.depositor.id == current_user.id or current_user.admin?)
-            = link_to 'Edit', edit_media_item_path(media_item)
-            = link_to 'Delete', media_item, :confirm => "Are you sure?", :method => :delete
+    #masonry-container.row
+
+      - @media_items.each do |media_item|
+        
+        .box
+          = link_to media_item do
+            = media_item_thumb_image_tag media_item
+          %p
+            = link_to media_item.title, media_item
+          %p
+            - if current_user and (media_item.depositor.id == current_user.id or current_user.admin?)
+              = link_to 'Play', media_item, class: 'btn btn-default btn-xs'
+              = link_to 'Edit', edit_media_item_path(media_item), class: 'btn btn-default btn-xs'
+              = link_to 'Delete', media_item, class: 'btn btn-default btn-xs', :confirm => "Are you sure?", :method => :delete

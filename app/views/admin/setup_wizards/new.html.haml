@@ -1,46 +1,48 @@
-%h1 Eopas Application Setup
+.row
+  .col-sm-6.col-sm-offset-3
 
-%p Hi, Welcome to the setup page for the Eopas application.
+    %h1 Eopas Application Setup
 
-%p The first thing you need to do is create an administrative user
+    %p Hi, Welcome to the setup page for the Eopas application.
 
-= form_tag admin_setup_wizard_path, :method => :post do
-  = error_messages @user
+    %p The first thing you need to do is create an administrative user.
 
-  // TODO - Workout a way to use the actual user form
-  //   = render :partial => 'users/form', :object => @user
-  %fieldset
-  = label_tag :first_name
-  %br
-  = text_field_tag :first_name, nil, :class => 'text'
-  %br
+    = form_tag admin_setup_wizard_path, :method => :post, class: 'form-horizontal' do
+      = error_messages @user
 
-  = label_tag :last_name
-  %br
-  = text_field_tag :last_name, nil, :class => 'text'
-  %br
+      // TODO - Workout a way to use the actual user form
+      //   = render :partial => 'users/form', :object => @user
 
-  = label_tag :email
-  %br
-  = text_field_tag :email, nil, :class => 'text'
-  %br
+      .form-group.required
+        = label_tag :first_name, nil, class: 'col-sm-4'
+        .col-sm-8
+          = text_field_tag :first_name, nil, :required => 'true'
 
-  = label_tag :user_password, 'Password'
-  %br
-  = password_field_tag :user_password
-  %br
+        = label_tag :last_name, nil, class: 'col-sm-4'
+        .col-sm-8
+          = text_field_tag :last_name, nil, :required => 'true'
 
-  = label_tag :password_confirmation
-  %br
-  = password_field_tag :password_confirmation
-  %br
-  %br
+      .form-group.required
+        = label_tag :email, nil, class: 'col-sm-4'
+        .col-sm-8
+          = text_field_tag :email, nil, :required => 'true'
 
-  %p Also we need you to provide a prefix to configure the media resource naming:
-  = label_tag :item_prefix
-  %br
-  = text_field_tag :item_prefix
-  %br
-  %br
+      .form-group.required
+        = label_tag :user_password, 'Password', class: 'col-sm-4'
+        .col-sm-6
+          = password_field_tag :user_password, nil, :required => 'true'
 
-  = submit_tag "Finish"
+        = label_tag :password_confirmation, 'Confirm Password', class: 'col-sm-4'
+        .col-sm-6
+          = password_field_tag :password_confirmation, nil, :required => 'true'
+
+      %p Also we need you to provide a prefix to configure the media resource naming:
+
+      .form-group.required
+        = label_tag :item_prefix, nil, class: 'col-sm-4'
+        .col-sm-4
+          = text_field_tag :item_prefix, nil, :required => 'true'
+
+      .form-group
+        .col-sm-8.col-sm-offset-4
+          = submit_tag "Finish", class: 'btn btn-primary'

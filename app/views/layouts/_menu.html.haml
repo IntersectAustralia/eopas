@@ -1,16 +1,18 @@
-#menu
+#menu.row.hidden-print
+  .col-xs-12
 
-  %ul
-    %li= link_to 'Home', root_path, :class => 'header'
-    %li= link_to 'Browse Transcripts', transcripts_path, :class => 'header'
-    - if current_user
-      %li= link_to 'Browse Media', media_items_path, :class => 'header'
-      %li= link_to 'Upload Transcript', new_transcript_path, :class => 'header'
-      %li= link_to 'Upload Media', new_media_item_path, :class => 'header'
-    %li= link_to 'Contact Us', 'https://sourceforge.net/projects/eopas/support', :class => 'header'
-    %li= link_to 'Help', help_path, :class => 'header'
+    %ul.list-inline
+      %li= link_to 'Home', root_path
+      %li= link_to 'Browse Transcripts', transcripts_path
+      - if current_user
+        %li= link_to 'Upload Transcript', new_transcript_path
+        %li= link_to 'Browse Media', media_items_path
+        %li= link_to 'Upload Media', new_media_item_path
+      %li= link_to 'Contact Us', 'https://sourceforge.net/projects/eopas/support'
+      %li= link_to 'Help', help_path
 
-    = render :partial => 'layouts/login'
+      .navbar-right.list-inline
+        = render :partial => 'layouts/login'
 
 
 :javascript
@@ -18,8 +20,7 @@
   // We want the appropriate link to be highlighted
   $('document').ready(function() {
       var loc = window.location.toString().split("/")
-      loc = loc[loc.length - 1] + "/"
-      $("#sidebar li a[href=\""+loc+"\"]").parent().addClass("current");
+      loc = "/" + loc[loc.length - 1]
+      $("#menu li a[href=\""+loc+"\"]").parent().addClass("current");
     } 
   );
-

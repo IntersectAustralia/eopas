@@ -1,6 +1,109 @@
-@import "blueprint";
 
-//Recommended Blueprint configuration with scoping and semantic layout:
-body.bp {
-  @include blueprint-print(true);
-}
+/* Basic print styles
+------------------------------------------ */
+
+  body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4em;
+    word-spacing: 1px;
+    letter-spacing: 0.2px;
+    font: 13px Arial, Helvetica,"Lucida Grande", serif;
+    color: #000;
+  }
+
+
+  #menu {
+    li { display: inline-block }
+  }
+
+  table,
+  textarea { width: 100%; }
+  
+  a { text-decoration: none } 
+
+  th { border-bottom: 1px solid black }
+  td { border-bottom: 1px solid black }
+  th, td { padding: 5px }
+  th { text-align: left }
+
+  .hidden-print { display: none; }
+
+
+/* Masonry adjustment
+------------------------------------------ */
+
+  .masonry-brick[style]
+  {
+    position:relative !important;
+    display:block !important;
+    left:0 !important;
+    top:auto !important;
+    float:left;
+    outline: 1px solid black;
+    padding: 1em;
+  }
+
+  #masonry-container[style] { height: auto !important }
+
+
+/* Transcript and info panels
+------------------------------------------ */
+
+  .collapse_box { margin: 2em 0 }
+
+  #right_column, #transcript_display { height: auto !important }
+
+  #transcript_display {
+    overflow: auto;
+    clear: right;
+    width: 100%;
+    position: relative;
+    margin: 1em 0;
+
+    .line {
+      width: 100%;
+      }
+      .controls{
+        font-weight: bold;
+        margin: 2px;
+      }
+      .tracks {
+        text-align: left;
+        .tier {
+          margin: 2px;
+          border-bottom: 1px solid #eee; 
+          td > span { margin: 2px; }
+          &:last-child { border: 0 }
+
+          span {
+            display: inline-block;      
+            border-spacing: 5px;
+            vertical-align: top;
+
+            table {
+              padding: 0;
+              margin: 0;
+              border-spacing: 0;
+              tr {
+                td {
+                  white-space: nowrap;
+                  padding: 0;
+                  margin: 0;
+                  border:0;
+                }
+              }
+            }
+          }
+        }
+        .translation {
+          font-style: italic;
+        }
+      }
+      &.hilight {
+        border: 1px solid black;
+      }
+    } 
+
+
+

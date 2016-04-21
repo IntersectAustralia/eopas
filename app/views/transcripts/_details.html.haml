@@ -1,13 +1,14 @@
 .collapse_title
-  = image_tag 'minimize_grey.png', :class => 'collapse_icon'
-  == #{@transcript.title} , #{@transcript.date}
+  %span.glyphicon.glyphicon-collapse-up.collapse_icon
+  .title== #{@transcript.title}
+  .date== #{@transcript.date}
 
 .collapse_content
   %table#metadata.small
     %tr
-      %td.name
+      %th
         Participants
-      %td.value
+      %td
         - @transcript.participants.each do |participant|
           .participant
             %strong= participant.role
@@ -15,47 +16,50 @@
             = participant.name
             %br
     %tr
-      %td.name
+      %th
         Language
-      %td.value
+      %td
         = @transcript.language_code
 
     %tr
-      %td.name
+      %th
         Country
-      %td.value
+      %td
         = @transcript.country_code
 
     %tr
-      %td.name
+      %th
         Date
-      %td.value
+      %td
         = @transcript.date
 
     %tr
-      %td.name
+      %th
         Depositor
-      %td.value
+      %td
         = @transcript.depositor.full_name
 
     %tr
-      %td.name
+      %th
         Description
-      %td.value
+      %td
         = truncate @transcript.description, :length => 100
 
     %tr
-      %td.name
+      %th
         Original Format
-      %td.value
+      %td
         = @transcript.transcript_format
 
     %tr
-      %td.name
+      %th
         Download
-      %td.value
+      %td
         = link_to "EOPAS XML", eopas_transcript_path(@transcript)
         = link_to "Original (#{@transcript.transcript_format})", @transcript.source.url
 
-  - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
-    = link_to 'Edit transcript metadata', edit_transcript_path(@transcript)
+    - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
+      %tr
+        %th
+        %td
+          = link_to 'Edit transcript metadata', edit_transcript_path(@transcript)

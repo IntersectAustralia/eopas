@@ -1,34 +1,23 @@
-%fieldset
 
-  %table#metadata
-    %tr#firstname
-      %td.name
-        = form.label :first_name
-      %td.value
-        = form.text_field :first_name, :class => 'text'
+.form-group.required
+  = form.label :first_name, class: 'col-sm-4'
+  .col-sm-8
+    = form.text_field :first_name, required: 'true'
 
-    %tr#lastname
-      %td.name
-        = form.label :last_name
-      %td.value
-        = form.text_field :last_name, :class => 'text'
+  = form.label :last_name, class: 'col-sm-4'
+  .col-sm-8
+    = form.text_field :last_name, required: 'true'
 
-    %tr#email
-      %td.name
-        = form.label :email
-      %td.value
-        = form.text_field :email, :class => 'text'
+.form-group.required
+  = form.label :email, class: 'col-sm-4'
+  .col-sm-8
+    = form.text_field :email, required: 'true'
 
-    %tr#password
-      %td.name
-        = form.label :password, form.object.new_record? ? nil : "Change password"
-      %td.value
-        = form.password_field :password
+.form-group
+  = form.label :password, form.object.new_record? ? nil : "Change password", class: 'col-sm-4'
+  .col-sm-6
+    = form.password_field :password
 
-    %tr#passwordconfirmation
-      %td.name
-        = form.label :password_confirmation
-      %td.value
-        = form.password_field :password_confirmation
-
-
+  = form.label :password_confirmation, class: 'col-sm-4'
+  .col-sm-6
+    = form.password_field :password_confirmation

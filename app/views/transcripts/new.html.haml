@@ -1,25 +1,25 @@
+.row
+  .col-sm-8.col-sm-offset-2
 
-#transcript
-  %h2 Upload Transcript
+    %h2 Upload Transcript
 
-  = form_for @transcript, :html => { :multipart => true } do |f|
-    = error_messages @transcript
+    = form_for @transcript, :html => { :multipart => true, class: 'form-horizontal form-border' } do |f|
 
-    %fieldset
+      = error_messages @transcript
 
-    %table#metadata
-      %tr
-        %td.name
-          = f.label :source, 'Transcript'
-        %td.value
-          = f.file_field :source
+      .form-group.required
+        = f.label :source, class: 'col-sm-4' do
+          Transcript
+        .col-sm-8
+          = f.file_field :source, required: 'true'
           = f.hidden_field :source_cache
 
-      %tr
-        %td.name
-          = f.label :transcript_format, 'Format'
-        %td.value
-          = f.select :transcript_format, options_for_select(Transcript::FORMATS, @transcript.transcript_format)
+      .form-group.required
+        = f.label :transcript_format, class: 'col-sm-4' do
+          Format
+        .col-sm-3
+          = f.select :transcript_format, options_for_select(Transcript::FORMATS, @transcript.transcript_format), { :include_blank => true }, required: 'true'
 
-
-    = f.submit "Validate"
+      .form-group
+        .col-sm-8.col-sm-offset-4
+          = f.submit "Validate", class: 'btn btn-primary'
