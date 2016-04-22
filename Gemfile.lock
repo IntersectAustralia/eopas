@@ -43,6 +43,8 @@ GEM
     authlogic (3.2.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
+    bootstrap-modal-rails (2.2.5)
+      railties (>= 3.1)
     bootstrap-sass (3.1.1.0)
       sass (~> 3.2)
     builder (3.0.4)
@@ -109,6 +111,8 @@ GEM
       delayed_job
       rails
     diff-lcs (1.2.1)
+    dropzonejs-rails (0.7.3)
+      rails (> 3.1)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (1.4.0)
@@ -196,6 +200,8 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (2.0.0)
+    remotipart (1.2.1)
+    rmagick (2.15.4)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -207,6 +213,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    ruby-filemagic (0.7.1)
     rubyzip (0.9.9)
     sass (3.2.7)
     sass-rails (3.2.6)
@@ -253,6 +260,7 @@ PLATFORMS
 
 DEPENDENCIES
   authlogic
+  bootstrap-modal-rails
   bootstrap-sass (= 3.1.1.0)
   capistrano
   capistrano-unicorn
@@ -269,6 +277,7 @@ DEPENDENCIES
   declarative_authorization
   delayed_job_active_record
   delayed_job_admin
+  dropzonejs-rails
   factory_girl
   haml-rails
   jquery-migrate-rails
@@ -283,8 +292,11 @@ DEPENDENCIES
   quiet_assets
   railroady
   rails (= 3.2.12)
+  remotipart (~> 1.2)
+  rmagick (>= 2.15.4)
   rspec-expectations
   rspec-rails
+  ruby-filemagic
   sass-rails (~> 3.2.3)
   therubyracer (~> 0.12.2)
   thin

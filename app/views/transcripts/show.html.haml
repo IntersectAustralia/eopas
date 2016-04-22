@@ -1,46 +1,48 @@
 = content_for(:title, "#{@transcript.title}")
 
-#single-transcript.row
-  
-  #left_column.col-sm-6
+#single-transcript
+  .row
+    .col-sm-12
 
-    #concordance.collapse_box.hidden
-      .collapse_title
-        %span.glyphicon.glyphicon-collapse-down.collapse_icon
-        .title Concordance
-      .collapse_content
+      - if @transcript
+        %h3
+          = @transcript.title
+          -if @transcript.country_code
+            - if @transcript.language_code
+              = "; " + CountryLanguage.find_by_country_code_and_code(@transcript.country_code, @transcript.language_code).name
+            = "; " + Country.find(@transcript.country_code).name
 
-    - if @transcript
-      %h3
-        = @transcript.title
-        -if @transcript.country_code
-          - if @transcript.language_code
-            = "; " + CountryLanguage.find_by_country_code_and_code(@transcript.country_code, @transcript.language_code).name
-          = "; " + Country.find(@transcript.country_code).name
 
-    - if @media_item
-      #media_display.collapse_box
-        = render :partial => 'media_items/mediaplayer'
+  .row  
+    #left_column.col-sm-4
 
-      #metadata_display.collapse_box
-        = render :partial => 'media_items/details'
-    - else
-      %p.hidden-print No media item attached
-      = link_to 'Link to Media Item', new_media_item_transcript_path(@transcript), class: 'btn btn-success hidden-print'
+      #concordance.collapse_box.hidden
+        .collapse_title
+          %span.glyphicon.glyphicon-collapse-down.collapse_icon
+          .title Concordance
+        .collapse_content
 
-    #metadata_display.collapse_box
-      = render :partial => 'details'
+      - if @media_item
+        #media_display.collapse_box
+          = render :partial => 'media_items/mediaplayer'
+        #media_metadata.collapse_box
+          = render :partial => 'media_items/details'
+      - else
+        #media_display.collapse_box
+          = render :partial => 'media_items/attach'
 
-    - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
-      #actions
-        -if @media_item
-          = link_to 'Unlink Media Item', remove_media_item_transcript_path(@transcript), :confirm => "Are you sure?", :method => :delete, class: 'btn btn-warning btn-xs'
-        = link_to 'Delete transcript', @transcript, :confirm => "Are you sure?", :method => :delete, class: 'btn btn-warning btn-xs hidden-print'
+      #transcript_metadata.collapse_box
+        = render :partial => 'details'
 
-  #right_column.col-sm-6
-  
-    #tiers_info.hidden-print
-      = render :partial => 'tiers_info'
+      - if @transcript.has_attachments
+        #attachment_display.collapse_box
+          = render :partial => 'attachments'
 
-    #transcript_display
-      = render :partial => 'phrases'
+
+    #right_column.col-sm-8
+    
+      #tiers_info.hidden-print
+        = render :partial => 'tiers_info'
+
+      #transcript_display
+        = render :partial => 'phrases'

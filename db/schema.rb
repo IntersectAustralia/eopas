@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130308100503) do
+ActiveRecord::Schema.define(:version => 20160421053036) do
 
   create_table "app_configs", :force => true do |t|
     t.string   "name"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20130308100503) do
     t.string  "original",      :limit => 4096
     t.string  "translation",   :limit => 4096
     t.string  "graid"
+    t.string  "attachment"
   end
 
   add_index "transcript_phrases", ["transcript_id", "phrase_id"], :name => "index_transcript_phrases_on_transcript_id_and_phrase_id", :unique => true

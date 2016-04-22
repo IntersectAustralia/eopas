@@ -1,9 +1,10 @@
 .collapse_title
   %span.glyphicon.glyphicon-collapse-up.collapse_icon
-  .title Media Player
+  /.title Media Player
 
-.collapse_content
-  - if @media_item.format == 'video'
-    = media_item_video_tag @media_item, {:preload => 'auto'}
-  - else
-    = media_item_audio_tag @media_item, {:preload => 'auto'}
+.collapse_content.row
+  .col-xs-12
+    - if @media_item.format == 'video'
+      = media_item_video_tag @media_item, {:preload => 'auto'}
+    - else
+      = media_item_audio_tag @media_item, {:preload => 'auto'}

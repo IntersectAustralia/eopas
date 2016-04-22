@@ -31,3 +31,5 @@
             %graid= phrase.graid
           - unless phrase.translation.nil?
             %translation= phrase.translation
+          - unless phrase.attachment.nil?
+            %attachment= phrase.attachment

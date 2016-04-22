@@ -1,7 +1,7 @@
 .collapse_title
   %span.glyphicon.glyphicon-collapse-up.collapse_icon
   .title== #{@transcript.title}
-  .date== #{@transcript.date}
+  / .date== #{@transcript.date}
 
 .collapse_content
   %table#metadata.small
@@ -59,7 +59,11 @@
         = link_to "Original (#{@transcript.transcript_format})", @transcript.source.url
 
     - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
-      %tr
+      %tr.actions.hidden-print
         %th
         %td
           = link_to 'Edit transcript metadata', edit_transcript_path(@transcript)
+
+          - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
+            %br
+            = link_to 'Delete transcript', @transcript, :confirm => "Are you sure?", :method => :delete

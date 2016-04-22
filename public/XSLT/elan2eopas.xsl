@@ -144,6 +144,7 @@ version="1.0">
             <xsl:variable name="Milliseconds_CONST" select="1000"/>
             <xsl:variable name="startTime_Seconds" select="$startTime_VALUE div $Milliseconds_CONST"/>
             <xsl:variable name="endTime_Seconds" select="$endTime_VALUE div $Milliseconds_CONST"/>
+            <xsl:variable name="annotationId" select="@ANNOTATION_ID"/>
 
             <!-- write phrase -->
             <xsl:if test="ANNOTATION_VALUE != ''">
@@ -163,9 +164,22 @@ version="1.0">
                     <xsl:value-of select="parent::TIER/@DPARTICIPANT"/>
                   </xsl:attribute>
                 </xsl:if>
+
                 <transcription>
                   <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
                 </transcription>
+
+                <!-- get the 'attachment' tiers values -->
+                <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='attachment']">
+                  <attachment>
+                    <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='attachment']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                      <xsl:if test="ANNOTATION_VALUE != ''">
+                            <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
+                      </xsl:if>
+                    </xsl:for-each>
+                  </attachment>
+                </xsl:if>
+
               </phrase>
             </xsl:if>
           </xsl:for-each>

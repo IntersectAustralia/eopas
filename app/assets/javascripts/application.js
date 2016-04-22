@@ -19,6 +19,7 @@
 //= require_tree .
 //= require bootstrap
 //= require masonry/jquery.masonry
+//= require dropzone
 //
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
@@ -123,6 +124,59 @@ function setup_playback(media) {
     if (media.attr('paused') || media.attr('ended')) {
       return;
     }
+    
+    // identify attachments that are within the current time section
+    var el = $(".phrase_attachment").filter(function() {
+      if (cur_time >= parseFloat($(this).attr('data-start')) &&
+          cur_time < parseFloat($(this).attr('data-end')) ) 
+        return( $(this) );
+    });
+    // verify that the element has the data that we need -- at least minimally!
+    if (el.attr('data-filename') )
+    {
+      // get the data attributes
+      var curr_filename = null,
+          transcript_id = el.attr('data-transcriptid'),
+          phrase_id     = el.attr('data-phraseid'),
+          imagepath     = el.attr('data-imagepath'),
+          // admin might need to bust cache if uploading images
+          cachebust     = ( 'true' === el.attr('data-cachebust') )  ? '?'+ (new Date()).getTime() : '', 
+          filename      = el.attr('data-filename'),
+          path_name = "/" + imagepath + "/" + transcript_id + "/" + phrase_id + "/";
+
+      // what is the current image? if there's an image showing, get its filenamme
+      if ( document.getElementById("attachment_thumb") )
+      {
+        var imgsrc = document.getElementById("attachment_thumb").src,
+          arr = imgsrc.split('/'),
+          curr_filename = $("#attachment_thumb").attr('data-filename');
+      }
+      // does the image need to change?
+      if (curr_filename != filename)
+      { 
+        // Remove default info
+        $(".default_instructions").addClass('hidden');
+        // Change images
+        $(".attachment_thumb_container").html( '<img id="attachment_thumb" data-filename="' + filename + '" class="attachment_thumb" src="' + path_name + "thumbnail/" + filename + cachebust + '" />' );
+        $(".attachment_full_container").html( '<img id="attachment_full" class="attachment_full" src="' + path_name + filename + cachebust + '" />' );
+        // Show file info
+        $(".attachment_details").html( filename );
+        // Add src to the download links
+        $(".attachment_download").attr( 'href', path_name + filename );
+        $(".attachment_download").attr( 'download', filename ); // HTML5 method to force download
+        // Show the images and info
+        $(".attachment_thumb_container").removeClass('hidden');
+        $(".attachment_details").removeClass('hidden');
+        $(".attachment_actions").removeClass('hidden');
+      }  
+    }
+    else {
+      // No attachment, so clear the info
+      $(".attachment_thumb_container").html('');
+      $(".attachment_details").html('No image for this phrase');
+      $(".attachment_actions").addClass('hidden');
+      // However, leave the modal open and leave the latest image showing
+    }
 
     // highlight and scroll to currently playing time offset
     $('.play_button').each(function(index) {
@@ -193,17 +247,17 @@ function do_onResize() {
   }
   if ($.browser.msie) {
     //y = document.body.clientHeight - 95;
-    var x = $('body').offsetWidth - 380;
-    elem.width(x);
+    // var x = $('body').offsetWidth - 380;
+    // elem.width(x);
     //elem.style.height = '700px';
   } 
   else if ($.browser.opera) {
     // Opera is special: it doesn't like changing width
-    elem.height(window.innerHeight - 70);
+    elem.height(window.innerHeight - 120);
   } 
   else {
     // elem.width(window.innerWidth - 395);
-    elem.height(window.innerHeight - 70);
+    elem.height(window.innerHeight - 120);
   }
 }
 
@@ -307,7 +361,6 @@ function setup_concordance() {
   });
 }
 
-
 $(document).ready(function() {
 
   set_url("");
@@ -380,12 +433,12 @@ $(document).ready(function() {
       attr_update(child, 'id');
       attr_update(child, 'name');
       child.attr('value', '');
-
     });
 
     $('.participant').last().next().after('</br>').after(newElem);
   });
 
+  // Media items are arranged by Masonry
   $(function() {
     return $('#masonry-container').imagesLoaded(function() {
       return $('#masonry-container').masonry({
@@ -393,6 +446,7 @@ $(document).ready(function() {
       });
     });
   });
+
 });
 
 

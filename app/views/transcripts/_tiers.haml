@@ -1,0 +1,63 @@
+/ tiers need 'in' class so Set Displayed Tracks knows which are visible 
+- if phrase.original
+  .tier.in{ class: [phrase.phrase_id, 'transcription'] }
+    = phrase.original
+
+- words = phrase.words
+- unless words.empty?
+  .tier.in{ class: ["#{phrase.phrase_id}_w", 'morphemes'] }
+    - words.each do |word|
+      - morphemes = word.morphemes
+      - colspan = morphemes.empty? ? 1 : morphemes.size
+      %span
+        %table.word
+          %tr
+            %td{:colspan => colspan}
+              %span.concordance{'data-type' => 'word', 'data-search' => word[:word], 'data-language-code' => @transcript.language_code, 'data-addr' => "/p#{phrase.transcript.phrases.index(phrase) + 1}/w#{word.position}"}
+                = word[:word]
+
+              - unless morphemes.empty?
+                %tr
+                  - morphemes.each do |s|
+                    %td.morpheme
+                      %span.concordance{'data-type' => 'morpheme', 'data-search' => s.morpheme, 'data-language-code' => @transcript.language_code, 'data-addr' => "/p#{phrase.transcript.phrases.index(phrase) + 1}/w#{word.position}/m#{s.position}"}
+                        = s.morpheme
+
+                %tr
+                  - morphemes.each do |s|
+                    %td.gloss= s.gloss
+
+- if phrase.graid
+  .tier.in{ class: [phrase.phrase_id, 'graid'] }
+    = phrase.graid
+
+- if phrase.translation
+  .tier.in{ class: [phrase.phrase_id, 'translation'] }
+    = phrase.translation
+
+- if phrase.attachment
+  / set a flag so the js that loads attachment images can add a timestamp to the image file
+  / useful if admin is uploading images, saves dumping the cache
+  - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
+    - cachebust = "true"
+  / is this a filename - should do a filesystem read to verify but for now.. 
+  - valid = ['jpg','jpeg','png','gif']
+  - r = /#{valid.join("|")}/
+  - if r === phrase.attachment
+    .tier{:class => [phrase.phrase_id, 'attachment']}
+      .phrase_attachment{ data: { 'start'        => "#{phrase.start_time}",
+                                  'end'          => "#{phrase.end_time}", 
+                                  'transcriptid' => "#{@transcript.id}",
+                                  'phraseid'     => "#{phrase.phrase_id}", 
+                                  'imagepath'    => TranscriptPhrase.public_dir, 
+                                  'filename'     => "#{phrase.attachment}",
+                                  'cachebust'   => "#{cachebust}",
+                                   }}
+        = phrase.attachment
+
+      = hidden_field_tag :transcript_id, @transcript.id
+      = hidden_field_tag :phrase_id, phrase.phrase_id
+      = hidden_field_tag :attachment_name, phrase.attachment
+
+.dz-message.data-dz-message 
+  %span

@@ -129,6 +129,10 @@ class Transcription
     unless phrase.xpath('translation').empty?
       ph.translation = phrase.xpath('translation').first.content
     end
+    unless phrase.xpath('attachment').empty?
+      ph.attachment = phrase.xpath('attachment').first.content
+    end
+    
     words = phrase.xpath('wordlist/word')
 
     word_position = 1

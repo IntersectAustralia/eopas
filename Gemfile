@@ -16,6 +16,7 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
+  gem 'bootstrap-modal-rails'
 end
 
 # views
@@ -37,6 +38,9 @@ gem 'carrierwave-video-thumbnailer'
 gem 'delayed_job_active_record'
 gem 'carrierwave_backgrounder'
 gem 'delayed_job_admin'
+gem "rmagick", '>= 2.15.4'
+gem 'dropzonejs-rails'
+gem 'ruby-filemagic'
 
 # xml parsing
 gem 'nokogiri'

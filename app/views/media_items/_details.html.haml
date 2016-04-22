@@ -1,7 +1,7 @@
 .collapse_title
   %span.glyphicon.glyphicon-collapse-up.collapse_icon
   .title== #{@media_item.title}
-  .date== #{@media_item.recorded_on}
+  / .date== #{@media_item.recorded_on}
 
 .collapse_content
   %table#metadata.small
@@ -55,7 +55,12 @@
           %textarea#embed_code
             = html_escape(media_item_embed_tag @media_item)
 
-      %tr
+      %tr.actions.hidden-print
         %th
         %td
           = link_to 'Edit media item metadata', edit_media_item_path(@media_item)
+
+          -if @transcript
+            - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
+              %br
+              = link_to 'Unlink Media Item', remove_media_item_transcript_path(@transcript), :confirm => "Are you sure?", :method => :delete

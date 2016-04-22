@@ -38,5 +38,9 @@ Eopas::Application.routes.draw do
     delete 'remove_media_item', :on => :member, :action => :remove_media_item
   end
 
-  resources :transcript_phrases, :only => [:index]
+  # Attachments
+  resources :transcript_phrases, :only => [:index, :upload_attachment] do
+    post :upload_attachment, :on => :collection, except: :index
+  end
+
 end

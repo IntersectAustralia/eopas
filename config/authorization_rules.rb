@@ -8,6 +8,7 @@ authorization do
     has_permission_on :users, :to => :read
     has_permission_on :media_items, :to => :manage
     has_permission_on :transcripts, :to => :manage
+    has_permission_on :transcript_phrases, :to => :manage
   end
 
   role :admin do
@@ -21,7 +22,6 @@ privileges do
   privilege :create, :includes => :new
   privilege :update, :includes => :edit
   privilege :delete, :includes => :destroy
-
-  privilege :manage, :includes => [:create, :read, :update, :delete]
+  privilege :manage, :includes => [:create, :read, :update, :delete, :upload_attachment]
 end
 

@@ -77,6 +77,15 @@ class Transcript < ActiveRecord::Base
     @transcription.import self
   end
 
+  def has_attachments
+    attachment_count = 0
+    self.phrases.each do |phrase|
+      if phrase.attachment?
+        attachment_count += 1
+      end
+    end
+    return attachment_count > 0    
+  end
 end
 
 
