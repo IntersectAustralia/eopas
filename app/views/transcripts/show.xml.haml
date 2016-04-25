@@ -29,6 +29,10 @@
                           %text{:kind => 'gloss'}= morpheme.gloss
           - unless phrase.graid.nil?
             %graid= phrase.graid
+          - unless phrase.morph.nil?
+            %morph= phrase.morph
+          - unless phrase.gloss.nil?
+            %gloss= phrase.gloss
           - unless phrase.translation.nil?
             %translation= phrase.translation
           - unless phrase.attachment.nil?

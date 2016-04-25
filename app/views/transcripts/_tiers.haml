@@ -31,6 +31,14 @@
   .tier.in{ class: [phrase.phrase_id, 'graid'] }
     = phrase.graid
 
+- if phrase.morph
+  .tier.in{ class: [phrase.phrase_id, 'morph'] }
+    = phrase.morph
+
+- if phrase.gloss
+  .tier.in{ class: [phrase.phrase_id, 'gloss'] }
+    = phrase.gloss
+
 - if phrase.translation
   .tier.in{ class: [phrase.phrase_id, 'translation'] }
     = phrase.translation
@@ -41,10 +49,10 @@
   - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
     - cachebust = "true"
   / is this a filename - should do a filesystem read to verify but for now.. 
-  - valid = ['jpg','jpeg','png','gif']
+  - valid = ['JPG', 'jpg','jpeg','png','gif']
   - r = /#{valid.join("|")}/
   - if r === phrase.attachment
-    .tier{:class => [phrase.phrase_id, 'attachment']}
+    .tier.in{:class => [phrase.phrase_id, 'attachment']}
       .phrase_attachment{ data: { 'start'        => "#{phrase.start_time}",
                                   'end'          => "#{phrase.end_time}", 
                                   'transcriptid' => "#{@transcript.id}",

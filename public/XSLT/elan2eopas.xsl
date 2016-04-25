@@ -63,12 +63,13 @@ version="1.0">
 
         <xsl:choose>
 
-        <!-- FIRST CASE: utterance and word tiers -->
+        <!-- FIRST CASE: utterance and word tiers, plus gloss and attachment -->
         <!-- write a transcription if there are utterances -->
-        <xsl:when test="TIER[@LINGUISTIC_TYPE_REF='utterance']">
+
+        <xsl:when test="TIER[@TIER_ID='Phrase']">
 
           <!-- Get Phrases from utterances and sort them on their number -->
-          <xsl:for-each select="TIER[@LINGUISTIC_TYPE_REF='utterance']/ANNOTATION/ALIGNABLE_ANNOTATION">
+          <xsl:for-each select="TIER[@TIER_ID='Phrase']/ANNOTATION/ALIGNABLE_ANNOTATION">
             <xsl:sort select="substring-after(@TIME_SLOT_REF1, 'ts')" data-type="number"/>
 
             <!-- grab phrase timing -->
@@ -79,6 +80,7 @@ version="1.0">
             <xsl:variable name="Milliseconds_CONST" select="1000"/>
             <xsl:variable name="startTime_Seconds" select="$startTime_VALUE div $Milliseconds_CONST"/>
             <xsl:variable name="endTime_Seconds" select="$endTime_VALUE div $Milliseconds_CONST"/>
+            <xsl:variable name="annotationId" select="@ANNOTATION_ID"/>
 
             <!-- write phrase -->
             <phrase>
@@ -97,266 +99,65 @@ version="1.0">
                   <xsl:value-of select="parent::TIER/@DPARTICIPANT"/>
                 </xsl:attribute>
               </xsl:if>
+
               <transcription>
                 <xsl:value-of select="ANNOTATION_VALUE"/>
               </transcription>
 
-              <!-- now we need to go through all the 'words' types tiers that belong to the
-                   time frame between TIME_SLOT_REF1 and TIME_SLOT_REF2 and add them as <word> -->
-              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='words']">
-                <wordlist>
-                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='words']/ANNOTATION/ALIGNABLE_ANNOTATION">
-                    <xsl:sort select="substring-after(@TIME_SLOT_REF1, 'ts')" data-type="number"/>
-
-                    <xsl:variable name="wordStartTime" select="@TIME_SLOT_REF1"/>
-                    <xsl:variable name="wordEndTime" select="@TIME_SLOT_REF2"/>
-                    <xsl:variable name="word_startTime_VALUE" select="/ANNOTATION_DOCUMENT/TIME_ORDER/TIME_SLOT[@TIME_SLOT_ID=$wordStartTime]/@TIME_VALUE"/>
-                    <xsl:variable name="word_endTime_VALUE" select="/ANNOTATION_DOCUMENT/TIME_ORDER/TIME_SLOT[@TIME_SLOT_ID=$wordEndTime]/@TIME_VALUE"/>
-
-                    <xsl:if test="($word_startTime_VALUE &gt;= $startTime_VALUE) and ($word_endTime_VALUE &lt;= $endTime_VALUE)">
-                      <word>
-                        <text>
+              <!-- Morphemes -->
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Morph']">
+                <morph>
+                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Morph']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                    <xsl:if test="ANNOTATION_VALUE != ''">
                           <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                        </text>
-                      </word>
                     </xsl:if>
                   </xsl:for-each>
-                </wordlist>
+                </morph>
+              </xsl:if>
+
+              <!-- Gloss -->
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Gloss']">
+                <gloss>
+                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Gloss']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                    <xsl:if test="ANNOTATION_VALUE != ''">
+                          <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
+                    </xsl:if>
+                  </xsl:for-each>
+                </gloss>
+              </xsl:if>
+
+              <!-- Translation -->
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Free Translation']">
+                <translation>
+                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Free Translation']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                    <xsl:if test="ANNOTATION_VALUE != ''">
+                          <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
+                    </xsl:if>
+                  </xsl:for-each>
+                </translation>
+              </xsl:if>
+
+              <!-- Notes, Attachments & Images -->
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Notes']">
+                <attachment>
+                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Notes']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                    <xsl:if test="ANNOTATION_VALUE != ''">
+                          <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
+                    </xsl:if>
+                  </xsl:for-each>
+                </attachment>
               </xsl:if>
 
             </phrase>
           </xsl:for-each>
         </xsl:when>
 
-        <!-- SECOND CASE: default-lt tier -->
-        <!-- write a transcription tier -->
-        <xsl:when test="TIER[@LINGUISTIC_TYPE_REF='default-lt']">
 
-          <!-- Get Phrases from track and sort them on their number -->
-          <xsl:for-each select="TIER[@LINGUISTIC_TYPE_REF='default-lt']/ANNOTATION/ALIGNABLE_ANNOTATION">
-            <xsl:sort select="substring-after(@TIME_SLOT_REF1, 'ts')" data-type="number"/>
 
-            <!-- grab phrase timing -->
-            <xsl:variable name="startTimeId" select="@TIME_SLOT_REF1"/>
-            <xsl:variable name="endTimeId" select="@TIME_SLOT_REF2"/>
-            <xsl:variable name="startTime_VALUE" select="/ANNOTATION_DOCUMENT/TIME_ORDER/TIME_SLOT[@TIME_SLOT_ID=$startTimeId]/@TIME_VALUE"/>
-            <xsl:variable name="endTime_VALUE" select="/ANNOTATION_DOCUMENT/TIME_ORDER/TIME_SLOT[@TIME_SLOT_ID=$endTimeId]/@TIME_VALUE"/>
-            <xsl:variable name="Milliseconds_CONST" select="1000"/>
-            <xsl:variable name="startTime_Seconds" select="$startTime_VALUE div $Milliseconds_CONST"/>
-            <xsl:variable name="endTime_Seconds" select="$endTime_VALUE div $Milliseconds_CONST"/>
-            <xsl:variable name="annotationId" select="@ANNOTATION_ID"/>
-
-            <!-- write phrase -->
-            <xsl:if test="ANNOTATION_VALUE != ''">
-              <phrase>
-                <xsl:attribute name="id">
-                  <xsl:value-of select="@ANNOTATION_ID"/>
-                </xsl:attribute>
-                <xsl:attribute name="startTime">
-                  <xsl:value-of select="$startTime_Seconds"/>
-                </xsl:attribute>
-                <xsl:attribute name="endTime">
-                  <xsl:value-of select="$endTime_Seconds"/>
-                </xsl:attribute>
-
-                <xsl:if test="normalize-space(parent::TIER/@DPARTICIPANT) != ''">
-                  <xsl:attribute name="participant">
-                    <xsl:value-of select="parent::TIER/@DPARTICIPANT"/>
-                  </xsl:attribute>
-                </xsl:if>
-
-                <transcription>
-                  <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                </transcription>
-
-                <!-- get the 'attachment' tiers values -->
-                <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='attachment']">
-                  <attachment>
-                    <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='attachment']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
-                      <xsl:if test="ANNOTATION_VALUE != ''">
-                            <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                      </xsl:if>
-                    </xsl:for-each>
-                  </attachment>
-                </xsl:if>
-
-              </phrase>
-            </xsl:if>
-          </xsl:for-each>
-        </xsl:when>
-
-        <!-- THIRD CASE: ref/tx/mr/mg/fg tiers -->
-        <!-- write a transcription tier -->
-        <xsl:when test="TIER[@LINGUISTIC_TYPE_REF='ref']">
-
-          <!-- Get Phrases from track and sort them on their number -->
-          <xsl:for-each select="TIER[@LINGUISTIC_TYPE_REF='ref']/ANNOTATION/ALIGNABLE_ANNOTATION">
-            <xsl:sort select="substring-after(@TIME_SLOT_REF1, 'ts')" data-type="number"/>
-
-            <!-- grab phrase timing -->
-            <xsl:variable name="startTimeId" select="@TIME_SLOT_REF1"/>
-            <xsl:variable name="endTimeId" select="@TIME_SLOT_REF2"/>
-            <xsl:variable name="startTime_VALUE" select="/ANNOTATION_DOCUMENT/TIME_ORDER/TIME_SLOT[@TIME_SLOT_ID=$startTimeId]/@TIME_VALUE"/>
-            <xsl:variable name="endTime_VALUE" select="/ANNOTATION_DOCUMENT/TIME_ORDER/TIME_SLOT[@TIME_SLOT_ID=$endTimeId]/@TIME_VALUE"/>
-            <xsl:variable name="Milliseconds_CONST" select="1000"/>
-            <xsl:variable name="startTime_Seconds" select="$startTime_VALUE div $Milliseconds_CONST"/>
-            <xsl:variable name="endTime_Seconds" select="$endTime_VALUE div $Milliseconds_CONST"/>
-            <xsl:variable name="annotationId" select="@ANNOTATION_ID"/>
-
-            <!-- write phrase -->
-            <xsl:if test="ANNOTATION_VALUE != ''">
-              <phrase>
-                <xsl:attribute name="id">
-                  <xsl:value-of select="@ANNOTATION_ID"/>
-                </xsl:attribute>
-                <xsl:attribute name="startTime">
-                  <xsl:value-of select="$startTime_Seconds"/>
-                </xsl:attribute>
-                <xsl:attribute name="endTime">
-                  <xsl:value-of select="$endTime_Seconds"/>
-                </xsl:attribute>
-
-                <xsl:if test="normalize-space(parent::TIER/@DPARTICIPANT) != ''">
-                  <xsl:attribute name="participant">
-                    <xsl:value-of select="parent::TIER/@DPARTICIPANT"/>
-                  </xsl:attribute>
-                </xsl:if>
-                <transcription>
-                  <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                </transcription>
-
-                <!-- go through the 'tx' type tier to pick the words that belong to the
-                     current phrase and add them as <word> -->
-                <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='tx']">
-                  <wordlist>
-                    <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='tx']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
-                        <word>
-                          <text>
-                            <xsl:value-of select="."/>
-                          </text>
-                          <xsl:variable name="wordId" select="@ANNOTATION_ID"/>
-
-                          <!-- grab morphemes and gloss -->
-                          <morphemelist>
-                            <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='mr']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $wordId]">
-                              <xsl:variable name="morphemeId" select="@ANNOTATION_ID"/>
-                              <morpheme>
-                                <text>
-                                  <xsl:attribute name="kind">morpheme</xsl:attribute>
-                                  <xsl:value-of select="."/>
-                                </text>
-                                <text>
-                                  <xsl:attribute name="kind">gloss</xsl:attribute>
-                                  <xsl:value-of select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='mg']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $morphemeId]"/>
-                                </text>
-                              </morpheme>
-                            </xsl:for-each>
-                          </morphemelist>
-                        </word>
-                    </xsl:for-each>
-                  </wordlist>
-                </xsl:if>
-
-                <!-- go through the 'GRAID' type tier to pick the words that belong to the
-                     current phrase and add them as <graid> -->
-                <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='GRAID']">
-                  <graid>
-                    <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='GRAID']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
-                      <!-- write phrase -->
-                      <xsl:if test="ANNOTATION_VALUE != ''">
-                            <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                      </xsl:if>
-                    </xsl:for-each>
-                  </graid>
-                </xsl:if>
-
-                <!-- go through the 'fg' type tier to pick the words that belong to the
-                     current phrase and add them as <translation> -->
-                <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='fg']">
-                  <translation>
-                    <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='fg']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
-                      <!-- write phrase -->
-                      <xsl:if test="ANNOTATION_VALUE != ''">
-                            <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                      </xsl:if>
-                    </xsl:for-each>
-                  </translation>
-                </xsl:if>
-
-              </phrase>
-            </xsl:if>
-          </xsl:for-each>
-        </xsl:when>
-
-        <!-- FOURTH CASE: Transcription tier -->
-        <!-- write a transcription tier -->
-        <xsl:when test="TIER[@LINGUISTIC_TYPE_REF='Transcription']">
-
-          <!-- Get Phrases from track and sort them on their number -->
-          <xsl:for-each select="TIER[@LINGUISTIC_TYPE_REF='Transcription']/ANNOTATION/ALIGNABLE_ANNOTATION">
-            <xsl:sort select="substring-after(@TIME_SLOT_REF1, 'ts')" data-type="number"/>
-
-            <!-- grab phrase timing -->
-            <xsl:variable name="startTimeId" select="@TIME_SLOT_REF1"/>
-            <xsl:variable name="endTimeId" select="@TIME_SLOT_REF2"/>
-            <xsl:variable name="startTime_VALUE" select="/ANNOTATION_DOCUMENT/TIME_ORDER/TIME_SLOT[@TIME_SLOT_ID=$startTimeId]/@TIME_VALUE"/>
-            <xsl:variable name="endTime_VALUE" select="/ANNOTATION_DOCUMENT/TIME_ORDER/TIME_SLOT[@TIME_SLOT_ID=$endTimeId]/@TIME_VALUE"/>
-            <xsl:variable name="Milliseconds_CONST" select="1000"/>
-            <xsl:variable name="startTime_Seconds" select="$startTime_VALUE div $Milliseconds_CONST"/>
-            <xsl:variable name="endTime_Seconds" select="$endTime_VALUE div $Milliseconds_CONST"/>
-            <xsl:variable name="annotationId" select="@ANNOTATION_ID"/>
-
-            <!-- write phrase -->
-            <xsl:if test="ANNOTATION_VALUE != ''">
-              <phrase>
-                <xsl:attribute name="id">
-                  <xsl:value-of select="@ANNOTATION_ID"/>
-                </xsl:attribute>
-                <xsl:attribute name="startTime">
-                  <xsl:value-of select="$startTime_Seconds"/>
-                </xsl:attribute>
-                <xsl:attribute name="endTime">
-                  <xsl:value-of select="$endTime_Seconds"/>
-                </xsl:attribute>
-
-                <xsl:if test="normalize-space(parent::TIER/@DPARTICIPANT) != ''">
-                  <xsl:attribute name="participant">
-                    <xsl:value-of select="parent::TIER/@DPARTICIPANT"/>
-                  </xsl:attribute>
-                </xsl:if>
-                <transcription>
-                  <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                </transcription>
-
-                <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='GRAID']">
-                  <graid>
-                    <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='GRAID']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
-                      <!-- write phrase -->
-                      <xsl:if test="ANNOTATION_VALUE != ''">
-                            <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                      </xsl:if>
-                    </xsl:for-each>
-                  </graid>
-                </xsl:if>
-
-                <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='Translation']">
-                  <translation>
-                    <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@LINGUISTIC_TYPE_REF='Translation']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
-                      <!-- write phrase -->
-                      <xsl:if test="ANNOTATION_VALUE != ''">
-                            <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                      </xsl:if>
-                    </xsl:for-each>
-                  </translation>
-                </xsl:if>
-              </phrase>
-            </xsl:if>
-          </xsl:for-each>
-        </xsl:when>
 
         <!-- DEFAULT CASE: fail -->
         <xsl:otherwise>
-          <xsl:message terminate="yes">ERROR: Unsupported LINGUISTIC_TYPE_REF in Tier</xsl:message>
+          <xsl:message terminate="yes">ERROR: Unsupported TIER_ID in Tier</xsl:message>
         </xsl:otherwise>
 
         </xsl:choose>

@@ -9,33 +9,44 @@
 
       %ul.dropdown-menu
         %form
-          -# We work this out off the first phrase
-          - first_phrase = @transcript.phrases.first
+          /-# We work this out off the first phrase
+          /- first_phrase = @transcript.phrases.first
 
-          - if first_phrase.original
-            %li
-              %a.tier_info{'data-toggle' => "collapse", :href => '.transcription'}
-                Transcription
+          /- if first_phrase.original
+          %li
+            %a.tier_info{'data-toggle' => "collapse", :href => '.transcription'}
+              Transcription
 
-          - if first_phrase.words.size > 0
-            %li
-              %a.tier_info{'data-toggle' => "collapse", :href => '.morphemes'}
-                Morphemes
+          /- if first_phrase.transcription
+          %li
+            %a.tier_info{'data-toggle' => "collapse", :href => '.morph'}
+              Morphological glossing
 
-          - if first_phrase.graid
-            %li
-              %a.tier_info{'data-toggle' => "collapse", :href => '.graid'}
-                GRAID annotation
+          /- if first_phrase.original
+          %li
+            %a.tier_info{'data-toggle' => "collapse", :href => '.gloss'}
+              Gloss
 
-          - if first_phrase.translation
-            %li
-              %a.tier_info{'data-toggle' => "collapse", :href => '.translation'}
-                Translation
+          /- if first_phrase.translation
+          %li
+            %a.tier_info{'data-toggle' => "collapse", :href => '.translation'}
+              Translation
 
-          - if first_phrase.attachment
-            %li
-              %a.tier_info{'data-toggle' => "collapse", :href => '.attachment'}
-                Attachments
+          /- if first_phrase.attachment
+          %li
+            %a.tier_info{'data-toggle' => "collapse", :href => '.attachment'}
+              Attachments
+
+
+          / - if first_phrase.words.size > 0
+          /   %li
+          /     %a.tier_info{'data-toggle' => "collapse", :href => '.morphemes'}
+          /       Morphemes
+
+          / - if first_phrase.graid
+          /   %li
+          /     %a.tier_info{'data-toggle' => "collapse", :href => '.graid'}
+          /       GRAID annotation
 
   .col-sm-9.text-right
       

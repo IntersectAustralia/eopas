@@ -129,6 +129,15 @@ class Transcription
     unless phrase.xpath('translation').empty?
       ph.translation = phrase.xpath('translation').first.content
     end
+    unless phrase.xpath('morph').empty?
+      ph.morph = phrase.xpath('morph').first.content
+    end
+    unless phrase.xpath('translation').empty?
+      ph.translation = phrase.xpath('translation').first.content
+    end
+    unless phrase.xpath('gloss').empty?
+      ph.gloss = phrase.xpath('gloss').first.content
+    end
     unless phrase.xpath('attachment').empty?
       ph.attachment = phrase.xpath('attachment').first.content
     end
