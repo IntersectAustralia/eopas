@@ -353,8 +353,14 @@
 ------------------------------------------ */
 
 .attachment_thumb { 
-  max-width: 100%;
-  max-height: 200px;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+.phrase_attachment 
+{
+  float: right;
+  img { width: 64px }
 }
 
 

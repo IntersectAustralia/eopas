@@ -1,4 +1,4 @@
-require 'RMagick'
+require 'rmagick'
 require 'filemagic'
 
 class TranscriptPhrasesController < ApplicationController
@@ -57,7 +57,7 @@ class TranscriptPhrasesController < ApplicationController
       thumbnail_full_path = File.join(thumbnail_path, attachment_name)
       FileUtils.mkdir_p(thumbnail_path) unless File.exists?(thumbnail_path)
       img = Magick::Image.read(image_full_path).first
-      thumbnail = img.crop_resized(100, 100)
+      thumbnail = img.resize_to_fit(300, 800)
       thumbnail.write thumbnail_full_path
       # Dropzone.js expects a json response
       render json: { msg: "success" }, status: 200

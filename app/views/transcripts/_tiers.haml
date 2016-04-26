@@ -1,4 +1,39 @@
 / tiers need 'in' class so Set Displayed Tracks knows which are visible 
+
+
+- if phrase.attachment
+  / set a flag so the js that loads attachment images can add a timestamp to the image file
+  / useful if admin is uploading images, saves dumping the cache
+  - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
+    - cachebust = "true"
+  / is this a filename - should do a filesystem read to verify but for now.. 
+  - valid = ['JPG', 'jpg','jpeg','png','gif']
+  - r = /#{valid.join("|")}/
+  - if r === phrase.attachment
+    .tier.in{:class => [phrase.phrase_id, 'attachment']}
+      .phrase_attachment{ data: { 'start'        => "#{phrase.start_time}",
+                                  'end'          => "#{phrase.end_time}", 
+                                  'transcriptid' => "#{@transcript.id}",
+                                  'phraseid'     => "#{phrase.phrase_id}", 
+                                  'imagepath'    => TranscriptPhrase.public_dir, 
+                                  'filename'     => "#{phrase.attachment}",
+                                  'cachebust'   => "#{cachebust}",
+                                   }}
+
+        - img_url = "/#{TranscriptPhrase.public_dir}/#{@transcript.id}/#{phrase.phrase_id}/#{phrase.attachment}"
+
+        = link_to '#', :data => { :toggle => 'modal', :target => '#myModal', :imgurl => img_url }, :class => "attachment_thumb_preview" do
+          = image_tag img_url, alt: phrase.attachment
+
+
+        /= phrase.attachment
+
+      = hidden_field_tag :transcript_id, @transcript.id
+      = hidden_field_tag :phrase_id, phrase.phrase_id
+      = hidden_field_tag :attachment_name, phrase.attachment
+
+
+
 - if phrase.original
   .tier.in{ class: [phrase.phrase_id, 'transcription'] }
     = phrase.original
@@ -42,30 +77,6 @@
 - if phrase.translation
   .tier.in{ class: [phrase.phrase_id, 'translation'] }
     = phrase.translation
-
-- if phrase.attachment
-  / set a flag so the js that loads attachment images can add a timestamp to the image file
-  / useful if admin is uploading images, saves dumping the cache
-  - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
-    - cachebust = "true"
-  / is this a filename - should do a filesystem read to verify but for now.. 
-  - valid = ['JPG', 'jpg','jpeg','png','gif']
-  - r = /#{valid.join("|")}/
-  - if r === phrase.attachment
-    .tier.in{:class => [phrase.phrase_id, 'attachment']}
-      .phrase_attachment{ data: { 'start'        => "#{phrase.start_time}",
-                                  'end'          => "#{phrase.end_time}", 
-                                  'transcriptid' => "#{@transcript.id}",
-                                  'phraseid'     => "#{phrase.phrase_id}", 
-                                  'imagepath'    => TranscriptPhrase.public_dir, 
-                                  'filename'     => "#{phrase.attachment}",
-                                  'cachebust'   => "#{cachebust}",
-                                   }}
-        = phrase.attachment
-
-      = hidden_field_tag :transcript_id, @transcript.id
-      = hidden_field_tag :phrase_id, phrase.phrase_id
-      = hidden_field_tag :attachment_name, phrase.attachment
 
 .dz-message.data-dz-message 
   %span

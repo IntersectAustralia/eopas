@@ -447,6 +447,15 @@ $(document).ready(function() {
     });
   });
 
+
+  // Load content into modal from thumbnails
+  $("#myModal").on("show.bs.modal", function(e) {
+    var link = $(e.relatedTarget);
+    $('#myModal img').attr('src', link.attr('data-imgurl'));
+    console.log( link.attr('data-imgurl') );
+  });
+
+
 });
 
 
