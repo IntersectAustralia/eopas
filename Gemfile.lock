@@ -291,7 +291,7 @@ DEPENDENCIES
   quiet_assets
   railroady
   rails (= 3.2.12)
-  rmagick (>= 2.15.4)
+  rmagick
   rspec-expectations
   rspec-rails
   ruby-filemagic

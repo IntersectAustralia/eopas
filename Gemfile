@@ -38,7 +38,7 @@ gem 'carrierwave-video-thumbnailer'
 gem 'delayed_job_active_record'
 gem 'carrierwave_backgrounder'
 gem 'delayed_job_admin'
-gem "rmagick", '>= 2.15.4'
+gem "rmagick"
 gem 'dropzonejs-rails'
 gem 'ruby-filemagic'
 
