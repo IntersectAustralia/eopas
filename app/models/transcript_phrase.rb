@@ -15,13 +15,15 @@ class TranscriptPhrase < ActiveRecord::Base
     File.join('system','attachment')
   end
 
-  
+
   accepts_nested_attributes_for :words
+
+  attr_accessible :original
 
   validates :start_time,  :presence => true, :numericality => true
   validates :end_time,    :presence => true, :numericality => true
   validates :phrase_id,   :presence => true
-  validates :original,    :presence => true, :length => {:maximum => 4096}
+  validates :original,    :length => {:maximum => 4096}
   validates :translation, :length => {:maximum => 4096}
   validates :graid,       :length => {:maximum => 4096}
 end

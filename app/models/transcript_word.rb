@@ -7,6 +7,8 @@ class TranscriptWord < ActiveRecord::Base
 
   accepts_nested_attributes_for :morphemes
 
+  attr_accessible :word
+
   validates :position,    :presence => true, :numericality => true
-  validates :word,        :presence => true
+  # validates :word,        :presence => true
 end

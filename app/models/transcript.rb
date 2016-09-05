@@ -46,7 +46,7 @@ class Transcript < ActiveRecord::Base
 
   attr_accessible :title, :date, :country_code, :language_code, :copyright, :license, :private, :source, :source_cache, :transcript_format, :participants_attributes, :description
 
-  FORMATS = ['ELAN', 'Toolbox', 'Transcriber', 'EOPAS']
+  FORMATS = ['ELAN', 'Toolbox', 'Transcriber', 'EOPAS', 'Flex']
 
   validates :source,            :presence => true, :integrity => true, :processing => true, :proper_schema => true
   validates :transcript_format, :presence => true, :inclusion => { :in => FORMATS }

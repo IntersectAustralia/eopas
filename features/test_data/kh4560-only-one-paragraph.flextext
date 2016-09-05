@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<document version="2">
+  <interlinear-text guid="550509f5-dc13-4fad-8056-f03ff0924f39">
+    <item type="title" lang="en">KH4560</item>
+    <paragraphs>
+      <paragraph guid="d3a3f48c-af81-4049-95a6-c1fb89a3dfc8">
+        <phrases>
+          <phrase guid="f86db59a-23b0-4cbf-9b57-bf27a50fb166" begin-time-offset="0" end-time-offset="6300" media-file="59116e25-0099-4755-9bf4-b2727021cad1">
+            <item type="segnum" lang="en">1</item>
+            <words>
+              <word>
+                <item type="punct" lang="gbb-AU">?????????????</item>
+              </word>
+              <word guid="43c3ff97-0580-4ddb-a32f-5978d0388c35">
+                <item type="txt" lang="gbb-AU">ve</item>
+              </word>
+              <word guid="e5ac3e74-c71e-466e-a7de-4a4cc01ff63e">
+                <item type="txt" lang="gbb-AU">KH</item>
+              </word>
+              <word guid="df037947-7b8d-4109-98f0-364bc9f317fb">
+                <item type="txt" lang="gbb-AU">The</item>
+              </word>
+              <word guid="b2d45bed-ac18-4d21-92c6-ed8de246c7b3">
+                <item type="txt" lang="gbb-AU">following</item>
+              </word>
+              <word guid="3750a1c6-265f-43a3-aef6-5640d6f6e360">
+                <item type="txt" lang="gbb-AU">are</item>
+              </word>
+              <word guid="7f1a133e-0b6a-49f9-9d6e-ea8c36b44e94">
+                <item type="txt" lang="gbb-AU">utterances</item>
+              </word>
+              <word guid="ed4e7bdb-3c14-44ca-9ac4-e946c04269f1">
+                <item type="txt" lang="gbb-AU">in</item>
+              </word>
+              <word guid="9503b29c-186f-40df-839d-b0875feac51a">
+                <item type="txt" lang="gbb-AU">Kaytetye</item>
+                <morphemes>
+                  <morph type="stem" guid="d7f713e8-e8cf-11d3-9764-00c04f186933">
+                    <item type="txt" lang="gbb-AU">Kaytetye</item>
+                    <item type="cf" lang="gbb-AU">Kaytetye</item>
+                    <item type="gls" lang="gbb-AU"></item>
+                    <item type="msa" lang="en">n. </item>
+                  </morph>
+                </morphemes>
+                <item type="gls" lang="en"></item>
+              </word>
+              <word guid="87a79ba5-797a-4564-bbc7-17e90b672a1f">
+                <item type="txt" lang="gbb-AU">spoken</item>
+              </word>
+              <word guid="349014b9-9a7b-4892-a3a9-e69987d8a7b3">
+                <item type="txt" lang="gbb-AU">by</item>
+              </word>
+              <word guid="dd052a53-b004-46e5-bc9b-bc9752b905f4">
+                <item type="txt" lang="gbb-AU">Lindsey</item>
+              </word>
+              <word guid="953b5936-2e07-4c48-a826-af515d3241f5">
+                <item type="txt" lang="gbb-AU">from</item>
+              </word>
+              <word guid="060e26c2-05dc-4d42-aa10-f34b02efda9c">
+                <item type="txt" lang="gbb-AU">Barrow</item>
+              </word>
+              <word guid="d1ead4b1-f6b3-4cae-ac55-033c13e252a4">
+                <item type="txt" lang="gbb-AU">Creek</item>
+              </word>
+            </words>
+            <item type="gls" lang="en"></item>
+            <item type="note" lang="en">\p 1</item>
+          </phrase>
+        </phrases>
+      </paragraph>
+    </paragraphs>
+    <languages>
+      <language lang="en" font="Times New Roman" />
+      <language lang="gbb-AU" font="Charis SIL" vernacular="true" />
+    </languages>
+    <media-files offset-type="">
+      <media guid="59116e25-0099-4755-9bf4-b2727021cad1" location="file:///D:/Kaytetye/KH4560/1. KH4560 Merged &amp; Digitised/KH4560.wav" />
+    </media-files>
+  </interlinear-text>
+</document>

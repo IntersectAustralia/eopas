@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:element name="document" type="documentType"/>
+  <xs:complexType name="itemType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="type" use="optional"/>
+        <xs:attribute type="xs:string" name="lang" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="wordType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="itemType" name="item"/>
+      <xs:element type="morphemesType" name="morphemes"/>
+    </xs:choice>
+    <xs:attribute type="xs:string" name="guid" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="morphType">
+    <xs:sequence>
+      <xs:element type="itemType" name="item" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
+    <xs:attribute type="xs:string" name="guid" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="morphemesType" mixed="true">
+    <xs:sequence>
+      <xs:element type="morphType" name="morph" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
+    <xs:attribute type="xs:string" name="lang" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="wordsType" mixed="true">
+    <xs:sequence>
+      <xs:element type="wordType" name="word" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="type" use="optional"/>
+    <xs:attribute type="xs:string" name="lang" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="phraseType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="itemType" name="item"/>
+      <xs:element type="wordsType" name="words"/>
+    </xs:choice>
+    <xs:attribute type="xs:string" name="guid" use="optional"/>
+    <xs:attribute type="xs:int" name="begin-time-offset" use="optional"/>
+    <xs:attribute type="xs:int" name="end-time-offset" use="optional"/>
+    <xs:attribute type="xs:string" name="media-file" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="phrasesType">
+    <xs:sequence>
+      <xs:element type="phraseType" name="phrase" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="paragraphType" mixed="true">
+    <xs:sequence>
+      <xs:element type="phrasesType" name="phrases" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="guid" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="paragraphsType">
+    <xs:sequence>
+      <xs:element type="paragraphType" name="paragraph" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="languageType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="lang" use="optional"/>
+        <xs:attribute type="xs:string" name="font" use="optional"/>
+        <xs:attribute type="xs:string" name="vernacular" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="languagesType">
+    <xs:sequence>
+      <xs:element type="languageType" name="language" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="mediaType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="guid"/>
+        <xs:attribute type="xs:string" name="location"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="media-filesType">
+    <xs:sequence>
+      <xs:element type="mediaType" name="media"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="offset-type"/>
+  </xs:complexType>
+  <xs:complexType name="interlinear-textType">
+    <xs:sequence>
+      <xs:element type="itemType" name="item"/>
+      <xs:element type="paragraphsType" name="paragraphs"/>
+      <xs:element type="languagesType" name="languages"/>
+      <xs:element type="media-filesType" name="media-files"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="guid"/>
+  </xs:complexType>
+  <xs:complexType name="documentType">
+    <xs:sequence>
+      <xs:element type="interlinear-textType" name="interlinear-text"/>
+    </xs:sequence>
+    <xs:attribute type="xs:byte" name="version"/>
+  </xs:complexType>
+</xs:schema>
