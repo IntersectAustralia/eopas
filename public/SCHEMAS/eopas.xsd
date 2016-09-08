@@ -69,7 +69,7 @@
     <xsd:attribute name="startTime" type="xsd:string" use="required"/>
     <xsd:attribute name="endTime" type="xsd:string" use="required"/>
     <xsd:attribute name="id" type="xsd:string"/>
-    <xsd:attribute name="participant" type="xsd:string" />
+    <xsd:attribute name="speaker" type="xsd:string" />
     <xsd:attribute name="pdf" type="xsd:string" />
     <xsd:attribute name="pub" type="xsd:string" />
     <xsd:attribute name="lang_code" type="xsd:string" />

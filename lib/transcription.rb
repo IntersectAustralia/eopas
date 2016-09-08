@@ -117,7 +117,7 @@ class Transcription
       ph.end_time   = phrase['endTime'].to_f
 
       # for our elan->flex->eopas journey
-      ph.speaker    = phrase['participant']
+      ph.speaker    = phrase['speaker']
       ph.pub        = phrase['pub']
       ph.attachment = phrase['pdf']
       ph.lang_code  = phrase['lang_code']
