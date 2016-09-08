@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
 Transforms flextext xml into eopas xml
 By John Mansfield, University of Melbourne, 10 August 2015
-Mod Ben Foley, for Myfany Turpin's Ken Hale Kaytetye Corpus, 5 Sep 2016
--->
+Modified by Ben Foley, for Myfany Turpin's Ken Hale Kaytetye Corpus, 5 Sep 2016
 
-<!--
+Works with flex text with notes. So start in Elan with Phrases, Translations and Notes, then import to Flex.
+Gloss and export a flextext file containing the words, morphemes and glosses, and notes fields.
+If notes have special symbols, we write attributes to the phrase element,
+which eopas will use when importing to decide what to import.
+If notes contain:
+*PUB - the words from a phrase with this code in notes will not be imported by eopas
+p123 - eopas will store this value in the attachments column, and use it as an image src by appending .jpg
+KH   - this will be stored as the phrase record's speaker column
+WA   - this will be the phrase's language
+
 USAGE EXAMPLES
 CLI, using Saxon:
 java -jar -Xmx1024m /Library/SaxonHE9-4-0-4J/saxon9he.jar -t SOURCEPATH/SOURCE.flextext scripts/flex-to-eopas.xsl > TARGETPATH/SOURCE_eopas.xml
 EOPAS:
 rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
+or upload a flextext file using EOPAS Upload Transcript feature
 -->
-
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/">
 
 	<!--xsl:output indent="no" media-type="xml"/-->
@@ -40,7 +47,6 @@ rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
 						<xsl:apply-templates select="interlinear-text/paragraphs/paragraph[1]/phrases[1]/phrase[1]/item[@type = 'txt']/@lang"/>
 					</xsl:attribute>
 				</xsl:element>
-				<!-- there are more potential meta elements, but not clear how to populate them-->
 			</xsl:element>
 			<xsl:element name="interlinear">
         <xsl:apply-templates select="interlinear-text/paragraphs/paragraph/phrases/phrase"/>
@@ -49,42 +55,44 @@ rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
 	</xsl:template>
 
 	<xsl:template match="phrase">
-
-
     <xsl:variable name="i" select="position()" />
     <xsl:element name="phrase">
 
-      <!-- get attributes from notes | there must be a better way to do this -->
-      <xsl:analyze-string regex="(KH|LW)|(KA|WA)|(\*PUB)|([p0-9]{{4}})" select=".">
-        <xsl:matching-substring>
-          <xsl:choose>
-            <xsl:when test="regex-group(1)">
-              <xsl:attribute name="participant">
-                <xsl:value-of select="."/>
-              </xsl:attribute>
-            </xsl:when>
-            <xsl:when test="regex-group(2)">
-              <xsl:attribute name="lang_code">
-                <xsl:value-of select="."/>
-              </xsl:attribute>
-            </xsl:when>
-            <xsl:when test="regex-group(3)">
-              <xsl:attribute name="pub">
-                <xsl:value-of select="."/>
-              </xsl:attribute>
-            </xsl:when>
-            <xsl:when test="regex-group(4)">
-              <xsl:attribute name="pdf">
-                <xsl:value-of select="."/>
-              </xsl:attribute>
-            </xsl:when>
-          </xsl:choose>
-        </xsl:matching-substring>
-      </xsl:analyze-string>
       <!-- phrase ID needs to be non-numeric -->
       <xsl:attribute name="id">
         <xsl:value-of select="concat('a',$i)"/>
 			</xsl:attribute>
+
+      <!-- Create speaker/lang_code/pub/pdf attributes based on note field symbols -->
+      <xsl:for-each select="./item[@type = 'note']">
+        <xsl:analyze-string regex="^(KH|LW)|(EN|KA|WA)|(\*PUB)|(p[0-9]{{0,3}})$" select=".">
+          <xsl:matching-substring>
+            <xsl:choose>
+              <xsl:when test="regex-group(1)">
+                <xsl:attribute name="speaker">
+                  <xsl:value-of select="."/>
+                </xsl:attribute>
+              </xsl:when>
+              <xsl:when test="regex-group(2)">
+                <xsl:attribute name="lang_code">
+                  <xsl:value-of select="."/>
+                </xsl:attribute>
+              </xsl:when>
+              <xsl:when test="regex-group(3)">
+                <xsl:attribute name="pub">
+                  <xsl:value-of select="."/>
+                </xsl:attribute>
+              </xsl:when>
+              <xsl:when test="regex-group(4)">
+                <xsl:attribute name="pdf">
+                  <xsl:value-of select="."/>
+                </xsl:attribute>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:matching-substring>
+        </xsl:analyze-string>
+      </xsl:for-each>
+
       <!-- need to convert times from ms -->
       <xsl:variable name="startTime_VALUE" select="./@begin-time-offset"/>
       <xsl:variable name="endTime_VALUE" select="./@end-time-offset"/>
@@ -98,21 +106,24 @@ rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
         <xsl:value-of select="$endTime_Seconds"/>
       </xsl:attribute>
       <xsl:element name="transcription">
-	<xsl:value-of select="./item[@type = 'txt']"/>
+      	<xsl:value-of select="./item[@type = 'txt']"/>
       </xsl:element>
       <xsl:element name="wordlist">
         <xsl:apply-templates select="./words/word"/>
       </xsl:element>
       <xsl:element name="translation">
-	<xsl:value-of select="./item[@type = 'gls']"/>
+      	<xsl:value-of select="./item[@type = 'gls']"/>
       </xsl:element>
-      <!-- any notes in notes that aren't our special symbols? -->
-      <xsl:apply-templates select="./item[@type = 'note']"/>
+      <!-- any comments in a notes field that aren't our special symbols? -->
+      <xsl:for-each select="./item[@type = 'note']">
+          <xsl:apply-templates select="."/>
+      </xsl:for-each>
 		</xsl:element>
 	</xsl:template>
 
-  <xsl:template match="item[@type='note']">
-      <xsl:analyze-string regex="(KH|LW)|(KA|WA)|(\*PUB)|(p[0-9]{{0,3}})" select=".">
+  <!-- get any comments tier that doesn't have our special codes -->
+  <xsl:template match="item[@type = 'note']">
+      <xsl:analyze-string regex="^(KH|LW)|(EN|KA|WA)|(\*PUB)|(p[0-9]{{0,3}})$" select=".">
         <xsl:non-matching-substring>
         <xsl:element name="comment">
             <xsl:value-of select="."/>
@@ -121,7 +132,7 @@ rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
       </xsl:analyze-string>
   </xsl:template>
 
-	<xsl:template match="word">
+  <xsl:template match="word">
 		<xsl:element name="word">
 			<xsl:element name="text">
 				<xsl:value-of select="item[@type = 'txt']"/>
@@ -143,15 +154,6 @@ rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
 				<xsl:attribute name="kind">gloss</xsl:attribute>
 				<xsl:value-of select="item[@type = 'gls']"/>
 			</xsl:element>
-			<!-- These next two will have to be blocked if eopas can't handle them... though that will mean throwing away morphological information. -->
-			<!--xsl:element name="text">
-				<xsl:attribute name="kind">cf</xsl:attribute>
-				<xsl:value-of select="item[@type = 'cf']"/>
-			</xsl:element>
-			<xsl:element name="text">
-				<xsl:attribute name="kind">msa</xsl:attribute>
-				<xsl:value-of select="item[@type = 'msa']"/>
-			</xsl:element-->
 		</xsl:element>
 	</xsl:template>
 

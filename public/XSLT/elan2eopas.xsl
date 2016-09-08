@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- working with EOPAS 2.0 Schema -->
+<!--
+Requires parent and child tiers to be named:
+Phrase           (generates a phrase in eopas xml and goes into the original field in the db)
+  Gloss          (generates gloss element and stored in gloss column)
+  Translation    (generates translation element and stored in translation column)
+  PDF            (becomes the pdf attribute of the xml phrase element and the attachment db column)
+  Do Not Publish (put *PUB in an annotation, it will create a pub attribute and the corresponding tiers won't be imported)
+  Speaker        (Becomes the speaker attribute of the phrase and stored in speaker column)
+  Lang           (Generates the lang_code attribute of the phrase and stored as lang_code)
+-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns:dc="http://purl.org/dc/elements/1.1/"
 version="1.0">
@@ -62,10 +72,8 @@ version="1.0">
       <interlinear>
 
         <xsl:choose>
-
         <!-- FIRST CASE: utterance and word tiers, plus gloss and attachment -->
         <!-- write a transcription if there are utterances -->
-
         <xsl:when test="TIER[@TIER_ID='Phrase']">
 
           <!-- Get Phrases from utterances and sort them on their number -->
@@ -100,6 +108,40 @@ version="1.0">
                 </xsl:attribute>
               </xsl:if>
 
+
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Do Not Publish']">
+                <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Do Not Publish']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                  <xsl:attribute name="pub">
+                    <xsl:value-of select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Do Not Publish']"/>
+                  </xsl:attribute>
+                </xsl:for-each>
+              </xsl:if>
+
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='PDF']">
+                <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='PDF']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                  <xsl:attribute name="pdf">
+                    <xsl:value-of select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='PDF']"/>
+                  </xsl:attribute>
+                </xsl:for-each>
+              </xsl:if>
+
+
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Speaker']">
+                <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Speaker']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                  <xsl:attribute name="speaker">
+                    <xsl:value-of select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Speaker']"/>
+                  </xsl:attribute>
+                </xsl:for-each>
+              </xsl:if>
+
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Lang']">
+                <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Lang']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                  <xsl:attribute name="lang_code">
+                    <xsl:value-of select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Lang']"/>
+                  </xsl:attribute>
+                </xsl:for-each>
+              </xsl:if>
+
               <transcription>
                 <xsl:value-of select="ANNOTATION_VALUE"/>
               </transcription>
@@ -127,9 +169,9 @@ version="1.0">
               </xsl:if>
 
               <!-- Translation -->
-              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Free Translation']">
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Translation']">
                 <translation>
-                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Free Translation']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Translation']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
                     <xsl:if test="ANNOTATION_VALUE != ''">
                           <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
                     </xsl:if>
@@ -137,27 +179,24 @@ version="1.0">
                 </translation>
               </xsl:if>
 
-              <!-- Notes, Attachments & Images -->
-              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Notes']">
-                <attachment>
-                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Notes']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
-                    <xsl:if test="ANNOTATION_VALUE != ''">
-                          <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
-                    </xsl:if>
-                  </xsl:for-each>
-                </attachment>
+              <!-- Public Comments -->
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Public Comments']">
+                <comments>
+                  <xsl:value-of select="normalize-space(/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Public Comments']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId])"/>
+                </comments>
+              </xsl:if>
+
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Private Comments']">
+                <!-- don't copy -->
               </xsl:if>
 
             </phrase>
           </xsl:for-each>
         </xsl:when>
 
-
-
-
         <!-- DEFAULT CASE: fail -->
         <xsl:otherwise>
-          <xsl:message terminate="yes">ERROR: Unsupported TIER_ID in Tier</xsl:message>
+          <!-- <xsl:message terminate="yes">ERROR: Unsupported TIER_ID in Tier</xsl:message> -->
         </xsl:otherwise>
 
         </xsl:choose>
