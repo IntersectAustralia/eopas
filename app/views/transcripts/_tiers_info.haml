@@ -2,54 +2,38 @@
 
   .col-sm-3
 
-    .dropdown
-      %button.btn.btn-default.btn-xs.dropdown-toggle{'data-toggle' => "dropdown"}
-        Show Tracks
-        %span.caret
+    / .dropdown
+    /   %button.btn.btn-default.btn-xs.dropdown-toggle
+    /     Show Tracks
+    /     %span.caret
 
-      %ul.dropdown-menu
-        %form
-          /-# We work this out off the first phrase
-          /- first_phrase = @transcript.phrases.first
+    %ul.tier-toggles
+      %form
 
-          /- if first_phrase.original
-          %li
-            %a.tier_info{'data-toggle' => "collapse", :href => '.transcription'}
-              Transcription
+        / %li
+        /   %a.tier_info
+        /     Transcription
 
-          /- if first_phrase.transcription
-          %li
-            %a.tier_info{'data-toggle' => "collapse", :href => '.morph'}
-              Morphological glossing
+        %li
+          %a.tier_info.tier_toggle.collapsed{'data-target' => 'tr.morphemes'}
+            Morphemes
 
-          /- if first_phrase.original
-          %li
-            %a.tier_info{'data-toggle' => "collapse", :href => '.gloss'}
-              Gloss
+        / %li
+        /   %a.tier_info.tier_toggle.collapsed{'data-target' => 'tier.gloss'}
+        /     Gloss
 
-          /- if first_phrase.translation
-          %li
-            %a.tier_info{'data-toggle' => "collapse", :href => '.translation'}
-              Translation
+        %li
+          %a.tier_info.tier_toggle{'data-target' => '.tier.translation'}
+            Translation
 
-          /- if first_phrase.attachment
-          %li
-            %a.tier_info{'data-toggle' => "collapse", :href => '.attachment'}
-              Attachments
+        / %li
+        /   %a.tier_info
+        /     Attachments
 
 
-          / - if first_phrase.words.size > 0
-          /   %li
-          /     %a.tier_info{'data-toggle' => "collapse", :href => '.morphemes'}
-          /       Morphemes
-
-          / - if first_phrase.graid
-          /   %li
-          /     %a.tier_info{'data-toggle' => "collapse", :href => '.graid'}
-          /       GRAID annotation
 
   .col-sm-9.text-right
-      
+
     #url
       Current Segment URL:
       %span#cur_url

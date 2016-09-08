@@ -9,7 +9,7 @@
       Adapted by Silvia Pfeiffer, John Ferlito
     </xsd:documentation>
   </xsd:annotation>
-  
+
   <!-- ********************** ROOT  ********************** -->
   <xsd:element name="eopas">
     <xsd:annotation>
@@ -64,11 +64,15 @@
       <xsd:element name="gloss"  type="xsd:string"  minOccurs="0" maxOccurs="1"/>
       <xsd:element name="translation" type="xsd:string" minOccurs="0" maxOccurs="1"/>
       <xsd:element name="attachment" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="comment" type="xsd:string" minOccurs="0" maxOccurs="1"/>
     </xsd:sequence>
     <xsd:attribute name="startTime" type="xsd:string" use="required"/>
     <xsd:attribute name="endTime" type="xsd:string" use="required"/>
-    <xsd:attribute name="id" type="xsd:ID"/>
+    <xsd:attribute name="id" type="xsd:string"/>
     <xsd:attribute name="participant" type="xsd:string" />
+    <xsd:attribute name="pdf" type="xsd:string" />
+    <xsd:attribute name="pub" type="xsd:string" />
+    <xsd:attribute name="lang_code" type="xsd:string" />
   </xsd:complexType>
 
   <!-- ********************** WORDS LEVEL ********************** -->

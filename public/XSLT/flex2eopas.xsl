@@ -43,57 +43,87 @@ rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
 				<!-- there are more potential meta elements, but not clear how to populate them-->
 			</xsl:element>
 			<xsl:element name="interlinear">
-				<xsl:apply-templates select="interlinear-text/paragraphs/paragraph"/>
+        <xsl:apply-templates select="interlinear-text/paragraphs/paragraph/phrases/phrase"/>
 			</xsl:element>
 		</eopas>
 	</xsl:template>
 
-	<xsl:template match="paragraph">
-		<xsl:element name="phrase">
-			<xsl:attribute name="id">
-				<!--
-				BEN TODO
-				ID type needs to begin with alphabetical
-				if this begins with a number, add an alphabetical prefix
-				-->
-				<xsl:value-of select="phrases/phrase/@guid"/>
+	<xsl:template match="phrase">
+
+
+    <xsl:variable name="i" select="position()" />
+    <xsl:element name="phrase">
+
+      <!-- get attributes from notes | there must be a better way to do this -->
+      <xsl:analyze-string regex="(KH|LW)|(KA|WA)|(\*PUB)|([p0-9]{{4}})" select=".">
+        <xsl:matching-substring>
+          <xsl:choose>
+            <xsl:when test="regex-group(1)">
+              <xsl:attribute name="participant">
+                <xsl:value-of select="."/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:when test="regex-group(2)">
+              <xsl:attribute name="lang_code">
+                <xsl:value-of select="."/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:when test="regex-group(3)">
+              <xsl:attribute name="pub">
+                <xsl:value-of select="."/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:when test="regex-group(4)">
+              <xsl:attribute name="pdf">
+                <xsl:value-of select="."/>
+              </xsl:attribute>
+            </xsl:when>
+          </xsl:choose>
+        </xsl:matching-substring>
+      </xsl:analyze-string>
+      <!-- phrase ID needs to be non-numeric -->
+      <xsl:attribute name="id">
+        <xsl:value-of select="concat('a',$i)"/>
 			</xsl:attribute>
-			<xsl:attribute name="startTime">
-				<xsl:value-of select="phrases/phrase/@begin-time-offset"/>
-			</xsl:attribute>
-			<xsl:attribute name="endTime">
-				<xsl:value-of select="phrases/phrase/@end-time-offset"/>
-			</xsl:attribute>
-			<!-- This speaker attribute will have to be blocked if eopas can't handle it... though that will mean throwing away good info. -->
-			<!--xsl:attribute name="speaker">
-				<xsl:value-of select="phrases/phrase/@speaker"/>
-			</xsl:attribute-->
-			<xsl:element name="transcription">
-				<xsl:value-of select="phrases/phrase/item[@type = 'txt']"/>
-			</xsl:element>
-			<xsl:element name="wordlist">
-				<xsl:apply-templates select="phrases/phrase/words/word"/>
-			</xsl:element>
-			<!--
-				2016 09 05 BF
-				included translation
-			-->
-			<xsl:element name="translation">
-				<xsl:value-of select="phrases/phrase/item[@type = 'gls']"/>
-			</xsl:element>
+      <!-- need to convert times from ms -->
+      <xsl:variable name="startTime_VALUE" select="./@begin-time-offset"/>
+      <xsl:variable name="endTime_VALUE" select="./@end-time-offset"/>
+      <xsl:variable name="Milliseconds_CONST" select="1000"/>
+      <xsl:variable name="startTime_Seconds" select="$startTime_VALUE div $Milliseconds_CONST"/>
+      <xsl:variable name="endTime_Seconds" select="$endTime_VALUE div $Milliseconds_CONST"/>
+      <xsl:attribute name="startTime">
+        <xsl:value-of select="$startTime_Seconds"/>
+      </xsl:attribute>
+      <xsl:attribute name="endTime">
+        <xsl:value-of select="$endTime_Seconds"/>
+      </xsl:attribute>
+      <xsl:element name="transcription">
+	<xsl:value-of select="./item[@type = 'txt']"/>
+      </xsl:element>
+      <xsl:element name="wordlist">
+        <xsl:apply-templates select="./words/word"/>
+      </xsl:element>
+      <xsl:element name="translation">
+	<xsl:value-of select="./item[@type = 'gls']"/>
+      </xsl:element>
+      <!-- any notes in notes that aren't our special symbols? -->
+      <xsl:apply-templates select="./item[@type = 'note']"/>
 		</xsl:element>
 	</xsl:template>
+
+  <xsl:template match="item[@type='note']">
+      <xsl:analyze-string regex="(KH|LW)|(KA|WA)|(\*PUB)|(p[0-9]{{0,3}})" select=".">
+        <xsl:non-matching-substring>
+        <xsl:element name="comment">
+            <xsl:value-of select="."/>
+        </xsl:element>
+        </xsl:non-matching-substring>
+      </xsl:analyze-string>
+  </xsl:template>
 
 	<xsl:template match="word">
 		<xsl:element name="word">
 			<xsl:element name="text">
-				<!--
-				2016 09 05 BF
-				included punctuation if it exists
-				could make a new element type
-				but then we'd need to teach EOPAS about it
-				so treat punctuation as a word
-				-->
 				<xsl:value-of select="item[@type = 'txt']"/>
 				<xsl:value-of select="item[@type = 'punct']"/>
 			</xsl:element>
@@ -107,7 +137,7 @@ rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
 		<xsl:element name="morpheme">
 			<xsl:element name="text">
 				<xsl:attribute name="kind">morpheme</xsl:attribute>
-				<xsl:value-of select="item[@type = 'txt']"/>
+				<xsl:value-of select="item[@type = 'cf']"/>
 			</xsl:element>
 			<xsl:element name="text">
 				<xsl:attribute name="kind">gloss</xsl:attribute>

@@ -24,7 +24,9 @@ class TranscriptPhrasesController < ApplicationController
       ').where('transcript_words.word = ? collate utf8_bin', @search).where('transcripts.language_code' => language_code)
     end
 
-    @phrases.sort_by(&:id).each {|p| p p.id}
+    # Do we need this here? Transcripts controller should have sorted this already
+    # @phrases.sort_by(&:id).each {|p| puts p.id}
+
     respond_to do |format|
       format.js { render :partial => "concordance" }
     end
@@ -42,7 +44,7 @@ class TranscriptPhrasesController < ApplicationController
     FileUtils.mkdir_p(path) unless File.exists?(path)
     # save the file
     File.open(image_full_path, "wb") { |f| f.write(params[:file].read) }
-    
+
     fm = FileMagic.new
     content_type = fm.file(image_full_path);
     logger.debug content_type
@@ -61,7 +63,7 @@ class TranscriptPhrasesController < ApplicationController
       thumbnail.write thumbnail_full_path
       # Dropzone.js expects a json response
       render json: { msg: "success" }, status: 200
-    else 
+    else
       # logger.debug "File is BAD"
       # File.delete(image_full_path) unless File.exists?(image_full_path)
       render json: { error: "bad file type" }, status: 400

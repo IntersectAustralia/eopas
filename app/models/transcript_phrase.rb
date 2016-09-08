@@ -2,7 +2,7 @@ class TranscriptPhrase < ActiveRecord::Base
   belongs_to :transcript
 
   has_many :words, :class_name => 'TranscriptWord', :dependent => :destroy
-  attr_accessible :attachment
+  attr_accessible :attachment, :comment
 
   default_scope order(:start_time)
 
@@ -26,4 +26,5 @@ class TranscriptPhrase < ActiveRecord::Base
   validates :original,    :length => {:maximum => 4096}
   validates :translation, :length => {:maximum => 4096}
   validates :graid,       :length => {:maximum => 4096}
+  validates :comment,     :length => {:maximum => 4096}
 end

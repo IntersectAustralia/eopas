@@ -5,42 +5,36 @@
     .col-sm-12
 
       - if @transcript
-        %h3
-          = @transcript.title
-          -if @transcript.country_code
-            - if @transcript.language_code
-              = "; " + CountryLanguage.find_by_country_code_and_code(@transcript.country_code, @transcript.language_code).name
-            = "; " + Country.find(@transcript.country_code).name
+        %h3= @transcript.title
 
 
-  .row  
+  .row
     #left_column.col-sm-5
-
-      #concordance.collapse_box.hidden
-        .collapse_title
-          %span.glyphicon.glyphicon-collapse-down.collapse_icon
-          .title Concordance
-        .collapse_content
-
-      - if @media_item
-        #media_display.collapse_box
-          = render :partial => 'media_items/mediaplayer'
-        #media_metadata.collapse_box
-          = render :partial => 'media_items/details'
-      - else
-        #media_display.collapse_box
-          = render :partial => 'media_items/attach'
-
-      #transcript_metadata.collapse_box
-        = render :partial => 'details'
 
       - if @transcript.has_attachments
         #attachment_display.collapse_box
           = render :partial => 'attachments'
 
+      / #transcript_metadata.collapse_box
+      /   = render :partial => 'details'
+
+      / #concordance.collapse_box
+      /   .collapse_title
+      /     %span.glyphicon.glyphicon-collapse-down.collapse_icon
+      /     .title Concordance
+      /   .collapse_content
 
     #right_column.col-sm-7
-    
+
+      - if @media_item
+        #media_display.collapse_box
+          = render :partial => 'media_items/mediaplayer'
+        / #media_metadata.collapse_box
+        /   = render :partial => 'media_items/details'
+      - else
+        #media_display.collapse_box
+          = render :partial => 'media_items/attach'
+
       #tiers_info.hidden-print
         = render :partial => 'tiers_info'
 

@@ -32,7 +32,18 @@ function setup_div_toggle() {
   });
 }
 
-// Fade alerts in using bootstrap. 
+// Hide/show tiers
+function setup_tiers_toggle() {
+
+  $(".tier_toggle").click(function() {
+    var target = $(this).data('target');
+    console.log('fading' + target);
+    $(target).toggleClass( "hide" );
+    $(this).toggleClass( "collapsed" );
+  });
+}
+
+// Fade alerts in using bootstrap.
 // Don't auto fade out cause it will cause the page content to jump up!
 function setup_fade_alert() {
   $("#flash .alert").addClass("in");
@@ -124,11 +135,11 @@ function setup_playback(media) {
     if (media.attr('paused') || media.attr('ended')) {
       return;
     }
-    
+
     // identify attachments that are within the current time section
     var el = $(".phrase_attachment").filter(function() {
       if (cur_time >= parseFloat($(this).attr('data-start')) &&
-          cur_time < parseFloat($(this).attr('data-end')) ) 
+          cur_time < parseFloat($(this).attr('data-end')) )
         return( $(this) );
     });
     // verify that the element has the data that we need -- at least minimally!
@@ -140,7 +151,7 @@ function setup_playback(media) {
           phrase_id     = el.attr('data-phraseid'),
           imagepath     = el.attr('data-imagepath'),
           // admin might need to bust cache if uploading images
-          cachebust     = ( 'true' === el.attr('data-cachebust') )  ? '?'+ (new Date()).getTime() : '', 
+          cachebust     = ( 'true' === el.attr('data-cachebust') )  ? '?'+ (new Date()).getTime() : '',
           filename      = el.attr('data-filename'),
           path_name = "/" + imagepath + "/" + transcript_id + "/" + phrase_id + "/";
 
@@ -153,7 +164,7 @@ function setup_playback(media) {
       }
       // does the image need to change?
       if (curr_filename != filename)
-      { 
+      {
         // Remove default info
         $(".default_instructions").addClass('hidden');
         // Change images
@@ -168,7 +179,7 @@ function setup_playback(media) {
         $(".attachment_thumb_container").removeClass('hidden');
         $(".attachment_details").removeClass('hidden');
         $(".attachment_actions").removeClass('hidden');
-      }  
+      }
     }
     else {
       // No attachment, so clear the info
@@ -200,7 +211,7 @@ function setup_playback(media) {
 
           // change play icon to pause
           $(this).removeClass('glyphicon-play-circle').addClass('glyphicon-play');
-          
+
         }
       }
       else {
@@ -250,11 +261,11 @@ function do_onResize() {
     // var x = $('body').offsetWidth - 380;
     // elem.width(x);
     //elem.style.height = '700px';
-  } 
+  }
   else if ($.browser.opera) {
     // Opera is special: it doesn't like changing width
     elem.height(window.innerHeight - 120);
-  } 
+  }
   else {
     // elem.width(window.innerWidth - 395);
     elem.height(window.innerHeight - 120);
@@ -302,7 +313,7 @@ function setup_country_code() {
 }
 
 function setup_transcript_media_item() {
-  // bind "click" event for links with title="submit" 
+  // bind "click" event for links with title="submit"
   $("a[data-add-media-item]").click( function() {
     var form = $(this).parents("form");
     var media_item_id = $(this).attr('data-media-item-id');
@@ -372,6 +383,7 @@ $(document).ready(function() {
 
   // Collapsing elements
   setup_div_toggle();
+  setup_tiers_toggle();
   setup_fade_alert();
   setup_embedding();
 
@@ -382,7 +394,7 @@ $(document).ready(function() {
   do_onResize();
 
   $(window).resize(function () {
-    do_onResize(); 
+    do_onResize();
   });
 
   // Form bits

@@ -50,6 +50,10 @@ class TranscriptsController < ApplicationController
       @transcript = Transcript.current_user_and_public(current_user).find params[:id]
     end
 
+    # flex doesn't give us timing for all the annotations
+    # so we need to sort and destroy the array of phrase objects
+    @transcript.phrases.sort_by!(&:id)
+
     @media_item = @transcript.media_item
 
     # TODO Pick some better filename dynamically

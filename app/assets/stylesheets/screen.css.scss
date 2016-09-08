@@ -65,8 +65,8 @@
   }
 
   /* Masonry for media */
-  .box { 
-    width: 200px; 
+  .box {
+    width: 200px;
     background: #eee;
     border: 2px solid white;
     padding: 5px;
@@ -92,7 +92,7 @@
           }
         }
       }
-      #flash { padding: 0 1em; } 
+      #flash { padding: 0 1em; }
     }
 
     #content { padding:0 5px }
@@ -130,7 +130,7 @@
       font-family: 'Glyphicons Halflings';
       content: "\e113"; // up
       padding-left: 0.5em;
-    }  
+    }
     th .desc:after {
       font-family: 'Glyphicons Halflings';
       content: "\e114"; // down
@@ -148,7 +148,7 @@
     border: 1px solid $ochre;
     padding: 0;
     margin: 10px 0;
-    .collapse_icon { color: $ochre }  
+    .collapse_icon { color: $ochre }
     .collapse_title {
       background-color: $yellow;
       padding-left: 5px;
@@ -158,9 +158,9 @@
     }
     .collapse_content {
       margin: 0;
-      table#metadata { 
+      table#metadata {
         width: 100%;
-        th { 
+        th {
           width: 40%;
           font-weight: 400;
         }
@@ -168,7 +168,7 @@
       }
     }
   }
-  tr.actions { 
+  tr.actions {
     background: #eee;
     background: rgba(238,238,238,0.4);
     td { padding: 0.5em 0}
@@ -195,7 +195,7 @@
       transition: all .05s ease-in;
       background: #eee;
 
-      a { 
+      a {
         color: #aaa;
         transition: all .2s ease-in;
        }
@@ -209,27 +209,36 @@
       }
       .tracks {
         text-align: left;
+
+        .tier_container {float: left;}
+        .attachment_container {float: right}
+
         .tier {
+          clear: both;
           span {
-            display: inline-block;      
-            border-spacing: 5px;
+            display: block;
+            float: left;
             vertical-align: top;
             table {
-              padding: 1px;
-              margin: 0;
-              border-spacing: 2px;
+              border-collapse: collapse;
               tr {
                 td {
+                  padding: 0;
                   white-space: nowrap;
-                  padding: 1px;
-                  margin: 1px;
                 }
-                td.morpheme, td.gloss {
-                  background-color: $grey;
-                }
+              }
+              td.word span {
+                margin: 4px;
+                font-family: 'Merriweather Sans';
+                font-weight: 300;
+              }
+              tr.morphemes, tr.glosses {
+                background-color: #dddddd;
+                td.gloss {padding: 4px;}
               }
             }
           }
+          span.concordance {margin: 4px;}
         }
         .phrase {
           margin-left: 5px;
@@ -259,7 +268,7 @@
       background: #454545;
       border: 1px solid #222;
       margin-bottom: 20px;
-      
+
       #progressbar {
         width: 0px;
         height: 24px;
@@ -270,7 +279,7 @@
 
   .impress {
     background: #3399CC !important;
-    border: 3px solid #CC0033 !important;
+    // border: 3px solid #CC0033 !important;
   }
 
   #concordance {
@@ -292,7 +301,7 @@
   /* Form labels */
   label { font-weight: 400 }
 
-  label input, 
+  label input,
   label select,
   label textarea,
   label a,
@@ -303,8 +312,8 @@
   textarea,
   input[type="text"],
   input[type="password"]
-  { 
-    @extend .form-control;  
+  {
+    @extend .form-control;
     @extend .input-sm;
     margin: 0.2em 0;
   }
@@ -316,7 +325,7 @@
   input:required,
   select:required,
   textarea:required { border: 1px solid $ochre }
-  
+
   input[type="file"]:required { border: 0 }
 
   .required label:after {
@@ -336,6 +345,15 @@
 
 /* Tier info. Toggle display of transcript tiers
 ------------------------------------------ */
+  .tier-toggles {
+    padding: 0;
+    li {list-style-type: none;}
+  }
+  .tier_info { padding: 5px; }
+  .tier_info:hover {
+    text-decoration: none;
+    background-color: $ochre;
+  }
 
   .tier_info:after {
     font-family: 'Glyphicons Halflings';
@@ -349,15 +367,16 @@
   .dropdown-menu li { padding: 0 5px;}
 
 
+
 /* Attachments
 ------------------------------------------ */
 
-.attachment_thumb { 
+.attachment_thumb {
   width: 100%;
   max-width: 500px;
   height: auto;
 }
-.phrase_attachment 
+.phrase_attachment
 {
   float: right;
   img { width: 64px }
@@ -382,7 +401,7 @@
 .dropzone
 {
   .dz-message {}
-  .dz-preview 
+  .dz-preview
   {
     position: relative;
     display: block;
@@ -390,7 +409,7 @@
     height: 32px;
     margin: 0;
 
-    .dz-image 
+    .dz-image
     {
       position: absolute;
       bottom: 0;
@@ -399,14 +418,14 @@
       height: 32px;
       z-index: 10;
 
-      img 
+      img
       {
           display: block;
           height: 100%;
       }
     }
 
-    .dz-progress 
+    .dz-progress
     {
       position: absolute;
       bottom: 0;

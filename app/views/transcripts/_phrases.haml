@@ -2,7 +2,7 @@
 - @transcript.phrases.each do |phrase|
 
   .line.row
-
+    = phrase.lang_code
     .controls.col-xs-1{:title => "#{phrase.start_time} to #{phrase.end_time}"}
       = "p#{i += 1}"
       %a{:class => 'play_button glyphicon glyphicon-play-circle', :href => "#t=#{phrase.start_time},#{phrase.end_time}", :data => {:start => "#{phrase.start_time}", :end => "#{phrase.end_time}"}}

@@ -36,6 +36,7 @@ class Transcription
   end
 
   def validate
+    puts 'validating'
     # load Schema file
     xsdname = "#{Rails.root}/public/SCHEMAS/#@format.xsd"
     begin
@@ -111,10 +112,16 @@ class Transcription
     phrases.each do |phrase|
       # create new phrase
       ph = transcript.phrases.build
-
       ph.phrase_id  = phrase['id'].gsub(/.*_/, '')
       ph.start_time = phrase['startTime'].to_f
       ph.end_time   = phrase['endTime'].to_f
+
+      # for our elan->flex->eopas journey
+      ph.speaker    = phrase['participant']
+      ph.pub        = phrase['pub']
+      ph.attachment = phrase['pdf']
+      ph.lang_code  = phrase['lang_code']
+
 
       import_phrase phrase, ph
     end
@@ -122,53 +129,58 @@ class Transcription
 
   private
   def import_phrase(phrase, ph)
-    ph.original = phrase.xpath('transcription').first.content
-    unless phrase.xpath('graid').empty?
-      ph.graid = phrase.xpath('graid').first.content
-    end
-    unless phrase.xpath('translation').empty?
-      ph.translation = phrase.xpath('translation').first.content
-    end
-    unless phrase.xpath('morph').empty?
-      ph.morph = phrase.xpath('morph').first.content
-    end
-    unless phrase.xpath('translation').empty?
-      ph.translation = phrase.xpath('translation').first.content
-    end
-    unless phrase.xpath('gloss').empty?
-      ph.gloss = phrase.xpath('gloss').first.content
-    end
-    unless phrase.xpath('attachment').empty?
-      ph.attachment = phrase.xpath('attachment').first.content
-    end
-    
-    words = phrase.xpath('wordlist/word')
 
-    word_position = 1
-    words.each do |word|
-      w = ph.words.build
-      w.position = word_position
-      word_position += 1
-      w.word = word.xpath('text').first.content
+    if ph.pub == '*PUB'
+      ph.original = '* * * * * * * * * * * * * * * *'
+    else
+      ph.original = phrase.xpath('transcription').first.content
+      unless phrase.xpath('graid').empty?
+        ph.graid = phrase.xpath('graid').first.content
+      end
+      unless phrase.xpath('translation').empty?
+        ph.translation = phrase.xpath('translation').first.content
+      end
+      unless phrase.xpath('morph').empty?
+        ph.morph = phrase.xpath('morph').first.content
+      end
+      unless phrase.xpath('translation').empty?
+        ph.translation = phrase.xpath('translation').first.content
+      end
+      unless phrase.xpath('gloss').empty?
+        ph.gloss = phrase.xpath('gloss').first.content
+      end
+      unless phrase.xpath('comment').empty?
+        ph.comment = phrase.xpath('comment').first.content
+      end
 
-      morphemes = word.xpath('morphemelist/morpheme')
+      words = phrase.xpath('wordlist/word')
 
-      morpeheme_position = 1
-      morphemes.each do |morpheme|
-        m = w.morphemes.build
-        m.position = morpeheme_position
-        morpeheme_position += 1
+      word_position = 1
+      words.each do |word|
+        w = ph.words.build
+        w.position = word_position
+        word_position += 1
+        w.word = word.xpath('text').first.content
 
-        texts = morpheme.xpath('text')
-        texts.each do |text|
-          case text['kind']
-          when 'morpheme'
-            m.morpheme = text.content
-          when 'gloss'
-            m.gloss = text.content
-          else
-            @errors << Struct.new(:message).new("Unknown text kind #{text['kind']}")
-            next
+        morphemes = word.xpath('morphemelist/morpheme')
+
+        morpeheme_position = 1
+        morphemes.each do |morpheme|
+          m = w.morphemes.build
+          m.position = morpeheme_position
+          morpeheme_position += 1
+
+          texts = morpheme.xpath('text')
+          texts.each do |text|
+            case text['kind']
+            when 'morpheme'
+              m.morpheme = text.content
+            when 'gloss'
+              m.gloss = text.content
+            else
+              @errors << Struct.new(:message).new("Unknown text kind #{text['kind']}")
+              next
+            end
           end
         end
       end
