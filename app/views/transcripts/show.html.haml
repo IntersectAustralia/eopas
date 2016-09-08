@@ -3,33 +3,15 @@
 #single-transcript
   .row
     .col-sm-12
-
       - if @transcript
         %h3= @transcript.title
 
-
   .row
-    #left_column.col-sm-5
-
-      - if @transcript.has_attachments
-        #attachment_display.collapse_box
-          = render :partial => 'attachments'
-
-      / #transcript_metadata.collapse_box
-      /   = render :partial => 'details'
-
-      / #concordance.collapse_box
-      /   .collapse_title
-      /     %span.glyphicon.glyphicon-collapse-down.collapse_icon
-      /     .title Concordance
-      /   .collapse_content
-
-    #right_column.col-sm-7
+    #left_column.col-sm-7
 
       - if @media_item
-        #media_display.collapse_box
+        #media_display
           = render :partial => 'media_items/mediaplayer'
-        / #media_metadata.collapse_box
         /   = render :partial => 'media_items/details'
       - else
         #media_display.collapse_box
@@ -40,3 +22,20 @@
 
       #transcript_display
         = render :partial => 'phrases'
+
+
+    #right_column.col-sm-5
+
+
+      - if @transcript.has_attachments
+        #attachment_display
+          = render :partial => 'attachments'
+
+      / #transcript_metadata.collapse_box
+      /   = render :partial => 'details'
+
+      / #concordance.collapse_box
+      /   .collapse_title
+      /     %span.glyphicon.glyphicon-collapse-down.collapse_icon
+      /     .title Concordance
+      /   .collapse_content

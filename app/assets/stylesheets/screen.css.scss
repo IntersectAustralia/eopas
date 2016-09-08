@@ -147,7 +147,7 @@
   .collapse_box {
     border: 1px solid $ochre;
     padding: 0;
-    margin: 10px 0;
+    margin: 0;
     .collapse_icon { color: $ochre }
     .collapse_title {
       background-color: $yellow;
@@ -181,6 +181,7 @@
     }
   }
 
+  #attachment_display { margin-top: 1em }
 
   #transcript_display {
     overflow: auto;
@@ -345,9 +346,13 @@
 
 /* Tier info. Toggle display of transcript tiers
 ------------------------------------------ */
+  .toggles { overflow: hidden }
   .tier-toggles {
     padding: 0;
-    li {list-style-type: none;}
+    li {
+      list-style-type: none;
+      float: left;
+    }
   }
   .tier_info { padding: 5px; }
   .tier_info:hover {
@@ -396,7 +401,7 @@
   .modal-body img { max-width: 100% }
 
   .modal-body {
-    max-height: calc(100vh - 210px);
+    max-height: calc(100vh - 80px);
     overflow-y: auto;
   }
 
@@ -460,3 +465,19 @@
 .dropzone.dz-drag-hover {
     background-color: pink !important;
 }
+
+#media_display { margin: 1em 0; }
+.float-right { float: right !important; }
+.share {
+  height: 1em;
+  width: 2em;
+}
+.share:after {
+  font-family: 'Glyphicons Halflings';
+  content: "\e066"; // up
+  padding-left: 0.5em;
+}
+.share:hover {
+  text-decoration: none;
+}
+.actions a { font-size: 0.8em; color: #aaa; }

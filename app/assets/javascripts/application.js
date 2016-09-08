@@ -112,7 +112,8 @@ function do_transcript_change(fragment) {
 function set_url(fragment) {
   var baseurl = window.location.protocol+"//"+window.location.host+window.location.pathname;
   var url = baseurl + fragment;
-  $('span#cur_url').html("<a href='"+url+"'>"+url+"</a>");
+  // $('#cur_url').html("<a href='"+url+"'>"+url+"</a>");
+  $('#cur_url').data('cur_url', url);
 }
 
 // changing URL hash on window
@@ -171,7 +172,7 @@ function setup_playback(media) {
         $(".attachment_thumb_container").html( '<img id="attachment_thumb" data-filename="' + filename + '" class="attachment_thumb" src="' + path_name + "thumbnail/" + filename + cachebust + '" />' );
         $(".attachment_full_container").html( '<img id="attachment_full" class="attachment_full" src="' + path_name + filename + cachebust + '" />' );
         // Show file info
-        $(".attachment_details").html( filename );
+        $(".attachment_details").html( '' );
         // Add src to the download links
         $(".attachment_download").attr( 'href', path_name + filename );
         $(".attachment_download").attr( 'download', filename ); // HTML5 method to force download
@@ -462,11 +463,18 @@ $(document).ready(function() {
 
   // Load content into modal from thumbnails
   $("#myModal").on("show.bs.modal", function(e) {
-    var link = $(e.relatedTarget);
-    $('#myModal img').attr('src', link.attr('data-imgurl'));
-    console.log( link.attr('data-imgurl') );
+    var trigger = $(e.relatedTarget);
+    // Thumbnail opens the modal with larger image
+    if ( trigger[0].className == 'attachment_thumb_preview' ) {
+      var img = document.createElement("IMG");
+      img.src = trigger.attr('data-imgurl');
+      $('#myModal .attachment_full_container').html(img);
+    } else if ( trigger[0].className == 'share') {
+      // Share button opens modal with current url
+      var url = $('#cur_url').data('cur_url');
+      $('#myModal .attachment_full_container').html(url);
+    }
   });
-
 
 });
 

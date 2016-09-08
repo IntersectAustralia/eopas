@@ -1,6 +1,6 @@
 .row.row-no-padding
 
-  .col-sm-3
+  .toggles
 
     / .dropdown
     /   %button.btn.btn-default.btn-xs.dropdown-toggle
@@ -25,15 +25,9 @@
         %li
           %a.tier_info.tier_toggle{'data-target' => '.tier.translation'}
             Translation
+        %li
+          %a.tier_info.tier_toggle{'data-target' => '.attachment_toggle_target'}
+            Images
 
-        / %li
-        /   %a.tier_info
-        /     Attachments
-
-
-
-  .col-sm-9.text-right
-
-    #url
-      Current Segment URL:
-      %span#cur_url
+        %li.float-right
+          = link_to '', '#', id: 'cur_url', class: 'share', data: {toggle: 'modal', target: '#myModal'}

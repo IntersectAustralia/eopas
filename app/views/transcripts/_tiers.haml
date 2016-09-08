@@ -64,7 +64,7 @@
 
     - img_url = "/#{TranscriptPhrase.public_dir}/#{@transcript.id}/#{phrase.phrase_id}/#{phrase.attachment}"
 
-    .phrase_attachment{ :class => [phrase.phrase_id, 'attachment'],
+    .phrase_attachment.attachment_toggle_target{ :class => [phrase.phrase_id, 'attachment'],
                         data: { 'start'        => "#{phrase.start_time}",
                                 'end'          => "#{phrase.end_time}",
                                 'transcriptid' => "#{@transcript.id}",

@@ -1,0 +1,7 @@
+
+.actions.hidden-print.text-right
+  = link_to 'Edit media item metadata', edit_media_item_path(@media_item)
+
+  -if @transcript
+    - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)
+      = link_to 'Unlink Media Item', remove_media_item_transcript_path(@transcript), :confirm => "Are you sure?", :method => :delete

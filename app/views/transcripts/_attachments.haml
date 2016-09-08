@@ -1,18 +1,13 @@
-.collapse_title
-  %span.glyphicon.glyphicon-collapse-up.collapse_icon
-  Attachments
+.row.attachment_toggle_target
+  .col-xs-12
 
-.collapse_content
-  .row
-    .col-xs-12
+    = link_to "#", :data => { :toggle => 'modal', :target => '#myModal' }, :class => "attachment_thumb_container " do
+      = image_tag "trans.gif", :class => "media-object"
 
-      = link_to "#", :data => { :toggle => 'modal', :target => '#myModal' }, :class => "attachment_thumb_container " do
-        = image_tag "trans.gif", :class => "media-object"
+    .attachment_details.small
+      %p Attachments will show here when the media is playing
 
-      .attachment_details.small 
-        %p Attachments will show here when the media is playing
-
-      .attachment_actions.hidden
-        = link_to 'View larger image', '#', :data => { :toggle => 'modal', :target => '#myModal' }, class: 'instructions small'
-        %br
-        = link_to "Download", '#', :class => 'attachment_download small'
+    .attachment_actions.hidden
+      = link_to 'View larger image', '#', :data => { :toggle => 'modal', :target => '#myModal' }, class: 'instructions small'
+      %br
+      = link_to "Download", '#', :class => 'attachment_download small'
