@@ -46,9 +46,9 @@
     .tier{ class: [phrase.phrase_id, 'translation'] }
       = phrase.translation
 
-  - if phrase.comment
-    .tier{ class: [phrase.phrase_id, 'comment'] }
-      = phrase.comment
+  / - if phrase.comment
+  /   .tier{ class: [phrase.phrase_id, 'comment'] }
+  /     = phrase.comment
 
   .dz-message.data-dz-message
     %span
@@ -75,7 +75,8 @@
                                  }}
 
       = link_to '#', :data => { :toggle => 'modal', :target => '#myModal', :imgurl => img_url }, :class => "attachment_thumb_preview" do
-        = image_tag img_url, alt: phrase.attachment
+        / = image_tag img_url, alt: phrase.attachment
+        .image{ style: "background-image: url(#{img_url});"}
 
       = hidden_field_tag :transcript_id, @transcript.id
       = hidden_field_tag :phrase_id, phrase.phrase_id

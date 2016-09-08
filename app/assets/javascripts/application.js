@@ -183,9 +183,9 @@ function setup_playback(media) {
     }
     else {
       // No attachment, so clear the info
-      $(".attachment_thumb_container").html('');
-      $(".attachment_details").html('No image for this phrase');
-      $(".attachment_actions").addClass('hidden');
+      // $(".attachment_thumb_container").html('');
+      // $(".attachment_details").html('No image for this phrase');
+      // $(".attachment_actions").addClass('hidden');
       // However, leave the modal open and leave the latest image showing
     }
 
