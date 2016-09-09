@@ -98,9 +98,7 @@ body {
   flex-direction: column;
 }
 
-#header {
-  background: tomato;
-}
+#header { }
 #content {
   flex: 1;
   overflow: auto;
@@ -111,7 +109,7 @@ body {
   display: flex;
   flex-direction: column;
 }
-.transcript-title {  }
+.transcript-title { }
 .transcript-content {
   flex: 1;
   overflow: auto;
