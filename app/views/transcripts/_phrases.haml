@@ -5,7 +5,7 @@
 
     .controls.col-xs-1{:title => "#{phrase.start_time} to #{phrase.end_time}"}
       = "p#{i += 1}"
-      %a{:class => 'play_button glyphicon glyphicon-play-circle', :href => "#t=#{phrase.start_time},#{phrase.end_time}", :data => {:start => "#{phrase.start_time}", :end => "#{phrase.end_time}"}}
+      %a{:class => 'play_button glyphicon glyphicon-play-circle', :href => "#", :data => {:start => "#{phrase.start_time}", :end => "#{phrase.end_time}"}}
 
     .tracks.phrase.col-xs-11
       - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)

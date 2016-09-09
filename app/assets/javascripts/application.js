@@ -24,6 +24,27 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+// Play/pause button becomes a toggle
+// Need to fix the hash and get the play/pause icon
+function play_pause(e) {
+
+    var mediaPlayer = document.getElementById('player');
+    if (mediaPlayer.paused) {
+      // is paused, change the hash
+      var start_time = $(e).data('start');
+      var end_time = $(e).data('end');
+      var url = '#t=' + start_time + ',' + end_time;
+      window.location.hash = url;
+    } else {
+      // is playing. so pause
+      mediaPlayer.pause();
+      setTimeout(function(){
+        $(e).removeClass('glyphicon-play').addClass('glyphicon-play-circle');
+      }, 300);
+    }
+}
+
+
 // Toggle side panel boxes
 function setup_div_toggle() {
   $('.collapse_title').click(function() {
@@ -467,6 +488,11 @@ $(document).ready(function() {
       var url = $('#cur_url').data('cur_url');
       $('#myModal .attachment_full_container').html(url);
     }
+  });
+
+  $('.play_button').on("click", function(e) {
+    play_pause(e.target);
+    event.preventDefault();
   });
 
 });

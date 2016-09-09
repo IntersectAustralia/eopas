@@ -1,6 +1,6 @@
 - if @media_item.format == 'video'
-  = media_item_video_tag @media_item, {:preload => 'auto'}
+  = media_item_video_tag @media_item, {:preload => 'auto', id: 'player'}
 - else
-  = media_item_audio_tag @media_item, {:preload => 'auto'}
+  = media_item_audio_tag @media_item, {:preload => 'auto', id: 'player'}
 
 = render :partial => 'media_items/actions'
