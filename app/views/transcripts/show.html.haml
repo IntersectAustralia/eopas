@@ -1,41 +1,40 @@
 = content_for(:title, "#{@transcript.title}")
+= content_for(:classes, "single-transcript")
 
-#single-transcript
-  .row
-    .col-sm-12
-      - if @transcript
-        %h3= @transcript.title
+.row.transcript-title
+  .col-sm-12
+    - if @transcript
+      %h3= @transcript.title
 
-  .row
-    #left_column.col-sm-7
+    - if @media_item
+      #media_display
+        = render :partial => 'media_items/mediaplayer'
+      /   = render :partial => 'media_items/details'
+    - else
+      #media_display.collapse_box
+        = render :partial => 'media_items/attach'
 
-      - if @media_item
-        #media_display
-          = render :partial => 'media_items/mediaplayer'
-        /   = render :partial => 'media_items/details'
-      - else
-        #media_display.collapse_box
-          = render :partial => 'media_items/attach'
+    #tiers_info.hidden-print
+      = render :partial => 'tiers_info'
 
-      #tiers_info.hidden-print
-        = render :partial => 'tiers_info'
+.row.transcript-content
 
-      #transcript_display
-        = render :partial => 'phrases'
-
-
-    #right_column.col-sm-5
+  #transcript_display.left_column.col-sm-7
+    = render :partial => 'phrases'
 
 
-      - if @transcript.has_attachments
-        #attachment_display
-          = render :partial => 'attachments'
+  #attachments.right_column.col-sm-5
 
-      / #transcript_metadata.collapse_box
-      /   = render :partial => 'details'
 
-      / #concordance.collapse_box
-      /   .collapse_title
-      /     %span.glyphicon.glyphicon-collapse-down.collapse_icon
-      /     .title Concordance
-      /   .collapse_content
+    - if @transcript.has_attachments
+      #attachment_display
+        = render :partial => 'attachments'
+
+    / #transcript_metadata.collapse_box
+    /   = render :partial => 'details'
+
+    / #concordance.collapse_box
+    /   .collapse_title
+    /     %span.glyphicon.glyphicon-collapse-down.collapse_icon
+    /     .title Concordance
+    /   .collapse_content

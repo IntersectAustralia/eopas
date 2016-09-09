@@ -1,3 +1,6 @@
+:ruby
+  classes = ''
+  classes = content_for(:classes) if content_for(:classes)
 !!! 5
 /[if lt IE 7] <html lang="en" class="no-js ie6">
 /[if IE 7 ]    <html lang="en" class="no-js ie7">
@@ -7,19 +10,17 @@
 
 = render :partial => 'layouts/head'
 
-%body
+%body{ class: "#{classes}" }
 
-  #container
-  
-    #header.containter_fluid
-      = render :partial => 'layouts/menu'
-      = render :partial => 'layouts/flash', :object => flash
+  #header
+    = render :partial => 'layouts/menu'
+    = render :partial => 'layouts/flash', :object => flash
 
-    #content.containter_fluid
-      = yield
+  #content
+    = yield
 
-    #footer.containter_fluid
-      = render :partial => 'layouts/footer'
+  / #footer
+  /   = render :partial => 'layouts/footer'
 
 = render :partial => 'layouts/modal'
 

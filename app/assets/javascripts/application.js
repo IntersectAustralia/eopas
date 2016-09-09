@@ -385,11 +385,11 @@ $(document).ready(function() {
   setup_country_code();
 
   // Transcript box
-  do_onResize();
+  // do_onResize();
 
-  $(window).resize(function () {
-    do_onResize();
-  });
+  // $(window).resize(function () {
+  //   do_onResize();
+  // });
 
   // Form bits
   setup_transcript_media_item();
