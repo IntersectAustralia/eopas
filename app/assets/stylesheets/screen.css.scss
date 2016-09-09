@@ -76,32 +76,30 @@
 /* General page layout
 ------------------------------------------ */
 
-  #container {
-
-    #header {
-      #menu {
-        background-color: $ochre;
-        padding: 0.2em 1em;
-        margin-bottom: 0.2em;
-        ul {
-          margin: 0;
-          li {
-            &, a {color: white;}
-            &.current { text-decoration: underline; }
-            &#right { float: right; }
-          }
+  #header {
+    #menu {
+      background-color: $ochre;
+      padding: 0.2em 1em;
+      margin-bottom: 0.2em;
+      ul {
+        margin: 0;
+        li {
+          &, a {color: white;}
+          &.current { text-decoration: underline; }
+          &#right { float: right; }
         }
       }
-      #flash { padding: 0 1em; }
     }
-
-    #content { padding:0 5px }
-
-    #footer {
-      margin-top: 2em;
-      font-size: 0.9em;
-    }
+    #flash { padding: 0 1em; }
   }
+
+  #content { padding:0 5px }
+
+  #footer {
+    margin-top: 2em;
+    font-size: 0.9em;
+  }
+
 
 
 /* Media upload page
@@ -137,6 +135,7 @@
       padding-left: 0.5em;
     }
     .count_phrases { color: #aaa }
+    .person { display: block }
   }
 
 
@@ -216,6 +215,7 @@
 
         .tier {
           clear: both;
+          margin-bottom: 0.4em;
           span {
             display: block;
             float: left;
@@ -241,6 +241,10 @@
           }
           span.concordance {margin: 4px;}
         }
+        .transcription {
+          font-family: 'Domine'; // Merriweather Sans';
+          font-weight: 300;
+        }
         .phrase {
           margin-left: 5px;
         }
@@ -249,8 +253,14 @@
         }
         .translation {
           color: green;
-          font-style: italic;
         }
+        .comment {
+          color: #9E78B1;
+          font-family: 'Open Sans';
+          font-style: italic;
+          font-weight: 300;
+        }
+        .gloss { font-family: monospace}
       }
       &.hilight {
         background: $yellow;
@@ -390,8 +400,9 @@
     height: 64px;
     background-size: cover;
     background-position: center;
-    background-color: white;
+    background-color: rgba(255,255,255,0.3);
   }
+  .filename { color: #ddd; }
 }
 
 
@@ -481,3 +492,10 @@
   text-decoration: none;
 }
 .actions a { font-size: 0.8em; color: #aaa; }
+
+.hide-language {
+  height: 0;
+  overflow: hidden;
+  padding: 0 !important;
+  margin: 0 !important;
+ }

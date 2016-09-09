@@ -168,10 +168,10 @@ version="1.0">
                 </gloss>
               </xsl:if>
 
-              <!-- Translation -->
-              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Translation']">
+              <!-- Free Translation -->
+              <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Free Translation']">
                 <translation>
-                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Translation']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
+                  <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Free Translation']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
                     <xsl:if test="ANNOTATION_VALUE != ''">
                           <xsl:value-of select="normalize-space(ANNOTATION_VALUE)"/>
                     </xsl:if>
@@ -181,9 +181,9 @@ version="1.0">
 
               <!-- Public Comments -->
               <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Public Comments']">
-                <comments>
+                <comment>
                   <xsl:value-of select="normalize-space(/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Public Comments']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId])"/>
-                </comments>
+                </comment>
               </xsl:if>
 
               <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='Private Comments']">

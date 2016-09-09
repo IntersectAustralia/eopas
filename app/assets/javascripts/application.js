@@ -34,7 +34,6 @@ function setup_div_toggle() {
 
 // Hide/show tiers
 function setup_tiers_toggle() {
-
   $(".tier_toggle").click(function() {
     var target = $(this).data('target');
     console.log('fading' + target);
@@ -120,7 +119,6 @@ function set_url(fragment) {
 function do_fragment_change() {
   var fragment = window.location.hash;
   set_url(fragment);
-
   if (fragment.match(/^#t=/)) {
     do_time_change(fragment);
   }
@@ -136,7 +134,6 @@ function setup_playback(media) {
     if (media.attr('paused') || media.attr('ended')) {
       return;
     }
-
     // identify attachments that are within the current time section
     var el = $(".phrase_attachment").filter(function() {
       if (cur_time >= parseFloat($(this).attr('data-start')) &&
@@ -206,13 +203,10 @@ function setup_playback(media) {
           }
           // highlight currently playing track
           line.addClass('hilight');
-
           // change hash on URL in cur_url textarea
           set_url("#t="+$(this).attr('data-start')+","+$(this).attr('data-end'));
-
           // change play icon to pause
           $(this).removeClass('glyphicon-play-circle').addClass('glyphicon-play');
-
         }
       }
       else {
@@ -368,7 +362,6 @@ function setup_concordance() {
           url += '/m' + morpheme_num;
         }
       }
-
       location.href = url;
   });
 }
