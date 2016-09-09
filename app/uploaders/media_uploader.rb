@@ -43,9 +43,13 @@ class MediaUploader < CarrierWave::Uploader::Base
     end
   end
   version :audio, :if => :is_audio? do
-    process :encode_video => [ :ogg, :custom => '-acodec libvorbis', :logger => :logger ]
+    # process :encode_video => [ :ogg, :custom => '-acodec libvorbis', :logger => :logger ]
+    # def full_filename(for_file)
+    #   'audio.oga'
+    # end
+    process :encode_video => [ :mp3, :custom => '-acodec libmp3lame', :logger => :logger ]
     def full_filename(for_file)
-      'audio.oga'
+      'audio.mp3'
     end
   end
   version :thumb, :if => :is_audio? do
