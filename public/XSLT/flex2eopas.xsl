@@ -21,7 +21,7 @@ EOPAS:
 rails runner bin/transcode.rb features/test_data/kh4560.flextext Flex
 or upload a flextext file using EOPAS Upload Transcript feature
 -->
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/">
 
 	<!--xsl:output indent="no" media-type="xml"/-->
 	<xsl:output indent="yes" media-type="xml"/>
@@ -65,32 +65,28 @@ or upload a flextext file using EOPAS Upload Transcript feature
 
       <!-- Create speaker/lang_code/pub/pdf attributes based on note field symbols -->
       <xsl:for-each select="./item[@type = 'note']">
-        <xsl:analyze-string regex="^(KH|LW)|(EN|KA|WA)|(\*PUB)|(p[0-9]{{0,3}})$" select=".">
-          <xsl:matching-substring>
             <xsl:choose>
-              <xsl:when test="regex-group(1)">
+              <xsl:when test="(. = 'KH') or (. = 'LW')">
                 <xsl:attribute name="speaker">
-                  <xsl:value-of select="."/>
+                  <xsl:value-of select="normalize-space(.)"/>
                 </xsl:attribute>
               </xsl:when>
-              <xsl:when test="regex-group(2)">
+              <xsl:when test="(. = 'EN') or (. = 'KA') or (. = 'WA')">
                 <xsl:attribute name="lang_code">
-                  <xsl:value-of select="."/>
+                  <xsl:value-of select="normalize-space(.)"/>
                 </xsl:attribute>
               </xsl:when>
-              <xsl:when test="regex-group(3)">
+              <xsl:when test=". = '*PUB'">
                 <xsl:attribute name="pub">
-                  <xsl:value-of select="."/>
+                  <xsl:value-of select="normalize-space(.)"/>
                 </xsl:attribute>
               </xsl:when>
-              <xsl:when test="regex-group(4)">
-                <xsl:attribute name="pdf">
-                  <xsl:value-of select="."/>
+              <xsl:when test=". = contains(., '.jpg')">
+                <xsl:attribute name="jpg">
+                  <xsl:value-of select="normalize-space(.)"/>
                 </xsl:attribute>
               </xsl:when>
             </xsl:choose>
-          </xsl:matching-substring>
-        </xsl:analyze-string>
       </xsl:for-each>
 
       <!-- need to convert times from ms -->
@@ -121,16 +117,30 @@ or upload a flextext file using EOPAS Upload Transcript feature
 		</xsl:element>
 	</xsl:template>
 
+
+
   <!-- get any comments tier that doesn't have our special codes -->
+  <!-- this is the 'otherwise' of getting the codes -->
   <xsl:template match="item[@type = 'note']">
-      <xsl:analyze-string regex="^(KH|LW)|(EN|KA|WA)|(\*PUB)|(p[0-9]{{0,3}})$" select=".">
-        <xsl:non-matching-substring>
-        <xsl:element name="comment">
-            <xsl:value-of select="."/>
-        </xsl:element>
-        </xsl:non-matching-substring>
-      </xsl:analyze-string>
+
+            <xsl:choose>
+              <xsl:when test="(. = 'KH') or (. = 'LW')">
+              </xsl:when>
+              <xsl:when test="(. = 'EN') or (. = 'KA') or (. = 'WA')">
+              </xsl:when>
+              <xsl:when test=". = '*PUB'">
+              </xsl:when>
+              <xsl:when test=". = contains(., '.jpg')">
+              </xsl:when>
+              <xsl:otherwise>
+                <comment>
+                    <xsl:value-of select="normalize-space(.)"/>
+                </comment>
+              </xsl:otherwise>
+            </xsl:choose>
   </xsl:template>
+
+
 
   <xsl:template match="word">
 		<xsl:element name="word">

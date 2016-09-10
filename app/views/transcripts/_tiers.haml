@@ -56,7 +56,7 @@
 .attachment_container
 
   - if phrase.attachment
-    - phrase.attachment = phrase.attachment+'.jpg'
+    / - phrase.attachment = phrase.attachment+'.jpg'
     / set a flag so the js that loads attachment images can add a timestamp to the image file
     / useful if admin is uploading images, saves dumping the cache
     - if current_user and (@transcript.depositor.id == current_user.id or current_user.admin?)

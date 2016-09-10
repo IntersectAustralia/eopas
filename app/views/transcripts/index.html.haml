@@ -39,12 +39,13 @@
         %tbody
           - @transcripts.each do |transcript|
 
+            - if transcript.participants
+              - speakers = transcript.participants.find_all{|people| people.role == 'speaker' }
+              - creators = transcript.participants.find_all{|people| people.role == 'creator' }
 
-            - speakers = transcript.participants.find_all{|people| people.role == 'speaker' }
-            - creators = transcript.participants.find_all{|people| people.role == 'creator' }
-
-
-            - lang = CountryLanguage.country_languages[transcript.country_code][transcript.language_code]
+            - lang = ''
+            - if transcript.language_code and transcript.country_code
+              - lang = CountryLanguage.country_languages[transcript.country_code][transcript.language_code]
             %tr
               %td=  transcript.date ? transcript.date.strftime("%Y") : ""
               / %td=  transcript.depositor.first_name + " " + transcript.depositor.last_name

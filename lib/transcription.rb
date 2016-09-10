@@ -119,9 +119,8 @@ class Transcription
       # for our elan->flex->eopas journey
       ph.speaker    = phrase['speaker']
       ph.pub        = phrase['pub']
-      ph.attachment = phrase['pdf']
+      ph.attachment = phrase['jpg']
       ph.lang_code  = phrase['lang_code']
-
 
       import_phrase phrase, ph
     end

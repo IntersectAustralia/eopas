@@ -5,7 +5,7 @@ Requires parent and child tiers to be named:
 Phrase           (generates a phrase in eopas xml and goes into the original field in the db)
   Gloss          (generates gloss element and stored in gloss column)
   Translation    (generates translation element and stored in translation column)
-  JPG            (becomes the pdf attribute of the xml phrase element and the attachment db column)
+  JPG            (becomes the jpg attribute of the xml phrase element and the attachment db column)
   Do Not Publish (put *PUB in an annotation, it will create a pub attribute and the corresponding tiers won't be imported)
   Speaker        (Becomes the speaker attribute of the phrase and stored in speaker column)
   Lang           (Generates the lang_code attribute of the phrase and stored as lang_code)
@@ -119,7 +119,7 @@ version="1.0">
 
               <xsl:if test="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='JPG']">
                 <xsl:for-each select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='JPG']/ANNOTATION/REF_ANNOTATION[@ANNOTATION_REF = $annotationId]">
-                  <xsl:attribute name="pdf">
+                  <xsl:attribute name="jpg">
                     <xsl:value-of select="/ANNOTATION_DOCUMENT/TIER[@TIER_ID='JPG']"/>
                   </xsl:attribute>
                 </xsl:for-each>
