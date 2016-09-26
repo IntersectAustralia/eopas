@@ -8,8 +8,6 @@
         %li= link_to 'Upload Transcript', new_transcript_path
         %li= link_to 'Browse Media', media_items_path
         %li= link_to 'Upload Media', new_media_item_path
-      %li= link_to 'Contact Us', 'https://sourceforge.net/projects/eopas/support'
-      %li= link_to 'Help', help_path
 
       .navbar-right.list-inline
         = render :partial => 'layouts/login'
@@ -22,5 +20,5 @@
       var loc = window.location.toString().split("/")
       loc = "/" + loc[loc.length - 1]
       $("#menu li a[href=\""+loc+"\"]").parent().addClass("current");
-    } 
+    }
   );

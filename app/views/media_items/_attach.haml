@@ -1,3 +1,4 @@
 / %p.hidden-print No media item attached
 .attach-media
-  = link_to 'Link to Media Item', new_media_item_transcript_path(@transcript), class: 'btn btn-success hidden-print'
+  - if current_user and (current_user.admin?)
+    = link_to 'Link to Media Item', new_media_item_transcript_path(@transcript), class: 'btn btn-success hidden-print'
