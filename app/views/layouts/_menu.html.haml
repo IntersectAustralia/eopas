@@ -3,7 +3,7 @@
 
     %ul.list-inline
       %li= link_to 'Home', root_path
-      %li= link_to 'Browse Transcripts', transcripts_path
+      %li= link_to 'Browse', transcripts_path
       - if current_user
         %li= link_to 'Upload Transcript', new_transcript_path
         %li= link_to 'Browse Media', media_items_path
