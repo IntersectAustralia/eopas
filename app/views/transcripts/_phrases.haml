@@ -1,7 +1,8 @@
 - i = 0
 - @transcript.phrases.each do |phrase|
 
-  .line.row{:class => ("hide-language" if phrase.lang_code=='WA')}
+  / This will hide any phrases that are tagged with the WA symbol
+  .line.row{:class => [("hide-language" if phrase.lang_code=='WA'), phrase.speaker]}
 
     .controls.col-xs-1{:title => "#{phrase.start_time} to #{phrase.end_time}"}
       = "p#{i += 1}"
