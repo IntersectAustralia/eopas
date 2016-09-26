@@ -1,7 +1,15 @@
 #myModal.modal.fade
   .modal-dialog
     .modal-content
+      .modal-header
+        %button.btn.close{"data-dismiss" => "modal", :type => "button"} &times;
 
       .modal-body.text-center
-        %button.btn.btn-default.btn-xs.pull-right{"data-dismiss" => "modal", :type => "button"} Close
+        // images get inserted here by application.js
         .attachment_full_container
+
+        // current url is inserted here by the share button, also in application.js
+        .cur_url_target_container.input-group
+          %input.form-control#cur_url_target
+          %span.input-group-btn
+            %button.btn.copy-btn{"data-clipboard-target" => "#cur_url_target"} copy

@@ -20,6 +20,7 @@
 //= require bootstrap
 //= require masonry/jquery.masonry
 //= require dropzone
+//= require clipboard
 //
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
@@ -389,6 +390,8 @@ function setup_concordance() {
 
 $(document).ready(function() {
 
+  new Clipboard('.copy-btn');
+
   set_url("");
 
   // also act on hash change of page
@@ -483,12 +486,20 @@ $(document).ready(function() {
       var img = document.createElement("IMG");
       img.src = trigger.attr('data-imgurl');
       $('#myModal .attachment_full_container').html(img);
+      // show the container and hide the URL business
+      $(".attachment_full_container").removeClass('hide');
+      $(".cur_url_target_container").addClass('hide');
     } else if ( trigger[0].className == 'share') {
+      // Show the copy button - usually hidden
+      $(".cur_url_target_container").removeClass('hide');
+      $(".attachment_full_container").addClass('hide');
       // Share button opens modal with current url
       var url = $('#cur_url').data('cur_url');
-      $('#myModal .attachment_full_container').html(url);
+      $('#cur_url_target').val(url);
     }
   });
+
+
 
   $('.play_button').on("click", function(e) {
     play_pause(e.target);
