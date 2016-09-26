@@ -1,6 +1,5 @@
 = content_for(:title, "Transcripts")
 
-
 #transcripts.row
   .col-sm-12
 
@@ -21,55 +20,61 @@
           %p Please search again or clear the search.
 
     - else
-      %table.table.table-hover.table-condensed
-        %thead
-          %tr
-            %th.col-md-1= sortable "date"
-            / %th.col-md-1= sortable "depositor"
-            %th.col-md-2= sortable "title"
-            %th.col-md-1 Speakers
-            %th.col-md-1 Creators
-            %th.col-md-3 Description
-            %th.col-md-2 Copyright
-            %th.col-md-1= sortable "language_code", "Language"
-            / %th.col-md-1= sortable "country_code", "Country"
-            / %th.col-md-2= sortable "media_item", "Media"
-            %th.col-md-1.hidden-print Action
 
-        %tbody
-          - @transcripts.each do |transcript|
+      .sort
+        sort by
+        = sortable "date"
+        = sortable "title"
+        = sortable "language_code", "Language"
 
-            - if transcript.participants
-              - speakers = transcript.participants.find_all{|people| people.role == 'speaker' }
-              - creators = transcript.participants.find_all{|people| people.role == 'creator' }
+      .transcripts
+        - @transcripts.each do |transcript|
+          - if transcript.participants
+            - speakers = transcript.participants.find_all{|people| people.role == 'speaker' }
+            - creators = transcript.participants.find_all{|people| people.role == 'creator' }
+          - lang = ''
+          - if transcript.language_code and transcript.country_code
+            - lang = CountryLanguage.country_languages[transcript.country_code][transcript.language_code]
 
-            - lang = ''
-            - if transcript.language_code and transcript.country_code
-              - lang = CountryLanguage.country_languages[transcript.country_code][transcript.language_code]
-            %tr
-              %td=  transcript.date ? transcript.date.strftime("%Y") : ""
-              / %td=  transcript.depositor.first_name + " " + transcript.depositor.last_name
-              %td
+          .row.transcript
+            .col-sm-12
+              .title
                 = link_to transcript.title, transcript
-                %br
-                %span.count_phrases= "#{transcript.phrases.count} phrases"
-              %td
-                - for person in speakers
-                  %span.person= person.name
-              %td
-                - for person in creators
-                  %span.person= person.name
+                %span.meta.date= transcript.date ? transcript.date.strftime("%Y") : ""
 
-              %td=  transcript.description
-              %td=  transcript.copyright
-              %td= link_to lang, transcripts_path(:language_code => transcript.language_code)
-              / %td=  transcript.country_code
-              / %td=  transcript.media_item ? transcript.media_item.title : ""
-              %td.hidden-print
-                =link_to 'Show', transcript_path(transcript), class: ' btn-default btn-xs'
+          .row
+            .col-sm-7
+              .description
+                = transcript.description
+                = transcript.copyright
+
+              .clear
                 - if current_user and (transcript.depositor.id == current_user.id or current_user.admin?)
                   =link_to 'Edit', edit_transcript_path(transcript), class: ' btn-default btn-xs'
                   =link_to 'Delete', transcript, class: ' btn-default btn-xs', :confirm => "Are you sure?", :method => :delete
 
-      -# FIXME
-      -# = paginate @transcripts
+
+            .col-sm-5.transcript-meta
+              .row
+                .col-sm-6.meta-label
+                  - if speakers.length > 0
+                    Speakers
+                .col-sm-6.meta
+                  - for person in speakers
+                    .person= person.name
+
+              .row
+                .col-sm-6.meta-label
+                  - if creators.length > 0
+                    Creators
+                .col-sm-6.meta
+                  - for person in creators
+                    .person= person.name
+
+              .row
+                .col-sm-6.meta-label
+                  Language
+                .col-sm-6.meta
+                  = link_to lang, transcripts_path(:language_code => transcript.language_code)
+                  %br= "#{transcript.phrases.count} phrases"
+
