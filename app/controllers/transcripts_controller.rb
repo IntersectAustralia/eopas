@@ -2,7 +2,7 @@ class TranscriptsController < ApplicationController
   respond_to :html, :xml
 
   filter_access_to :all
-  before_filter :terms_agreement, :only => [:index, :show]
+  # before_filter :terms_agreement, :only => [:index, :show]
 
   def index
     if params[:commit] == 'Clear'
@@ -160,12 +160,12 @@ class TranscriptsController < ApplicationController
   end
 
   private
-  def terms_agreement
-    return if current_user
-    return if session[:agreed_to_terms]
+  # def terms_agreement
+  #   return if current_user
+  #   return if session[:agreed_to_terms]
 
-    store_location
-    redirect_to show_terms_users_path
-  end
+  #   store_location
+  #   redirect_to show_terms_users_path
+  # end
 
 end
