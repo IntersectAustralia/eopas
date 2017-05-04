@@ -59,6 +59,12 @@ class TranscriptsController < ApplicationController
     end
   end
 
+  def embedded
+    @transcript = Transcript.current_user_and_public(current_user).find params[:id]
+    @media_item = @transcript.media_item
+  end
+
+
   def new
     @transcript = Transcript.new
   end
