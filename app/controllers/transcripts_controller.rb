@@ -59,7 +59,8 @@ class TranscriptsController < ApplicationController
     end
   end
 
-  def embedded
+  def embed
+    render layout: 'minimal'
     @transcript = Transcript.current_user_and_public(current_user).find params[:id]
     @media_item = @transcript.media_item
   end
