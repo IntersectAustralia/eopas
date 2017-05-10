@@ -2,7 +2,7 @@ class TranscriptsController < ApplicationController
   respond_to :html, :xml
 
   filter_access_to :all
-  before_filter :terms_agreement, :only => [:index, :show]
+  before_filter :terms_agreement, :only => [:index]
 
   def index
     if params[:commit] == 'Clear'
