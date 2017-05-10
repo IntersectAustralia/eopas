@@ -57,7 +57,7 @@ class TranscriptsController < ApplicationController
         @transcript
       end
       format.json {
-        response = {data:
+        render json: {data:
           {id: @transcript.id,
            title: @transcript.title,
            url: embed_path(@transcript.id),
