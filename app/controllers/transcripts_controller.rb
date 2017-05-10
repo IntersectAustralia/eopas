@@ -56,6 +56,15 @@ class TranscriptsController < ApplicationController
         headers["Content-Disposition"] = "attachment; filename=\"eopas.xml\""
         @transcript
       end
+      format.json {
+        response = {data:
+          {id: @transcript.id,
+           title: @transcript.title,
+           url: embed_path(@transcript.id),
+           thumbnail: @media_item.media.thumb.url
+          }
+         }
+      }
     end
   end
 
