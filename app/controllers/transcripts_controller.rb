@@ -57,11 +57,12 @@ class TranscriptsController < ApplicationController
         @transcript
       end
       format.json {
+        host = "#{request.protocol}#{request.host_with_port}"
         render json: {data:
           {id: @transcript.id,
            title: @transcript.title,
-           url: embed_path(@transcript.id),
-           thumbnail: @media_item.media.thumb.url
+           url: host + embed_path(@transcript.id),
+           thumbnail: host + @media_item.media.thumb.url
           }
          }
       }
