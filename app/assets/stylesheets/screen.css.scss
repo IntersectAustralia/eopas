@@ -22,6 +22,13 @@ $lightgrey: #e4e9f5;
 $lightblue: #adc1d6;
 $blue:      #7297ba;
 
+// Ngangi color scheme:
+$lightred       #961300
+$highlightred   #dd1d00
+$darkred        #660d00
+$white          #ffffff
+
+
 // Specific styling of elements
 
 // General page layout
@@ -240,14 +247,14 @@ table#metadata.small {
   margin: 10px 0;
   width: 330px;  
   .collapse_title {
-    background-color: $lightblue;
+    background-color: $darkred;
     font-weight:    bold;
     height:         17px;
     padding-left:   5px;
     padding-bottom: 2px;
   }
   .collapse_content {
-    background-color: $lightgrey;
+    background-color: $lightred;
     padding: 7px 5px 3px 5px;
     margin: 0;
   }
@@ -289,7 +296,7 @@ table#metadata.small {
   width: 100%;
   margin-bottom: 1em;
   #tier_title {
-    background-color: $lightgrey;
+    background-color: $lightred;
     cursor: pointer;
     padding: 0 5px 0 5px;
   }
@@ -317,13 +324,13 @@ table#metadata.small {
       padding: 2px;
       width: 25px;
       text-align: center;
-      background-color: $grey;
+      background-color: $darkred;
       .play_button {
         cursor: pointer;
       }
     }
     .tracks {
-      background-color: $lightgrey;
+      background-color: $lightred;
       padding: 0px;
       margin: 1px 2px 2px 2px;
       text-align: left;
@@ -345,7 +352,7 @@ table#metadata.small {
                 margin: 1px;
               }
               td.morpheme, td.gloss {
-                background-color: $grey;
+                background-color: $darkred;
               }
             }
           }
@@ -364,7 +371,7 @@ table#metadata.small {
       }
     }
     .hilight {
-      border: 4px solid $ocre;
+      border: 4px solid $highlightred;
     }
   }
 }
