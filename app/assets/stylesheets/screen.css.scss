@@ -23,10 +23,10 @@ $lightblue: #adc1d6;
 $blue:      #7297ba;
 
 // Ngangi color scheme:
-$lightred       #961300
-$highlightred   #dd1d00
-$darkred        #660d00
-$white          #ffffff
+$lightred:       #961300;
+$highlightred:   #dd1d00;
+$darkred:        #660d00;
+$white:          #ffffff;
 
 
 // Specific styling of elements
@@ -299,6 +299,7 @@ table#metadata.small {
     background-color: $lightred;
     cursor: pointer;
     padding: 0 5px 0 5px;
+    color: white;
   }
   form {
     position: absolute;
@@ -324,16 +325,18 @@ table#metadata.small {
       padding: 2px;
       width: 25px;
       text-align: center;
-      background-color: $darkred;
+      /*background-color: $darkred;*/
+      color: white;
       .play_button {
         cursor: pointer;
       }
     }
     .tracks {
-      background-color: $lightred;
+      /*background-color: $lightred;*/
       padding: 0px;
       margin: 1px 2px 2px 2px;
       text-align: left;
+      border: 1px solid $darkred;
       .tier {
         span {
           display: inline-block;      
@@ -352,7 +355,7 @@ table#metadata.small {
                 margin: 1px;
               }
               td.morpheme, td.gloss {
-                background-color: $darkred;
+                /*background-color: $darkred;*/
               }
             }
           }
@@ -366,12 +369,12 @@ table#metadata.small {
         color: blue;
       }
       .translation {
-        color: green;
+        color: $lightred;
         font-style: italic;
       }
     }
     .hilight {
-      border: 4px solid $highlightred;
+      border: 3px solid $highlightred;
     }
   }
 }
