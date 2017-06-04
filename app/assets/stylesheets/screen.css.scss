@@ -248,6 +248,7 @@ table#metadata.small {
   width: 330px;  
   .collapse_title {
     background-color: $darkred;
+    color: white;
     font-weight:    bold;
     height:         17px;
     padding-left:   5px;
@@ -325,7 +326,7 @@ table#metadata.small {
       padding: 2px;
       width: 25px;
       text-align: center;
-      /*background-color: $darkred;*/
+      background-color: $darkred;
       color: white;
       .play_button {
         cursor: pointer;
