@@ -39,4 +39,6 @@ Eopas::Application.routes.draw do
   end
 
   resources :transcript_phrases, :only => [:index]
+
+  get 'transcripts/:id/embed', to: 'transcripts#embed', as: 'embed'
 end

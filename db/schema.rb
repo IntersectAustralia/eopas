@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(:version => 20130308100503) do
   create_table "app_configs", :force => true do |t|
     t.string   "name"
     t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "app_configs", ["name"], :name => "index_app_configs_on_name", :unique => true
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(:version => 20130308100503) do
     t.datetime "locked_at"
     t.datetime "failed_at"
     t.string   "locked_by"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.string   "queue"
   end
 
@@ -41,25 +41,25 @@ ActiveRecord::Schema.define(:version => 20130308100503) do
   create_table "media_items", :force => true do |t|
     t.string   "title",                               :null => false
     t.integer  "depositor_id",                        :null => false
+    t.string   "media"
     t.datetime "recorded_on"
     t.string   "copyright"
     t.string   "license"
     t.boolean  "private",          :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.boolean  "media_processing"
     t.string   "format"
     t.string   "country_code"
     t.text     "description"
-    t.string   "media"
   end
 
   create_table "participants", :force => true do |t|
     t.string   "name"
     t.string   "role"
     t.integer  "transcript_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "transcript_morphemes", :force => true do |t|
@@ -96,16 +96,16 @@ ActiveRecord::Schema.define(:version => 20130308100503) do
     t.integer  "depositor_id",                         :null => false
     t.string   "language_code"
     t.datetime "date"
+    t.string   "source"
     t.string   "transcript_format"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.string   "title"
     t.boolean  "private",           :default => false, :null => false
     t.string   "country_code"
     t.string   "copyright"
     t.string   "license"
     t.text     "description"
-    t.string   "source"
   end
 
   create_table "users", :force => true do |t|
@@ -126,8 +126,8 @@ ActiveRecord::Schema.define(:version => 20130308100503) do
     t.string   "last_name",                          :null => false
     t.string   "roles"
     t.datetime "confirmed_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

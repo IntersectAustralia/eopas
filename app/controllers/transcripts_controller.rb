@@ -2,7 +2,7 @@ class TranscriptsController < ApplicationController
   respond_to :html, :xml
 
   filter_access_to :all
-  before_filter :terms_agreement, :only => [:index, :show]
+  before_filter :terms_agreement, :only => [:index]
 
   def index
     if params[:commit] == 'Clear'
@@ -56,8 +56,25 @@ class TranscriptsController < ApplicationController
         headers["Content-Disposition"] = "attachment; filename=\"eopas.xml\""
         @transcript
       end
+      format.json {
+        host = "#{request.protocol}#{request.host_with_port}"
+        render json: {data:
+          {id: @transcript.id,
+           title: @transcript.title,
+           url: host + embed_path(@transcript.id),
+           thumbnail: host + @media_item.media.thumb.url
+          }
+         }
+      }
     end
   end
+
+  def embed
+    @transcript = Transcript.current_user_and_public(current_user).find params[:id]
+    @media_item = @transcript.media_item
+    render layout: 'minimal'
+  end
+
 
   def new
     @transcript = Transcript.new

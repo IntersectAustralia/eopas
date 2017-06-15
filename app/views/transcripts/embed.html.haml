@@ -1,0 +1,20 @@
+
+#left_column
+
+  #concordance.collapse_box.hidden
+    .collapse_title
+      = image_tag 'minimize_grey.png', :class => 'collapse_icon'
+      Concordance
+    .collapse_content
+
+  - if @media_item
+    #media_display.collapse_box
+      = render :partial => 'media_items/mediaplayer'
+
+#right_column
+  #tiers_info
+    = render :partial => 'tiers_info'
+
+  #transcript_display
+    = render :partial => 'phrases'
+

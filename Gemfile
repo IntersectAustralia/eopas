@@ -2,7 +2,10 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.12'
 
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.17'
+
+gem 'thin', group: [:development, :test]
+
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -14,7 +17,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platforms => :ruby
+  gem 'therubyracer', '~> 0.12.2', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
