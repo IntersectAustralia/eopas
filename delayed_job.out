@@ -1,0 +1,3 @@
+[Worker(host:ngangi-qa.intersect.org.au pid:15853)] Starting job worker
+[Worker(host:ngangi-qa.intersect.org.au pid:15853)] CarrierWave::Workers::ProcessAsset completed after 384.1348
+[Worker(host:ngangi-qa.intersect.org.au pid:15853)] 1 jobs processed at 0.0026 j/s, 0 failed ...
