@@ -78,5 +78,3 @@ class Transcript < ActiveRecord::Base
   end
 
 end
-
-

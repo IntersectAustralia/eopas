@@ -1,3 +1,4 @@
+
 class AddCountry < ActiveRecord::Migration
   def self.up
     change_table :media_items do |t|

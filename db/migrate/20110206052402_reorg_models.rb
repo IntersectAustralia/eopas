@@ -1,3 +1,4 @@
+
 class ReorgModels < ActiveRecord::Migration
   def self.up
     change_column :transcripts, :private, :boolean, :default => false, :null => false

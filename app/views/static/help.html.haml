@@ -9,7 +9,7 @@
 #paragraph
   There are two types of context that are being tracked.
 
-#paragraph  
+#paragraph
   %h4 Phrase citation
 
   #paragraph
@@ -18,7 +18,7 @@
 
   #paragraph
     You will notice that there is a fragment on this URL that starts with "#t=". This means that we are looking
-    at a time range on the video or audio file that is presented on this Web page. The time segment 
+    at a time range on the video or audio file that is presented on this Web page. The time segment
     starts at <code>202.028 seconds</code> and goes until <code>305.008 seconds</code>.
 
   #paragraph
@@ -26,7 +26,7 @@
     You can pause the video or audio element and cut and paste the URL for citation purposes.
     Alternatively, you can also right click on the little black "play" button of a particular phrase
     and copy the link address.
-  
+
 #paragraph
   %h4 Word/Morpheme citation
 
@@ -34,11 +34,11 @@
     The second is the context of a single word or morpheme. This is also tightly linked to concordance searches
     which are activated by clicking on a word or morpheme and search that same entity in all documents in the
     collection.
-  
+
   #paragraph
     As you click on a word or morpheme, a URL that looks as follows is displayed in the top right corner:
     <code>http://www.eopas.org/transcripts/42#!/p2/w5/m1</code>.
-    
+
   #paragraph
     The pattern of that URL is such that "#!" identifies this concordance linking, "/p" identifies the phrase by number,
     "/w" identifies the word within that phrase by position, "/m" identifies (where necessary) the morpheme within that
@@ -188,10 +188,9 @@
   XML format to the EOPAS XML format. The XSLT is placed in the "public/XSLT" directory.
   Finally, one has to change the list of available input format in "app/models/transcript.rb" to make it an
   available format in the upload process.
-  
+
 #paragraph
   For development of the XSLT, there are helper functions in the "bin" directory of the application for
   validation, transcoding and general running of a xsl transform. Further, one should add some example files
   into the "features/test_data" directory and add a test to "features/transcript.feature". Do not forget to
   finish it all off with documentation in "doc/TRANSCODING".
-

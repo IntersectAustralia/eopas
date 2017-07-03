@@ -54,4 +54,3 @@
   %br
   - if current_user and (@media_item.depositor.id == current_user.id or current_user.admin?)
     = link_to 'Edit media item metadata', edit_media_item_path(@media_item)
-

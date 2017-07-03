@@ -11,4 +11,3 @@ end
 Given /^I am logged out$/ do
   step %Q{I go to the logout page}
 end
-

@@ -1,7 +1,17 @@
 class ApplicationController < ActionController::Base
+
+
   protect_from_forgery
 
   helper_method :current_user
+
+  def routing_error
+   if request.fullpath.end_with? ".png"
+     send_file "#{Rails.root}/public/transcodinginProgress.png", type: "image/png", disposition: "inline"
+   else
+     render "#{Rails.root}/public/404.html", type: "text/html"
+   end
+  end
 
   private
   def current_user_session

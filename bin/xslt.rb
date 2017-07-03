@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 
-# call this as: 
+# call this as:
 # rails runner bin/xslt.rb features/test_data/toolbox2.xml public/XSLT/fixToolbox.xsl
 
 require "nokogiri"
