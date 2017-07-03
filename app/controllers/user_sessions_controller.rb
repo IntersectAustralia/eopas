@@ -25,4 +25,3 @@ class UserSessionsController < ApplicationController
     redirect_back_or_default root_url
   end
 end
-

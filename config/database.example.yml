@@ -1,3 +1,4 @@
+
 # Common settings for all DBs
 common: &COMMON
   encoding: utf8

@@ -10,7 +10,7 @@ listen "#{shared_path}/pids/unicorn.socket"
 # Fill path to your app
 working_directory current_path
 
-# Should be 'production' by default, otherwise use other env 
+# Should be 'production' by default, otherwise use other env
 rails_env = ENV['RAILS_ENV'] || 'production'
 
 # Log everything to one file

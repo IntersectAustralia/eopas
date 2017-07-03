@@ -41,4 +41,6 @@ Eopas::Application.routes.draw do
   resources :transcript_phrases, :only => [:index]
 
   get 'transcripts/:id/embed', to: 'transcripts#embed', as: 'embed'
+
+  match '*path', :to => 'application#routing_error'
 end

@@ -1,8 +1,3 @@
-:javascript
-  $(document).ready(function() {
-    $('#new_media_item').nginxUploadProgress();
-  });
-
 #media_item
   %h2 Upload Media Item
 
@@ -17,18 +12,16 @@
 
 .info
   #uploading
-    %h3 Upload progress
-    %p Please note that we haven't moved transcoding to a background process yet. So once the progress bar it's 100% transcoding might take a few more minutes. Just wait it out until you see the next webpage. Thanks for your patience :).
-    #progress.bar
-      #progressbar &nbsp;
+    %h3 Media Uploading
+    %p Please note that transcoding happens in the background and video will not display until after this is complete. Thanks for your patience.
 
   %h3
     Please enter information about your media resource.
-  %p 
+  %p
     Please note that the upload limit of this server is
     %span{:style => "color: red;"}
-      2GB
-    , but large files will take a long time to upload.
+      1GB
+    , but large files will take a long time to upload and transcode.
   %p
     You can find out more about the Licenses at:
   %ul

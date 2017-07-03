@@ -6,9 +6,9 @@ set :application, 'eopas'
 set :repository,  'git://github.com/eopas/eopas'
 set :scm, :git
 
-role :web, 'www.eopas.org'
-role :app, 'www.eopas.org'
-role :db,  'www.eopas.org', :primary => true # This is where Rails migrations will run
+role :web, 'eopas-staging.intersect.org.au'
+role :app, 'eopas-staging.intersect.org.au'
+role :db,  'eopas-staging.intersect.org.au', :primary => true # This is where Rails migrations will run
 
 set :deploy_to, "/srv/www/#{application}"
 set :user, 'deploy'

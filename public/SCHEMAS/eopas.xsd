@@ -9,7 +9,7 @@
       Adapted by Silvia Pfeiffer, John Ferlito
     </xsd:documentation>
   </xsd:annotation>
-  
+
   <!-- ********************** ROOT  ********************** -->
   <xsd:element name="eopas">
     <xsd:annotation>
@@ -34,7 +34,7 @@
           <xsd:attribute name="name">
             <xsd:simpleType>
               <xsd:restriction base="xsd:string">
-                 <xsd:whiteSpace value="replace"/>
+                <xsd:whiteSpace value="replace"/>
               </xsd:restriction>
             </xs:simpleType>
           </xsd:attribute>

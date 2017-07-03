@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- working with EOPAS 2.0 Schema -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-xmlns:dc="http://purl.org/dc/elements/1.1/"
-xmlns:tb="http://wiki.arts.unimelb.edu.au/ethnoer/toolbox/1.0/"
-exclude-result-prefixes="tb"
-version="1.0">
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:tb="http://wiki.arts.unimelb.edu.au/ethnoer/toolbox/1.0/"
+                exclude-result-prefixes="tb"
+                version="1.0">
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
   <xsl:strip-space elements="*"/>
 
   <xsl:template match="/">
     <xsl:if test="not(/database)">
-        <xsl:message terminate="yes">ERROR: Not a Toolbox document</xsl:message>
+      <xsl:message terminate="yes">ERROR: Not a Toolbox document</xsl:message>
     </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>

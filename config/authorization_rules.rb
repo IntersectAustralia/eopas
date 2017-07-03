@@ -1,3 +1,4 @@
+
 authorization do
 
   role :guest do
@@ -24,4 +25,3 @@ privileges do
 
   privilege :manage, :includes => [:create, :read, :update, :delete]
 end
-

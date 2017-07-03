@@ -10,33 +10,33 @@
 	- introduction of a LICENSE element
 	- added an EXT_REF attribute on the TIER level, so that e.g. a data category reference can be specified on
 	  the tier level (overriding the one specified on the TYPE level)
-	
+
 	VERSION 2.7
 	DATE December 2010
 	- new elements and attributes where added in relation to
-	  - support for externally defined controlled vocabularies. A new possible root element CV_RESOURCE 
+	  - support for externally defined controlled vocabularies. A new possible root element CV_RESOURCE
 	    has been added for such vocabularies in an eaf like xml file. Annotations can hold a reference
 	    to the id of ean entry in an external CV.
-	- a new element for storing information about a lexicon and about a link to an entry or a field 
-	  in a lexicon has been added. A linguistic type can be associated with a lexicon or a field / 
+	- a new element for storing information about a lexicon and about a link to an entry or a field
+	  in a lexicon has been added. A linguistic type can be associated with a lexicon or a field /
 	  data category in a lexicon
-	
+
 	VERSION 2.6
 	DATE May 2008
-	- added elements and attributes for references to concepts defined in the ISO Data Category Registry 
+	- added elements and attributes for references to concepts defined in the ISO Data Category Registry
 	and possibly/eventually other external resources.
 	  - attribute EXT_REF added to type annotationAttribute, to elements CV_ENTRY and LINGUISTIC_TYPE
 	  - element EXTERNAL_REF with attributes EXT_REF_ID, TYPE and VALUE
-	
+
 	DATE November 2007
-	- added optional attributes: RELATIVE_MEDIA_URL to MEDIA_DESCRIPTOR and RELATIVE_LINK_URL to 
+	- added optional attributes: RELATIVE_MEDIA_URL to MEDIA_DESCRIPTOR and RELATIVE_LINK_URL to
 	LINKED_FILE_DESCRIPTOR for storage of relative url's
 	- changed the FORMAT from fixed to default, and from 2.4. to 2.5
-	
+
 	DATE December 2006
 	- added attribute: ANNOTATOR to element TIER
 	- added element: PROPERTY to element HEADER
-	- changed the type of attribute SVG_REF of ALIGNABLE_ANNOTATION to xsd:string since 
+	- changed the type of attribute SVG_REF of ALIGNABLE_ANNOTATION to xsd:string since
 	it does not refer to an ID in the same file
 	- changed the type of the TIME_ALIGNABLE and GRAPHIC_REFERENCES attributes of the LINGUISTIC_TYPE
 	element to type="xsd:boolean" (was xsd:string)
@@ -46,7 +46,7 @@
 	  - CONTROLLED_VOCABULARY/CV_ID and LINGUISTIC_TYPE/CONTROLLED_VOCABULARY_REF
 	  into pairs of xsd:key and xsd:keyref elements.
 	  The advantage is that the ID's only have to be unique per element type (e.g. TIER_ID's
-	  should be unique within the TIER elements but can be the same as a LINGUISTIC_TYPE_ID) 
+	  should be unique within the TIER elements but can be the same as a LINGUISTIC_TYPE_ID)
 	  and that there are no constraints on characters that can be used in id's/names.
 -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -59,7 +59,7 @@
 			Adapted by Hennie Brugman, Han Sloetjes, Micha Hulsbosch
 		</xsd:documentation>
 	</xsd:annotation>
-	
+
 	<xsd:element name="ANNOTATION_DOCUMENT">
 		<xsd:complexType>
 			<xsd:sequence>
@@ -72,15 +72,15 @@
 				<xsd:element name="LANGUAGE" type="langType" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="CONSTRAINT" type="constraintType" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="CONTROLLED_VOCABULARY" type="convocType" minOccurs="0" maxOccurs="unbounded">
-				    <xsd:key name="cvEntryKey">
-					    <xsd:annotation>
-						    <xsd:documentation xml:lang="en">
-							    The entry id should be unique within the collection of entry elements
-						    </xsd:documentation>
-					    </xsd:annotation>
-					    <xsd:selector xpath="CV_ENTRY_ML"/>
-					    <xsd:field xpath="@CVE_ID"/>
-				    </xsd:key>
+					<xsd:key name="cvEntryKey">
+						<xsd:annotation>
+							<xsd:documentation xml:lang="en">
+								The entry id should be unique within the collection of entry elements
+							</xsd:documentation>
+						</xsd:annotation>
+						<xsd:selector xpath="CV_ENTRY_ML"/>
+						<xsd:field xpath="@CVE_ID"/>
+					</xsd:key>
 				</xsd:element>
 				<xsd:element name="LEXICON_REF" type="lexRefType" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="EXTERNAL_REF" type="extRefType" minOccurs="0" maxOccurs="unbounded"/>
@@ -90,12 +90,12 @@
 			<xsd:attribute name="VERSION" type="xsd:string" use="required"/>
 			<xsd:attribute name="FORMAT" type="xsd:string" use="optional" default="2.8"/>
 		</xsd:complexType>
-		
+
 		<!-- define key - keyref pairs -->
 		<xsd:key name="tierNameKey">
 			<xsd:annotation>
 				<xsd:documentation xml:lang="en">
-					The Tier name/id should be unique within the collection 
+					The Tier name/id should be unique within the collection
 					of Tier elements
 				</xsd:documentation>
 			</xsd:annotation>
@@ -111,11 +111,11 @@
 			<xsd:selector xpath="TIER"/>
 			<xsd:field xpath="@PARENT_REF"/>
 		</xsd:keyref>
-		
+
 		<xsd:key name="linTypeNameKey">
 			<xsd:annotation>
 				<xsd:documentation xml:lang="en">
-					The Linguistic Type name/id should be unique within the collection 
+					The Linguistic Type name/id should be unique within the collection
 					of Linguistic Type elements
 				</xsd:documentation>
 			</xsd:annotation>
@@ -131,11 +131,11 @@
 			<xsd:selector xpath="TIER"/>
 			<xsd:field xpath="@LINGUISTIC_TYPE_REF"/>
 		</xsd:keyref>
-		
+
 		<xsd:key name="cvNameKey">
 			<xsd:annotation>
 				<xsd:documentation xml:lang="en">
-					The Controlled Vocabulary name/id should be unique within the  
+					The Controlled Vocabulary name/id should be unique within the
 					collection of Controlled Vocabulary elements
 				</xsd:documentation>
 			</xsd:annotation>
@@ -145,18 +145,18 @@
 		<xsd:keyref name="cvNameRef" refer="cvNameKey">
 			<xsd:annotation>
 				<xsd:documentation xml:lang="en">
-					A Linguistic Type can be associated with a Controlled Vocabulary by 
+					A Linguistic Type can be associated with a Controlled Vocabulary by
 					referring to an existing Controlled Vocabulary id.
 				</xsd:documentation>
 			</xsd:annotation>
 			<xsd:selector xpath="LINGUISTIC_TYPE"/>
 			<xsd:field xpath="@CONTROLLED_VOCABULARY_REF"/>
 		</xsd:keyref>
-		
+
 		<xsd:key name="lexNameKey">
 			<xsd:annotation>
 				<xsd:documentation xml:lang="en">
-					The Lexicon Service name/id should be unique within the  
+					The Lexicon Service name/id should be unique within the
 					collection of Lexicon Service elements
 				</xsd:documentation>
 			</xsd:annotation>
@@ -166,14 +166,14 @@
 		<xsd:keyref name="lexNameRef" refer="lexNameKey">
 			<xsd:annotation>
 				<xsd:documentation xml:lang="en">
-					A Linguistic Type can be associated with a Lexicon Service by 
+					A Linguistic Type can be associated with a Lexicon Service by
 					referring to an existing Lexicon Service id.
 				</xsd:documentation>
 			</xsd:annotation>
 			<xsd:selector xpath="LINGUISTIC_TYPE"/>
 			<xsd:field xpath="@LEXICON_REF"/>
 		</xsd:keyref>
-		
+
 		<!-- added in 2.8 but unrelated to the introduction of new elements and attributes -->
 		<!-- previous annotation reference -->
 		<xsd:key name="prevAnnoKey">
@@ -208,7 +208,7 @@
 			<xsd:selector xpath="TIER/ANNOTATION/ALIGNABLE_ANNOTATION"/>
 			<xsd:field xpath="@TIME_SLOT_REF2"/>
 		</xsd:keyref>
-		
+
 		<!-- introduced in 2.8 -->
 		<xsd:key name="langIdKey">
 			<xsd:annotation>
@@ -284,7 +284,6 @@
 		     It probably can't be done in XPath, never mind the more restricted version that is
 		     allowed here.
 		     http://www.w3.org/TR/2004/PER-xmlschema-1-20040318/structures.html#coss-identity-constraint
-
 		     TIER/ALIGNABLE_ANNOTATION/@CVE_REF/../../@LINGUISTIC_TYPE_REF => call this value x
 		     search for a value equal to x in
 		     LINGUISTIC_TYPE/@LINGUISTIC_TYPE_ID . When found, take (relative to that)
@@ -292,10 +291,8 @@
 		     search for a value equal to y in
 		     CONTROLLED_VOCABULARY/@CV_ID and this is the CONTROLLED_VOCABULARY which should
 		     contain (in CVE_ENTRY_ML/@CVE_ID) the value from @CVE_REF.
-
 		     A weaker check could just try to find any matching CONTROLLED_VOCABULARY/CVE_ENTRY_ML/@CVE_ID,
 		     without checking if this is in the correct CONTROLLED_VOCABULARY.
-
 		     According to O'Reilly's book about schemas, ch. 9.2 (XPath-Based Identity Checks),
 		     putting a keyref in a parent node of some key definition creates an extra
 		     uniqueness constraint on the key values. That is not desired here.
@@ -318,7 +315,7 @@
 		</xsd:key>
 		<!-- end of key - keyref pairs -->
 	</xsd:element>
-	
+
 	<xsd:complexType name="headType">
 		<xsd:sequence>
 			<xsd:element name="MEDIA_DESCRIPTOR" minOccurs="0" maxOccurs="unbounded">
@@ -339,12 +336,12 @@
 					<xsd:attribute name="ASSOCIATED_WITH" type="xsd:anyURI" use="optional"/>
 				</xsd:complexType>
 			</xsd:element>
-		    <xsd:element name="PROPERTY" type="propType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="PROPERTY" type="propType" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="MEDIA_FILE" use="optional" type="xsd:string">
 			<xsd:annotation>
 				<xsd:documentation xml:lang="en">
-					This attribute is deprecated. Use MEDIA_DESCRIPTOR elements instead. 
+					This attribute is deprecated. Use MEDIA_DESCRIPTOR elements instead.
 				</xsd:documentation>
 				<xsd:appinfo>Ignore</xsd:appinfo>
 			</xsd:annotation>
@@ -359,7 +356,7 @@
 			</xsd:simpleType>
 		</xsd:attribute>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="timeType">
 		<xsd:sequence>
 			<xsd:element name="TIME_SLOT" minOccurs="0" maxOccurs="unbounded">
@@ -370,7 +367,7 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="tierType">
 		<xsd:sequence>
 			<xsd:element name="ANNOTATION" type="annotationType" minOccurs="0" maxOccurs="unbounded"/>
@@ -386,14 +383,14 @@
 		<!-- since 2.8 -->
 		<xsd:attribute name="LANG_REF" type="xsd:IDREF" use="optional"/>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="annotationType">
 		<xsd:choice>
 			<xsd:element name="ALIGNABLE_ANNOTATION" type="alignableType"/>
 			<xsd:element name="REF_ANNOTATION" type="refAnnoType"/>
 		</xsd:choice>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="alignableType">
 		<xsd:sequence>
 			<xsd:element name="ANNOTATION_VALUE" type="xsd:string"/>
@@ -403,7 +400,7 @@
 		<xsd:attribute name="TIME_SLOT_REF2" type="xsd:IDREF" use="required"/>
 		<xsd:attribute name="SVG_REF" type="xsd:string" use="optional"/>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="refAnnoType">
 		<xsd:sequence>
 			<xsd:element name="ANNOTATION_VALUE" type="xsd:string"/>
@@ -418,7 +415,7 @@
 		</xsd:attribute>
 		<xsd:attribute name="PREVIOUS_ANNOTATION" type="xsd:IDREF" use="optional"/>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="lingType">
 		<xsd:attribute name="LINGUISTIC_TYPE_ID" type="xsd:string" use="required"/>
 		<xsd:attribute name="TIME_ALIGNABLE" type="xsd:boolean" use="optional"/>
@@ -428,38 +425,38 @@
 		<xsd:attribute name="EXT_REF" type="xsd:IDREF" use="optional"/>
 		<xsd:attribute name="LEXICON_REF" type="xsd:IDREF" use="optional"/>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="localeType">
 		<xsd:attribute name="LANGUAGE_CODE" type="xsd:ID" use="required"/>
 		<xsd:attribute name="COUNTRY_CODE" type="xsd:string" use="optional"/>
 		<xsd:attribute name="VARIANT" type="xsd:string" use="optional"/>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="constraintType">
 		<xsd:attribute name="STEREOTYPE" type="xsd:ID" use="required"/>
 		<xsd:attribute name="DESCRIPTION" type="xsd:string" use="optional"/>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="convocType">
-		<!-- change in 2.8, now it contains 
+		<!-- change in 2.8, now it contains
 			a list of multilingual entries plus possible multiple description elements -->
 		<xsd:sequence>
 			<xsd:element name="DESCRIPTION" type="descMultiLangType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="CV_ENTRY_ML" type="cventryType" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
-		
+
 		<xsd:attribute name="CV_ID" type="xsd:string" use="required"/>
 		<!-- <xsd:attribute name="DESCRIPTION" type="xsd:string" use="optional"/> -->
 		<xsd:attribute name="EXT_REF" type="xsd:IDREF" use="optional">
 			<xsd:annotation>
 				<xsd:documentation>
 					A reference to an url of an external Controlled Vocabulary.
-					Is intended to be mutually exclusive with a sequence of CV_ENTRY_ML elements. 
+					Is intended to be mutually exclusive with a sequence of CV_ENTRY_ML elements.
 				</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
-	
+
 	<!-- old cvEntryType
 	<xsd:complexType name="cventryType">
 		<xsd:simpleContent>
@@ -470,12 +467,12 @@
 		</xsd:simpleContent>
 	</xsd:complexType>
 	-->
-	
+
 	<!-- introduced in 2.8, modification that breaks compatibility with previous version -->
 	<xsd:complexType name="cventryType">
 		<xsd:annotation>
 			<xsd:documentation>
-				An entry in a multilingual controlled vocabulary, containing the values and the descriptions 
+				An entry in a multilingual controlled vocabulary, containing the values and the descriptions
 				in multiple languages.
 			</xsd:documentation>
 		</xsd:annotation>
@@ -483,14 +480,14 @@
 			<xsd:element name="CVE_VALUE" type="cveValueType" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="CVE_ID" type="xsd:string" use="required"/><!-- in 2.8 moved from ecventry to cv entry -->
-		<xsd:attribute name="EXT_REF" type="xsd:IDREF" use="optional"/>		
+		<xsd:attribute name="EXT_REF" type="xsd:IDREF" use="optional"/>
 	</xsd:complexType>
-	
+
 	<!-- introduced in 2.8 -->
 	<xsd:complexType name="cveValueType">
 		<xsd:annotation>
 			<xsd:documentation>
-				A controlled vocabulary entry value with a language attribute. 
+				A controlled vocabulary entry value with a language attribute.
 				This allows multilingual controlled vocabularies. It adds a language reference attribute
 				compared to the mono-lingual cv entry element.
 			</xsd:documentation>
@@ -502,7 +499,7 @@
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
-	
+
 	<!-- introduced in 2.8 -->
 	<xsd:complexType name="descMultiLangType">
 		<xsd:annotation>
@@ -516,7 +513,7 @@
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="propType">
 		<xsd:simpleContent>
 			<xsd:extension base="xsd:string">
@@ -524,7 +521,7 @@
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="extRefType">
 		<xsd:attribute name="EXT_REF_ID" type="xsd:ID" use="required"/>
 		<xsd:attribute name="TYPE" use="required">
@@ -571,7 +568,7 @@
 		</xsd:attribute>
 		<xsd:attribute name="VALUE" type="xsd:string" use="required"/>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="lexRefType">
 		<xsd:attribute name="LEX_REF_ID" type="xsd:ID" use="required"/>
 		<xsd:attribute name="NAME" type="xsd:string" use="required"/>
@@ -582,18 +579,18 @@
 		<xsd:attribute name="DATCAT_ID" type="xsd:string" use="optional"/>
 		<xsd:attribute name="DATCAT_NAME" type="xsd:string" use="optional"/>
 	</xsd:complexType>
-	
+
 	<xsd:complexType name="langType">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-				The Language element containing a reference to a language name or (if possible persistent) definition. 
+				The Language element containing a reference to a language name or (if possible persistent) definition.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:attribute name="LANG_ID" type="xsd:ID" use="required"/>
 		<!-- definition is optional so that user defined languages are easy to add -->
 		<xsd:attribute name="LANG_DEF" type="xsd:string" use="optional">
 			<xsd:annotation><xsd:documentation>
-				ISO-639-3 still seems to be the best choice for language codes and closest to persistent language ID's 
+				ISO-639-3 still seems to be the best choice for language codes and closest to persistent language ID's
 				seem to be the http://cdb.iso.org/lg/... identifiers also used by the iso-language-639-3 component in
 				the CLARIN ComponentRegistry?
 			</xsd:documentation></xsd:annotation>
@@ -604,8 +601,8 @@
 	<xsd:complexType name="licenseType">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
-				The license element can be used to include license information in the eaf file itself.  
-			</xsd:documentation>			
+				The license element can be used to include license information in the eaf file itself.
+			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:simpleContent>
 			<xsd:extension base="xsd:string">
@@ -620,8 +617,8 @@
 		<xsd:attribute name="LANG_REF" type="xsd:IDREF" use="optional"/><!-- since 2.8 -->
 		<xsd:attribute name="CVE_REF" type="xsd:string" use="optional"/><!-- since 2.8 -->
 	</xsd:attributeGroup>
-	
-	
+
+
 	<!-- Start of CV_RESOURCE part, an alternative root element -->
 	<xsd:element name="CV_RESOURCE">
 		<xsd:complexType>
@@ -631,14 +628,14 @@
 					<xsd:key name="cvEntryKey2">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-								The entry id should be unique within the  
+								The entry id should be unique within the
 								collection of entry elements
 							</xsd:documentation>
 						</xsd:annotation>
 						<xsd:selector xpath="CV_ENTRY_ML"/>
 						<xsd:field xpath="@CVE_ID"/>
 					</xsd:key>
-					
+
 				</xsd:element>
 				<xsd:element name="EXTERNAL_REF" type="extRefType" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
@@ -647,17 +644,17 @@
 			<xsd:attribute name="VERSION" type="xsd:string" use="optional"/>
 		</xsd:complexType>
 		<!-- define key - keyref pairs -->
-				<!-- If not commented this is considered a double global definition of cvNameKey -->
-<!--			<xsd:key name="cvNameKey">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">
-						The Controlled Vocabulary name/id should be unique within the  
-						collection of Controlled Vocabulary elements
-					</xsd:documentation>
-				</xsd:annotation>
-				<xsd:selector xpath="CONTROLLED_VOCABULARY"/>
-				<xsd:field xpath="@CV_ID"/>
-			</xsd:key>-->
+		<!-- If not commented this is considered a double global definition of cvNameKey -->
+		<!--			<xsd:key name="cvNameKey">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="en">
+                                The Controlled Vocabulary name/id should be unique within the
+                                collection of Controlled Vocabulary elements
+                            </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:selector xpath="CONTROLLED_VOCABULARY"/>
+                        <xsd:field xpath="@CV_ID"/>
+                    </xsd:key>-->
 	</xsd:element>
 	<!-- Did not use extension here because it contains an other type of CVEntry elements -->
 	<!-- deleted in 2.8 because of changes in the "normal" controlled vocabulary element type
@@ -677,7 +674,7 @@
 			<xsd:annotation>
 				<xsd:documentation>
 					A reference to an url of an external Controlled Vocabulary.
-					Is intended to be mutually exclusive with a sequence of CV_ENTRY elements. 
+					Is intended to be mutually exclusive with a sequence of CV_ENTRY elements.
 				</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
@@ -698,5 +695,5 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	-->
-	
+
 </xsd:schema>

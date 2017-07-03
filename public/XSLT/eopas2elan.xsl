@@ -2,12 +2,12 @@
 <!-- based on EOPAS 2.0 Schema -->
 <!-- BIG DISCLAIMER: THIS IS BROKEN!!! -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-xmlns:dc="http://purl.org/dc/elements/1.1/"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:noNamespaceSchemaLocation="http://www.mpi.nl/tools/elan/EAFv2.6.xsd"
-version="1.0"
-xmlns:xalan="http://xml.apache.org/xalan"
-exclude-result-prefixes="xalan">
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="http://www.mpi.nl/tools/elan/EAFv2.6.xsd"
+                version="1.0"
+                xmlns:xalan="http://xml.apache.org/xalan"
+                exclude-result-prefixes="xalan">
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
   <xsl:strip-space elements="*"/>
   <xsl:param name="mediafile" select="/eopas/header/meta[@name='dc:source']/@value"/>
@@ -19,7 +19,7 @@ exclude-result-prefixes="xalan">
   <xsl:param name="date" select="/eopas/header/meta[@name='dc:date']/@value"/>
   <xsl:template match="/">
     <xsl:if test="not(/eopas)">
-        <xsl:message terminate="yes">ERROR: Not an EOPAS document</xsl:message>
+      <xsl:message terminate="yes">ERROR: Not an EOPAS document</xsl:message>
     </xsl:if>
     <xsl:call-template name="main"/>
   </xsl:template>
@@ -55,7 +55,7 @@ exclude-result-prefixes="xalan">
       <TIME_ORDER>
         <xsl:variable name="Milliseconds_CONST" select="1000"/>
 
-<!-- THIS IS A TEST FOR GETTING UNIQUE startTime AND sorted -->
+        <!-- THIS IS A TEST FOR GETTING UNIQUE startTime AND sorted -->
         <xsl:for-each select="//phrase[count(.|key('start', @startTime)[1]) = 1]">
           <xsl:sort select="@startTime" data-type="number"/>
           <sort>
@@ -63,7 +63,7 @@ exclude-result-prefixes="xalan">
           </sort>
         </xsl:for-each>
 
-<!-- THIS IS A TEST FOR GETTING ALL startTime AND endTime ATTRIBUTE VALUES -->
+        <!-- THIS IS A TEST FOR GETTING ALL startTime AND endTime ATTRIBUTE VALUES -->
         <xsl:for-each select="//phrase">
           <xsl:variable name="startTime_Seconds" select="@startTime"/>
           <xsl:variable name="endTime_Seconds" select="@endTime"/>
@@ -79,8 +79,8 @@ exclude-result-prefixes="xalan">
           </end>
         </xsl:for-each>
 
-<!-- SO: THIS IS WHAT SHOULD BE PROGRESSED: IT GETS ALL THE VALUES UNIQUELY -->
-<!-- except: the xalan thing doesn't work -->
+        <!-- SO: THIS IS WHAT SHOULD BE PROGRESSED: IT GETS ALL THE VALUES UNIQUELY -->
+        <!-- except: the xalan thing doesn't work -->
         <xsl:variable name="treefrag">
           <docfrag>
             <xsl:for-each select="//phrase">

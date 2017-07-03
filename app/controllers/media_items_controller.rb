@@ -27,7 +27,7 @@ class MediaItemsController < ApplicationController
       flash[:notice] = 'Media item was successfully created.'
     end
 
-    respond_with @media_item
+    redirect_to action: "index"
   end
 
   def edit
